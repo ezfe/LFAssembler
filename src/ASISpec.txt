@@ -1,0 +1,3 @@
+ADD A 1
+SUB A 2
+ADDI B 3

@@ -1,5 +1,4 @@
-import java.util.Optional;
-import java.util.Scanner;
+
 
 /**
  * 
@@ -8,19 +7,7 @@ import java.util.Scanner;
  */
 
 public abstract class AssemblerInstruction {
-	public static Optional<AssemblerInstruction> makeInstruction(String token, Scanner scanner) {
-		
-		switch (token.toLowerCase()) {
-		case "add":
-			return Optional.of(new AssemblerInstructionA(token, scanner));
-		case "sub":
-			return Optional.of(new AssemblerInstructionA(token, scanner));
-		case "subi":
-			return Optional.of(new AssemblerInstructionA(token, scanner));
-		}
-				
-		return Optional.empty();
-	}
+	String token;
 	
 	abstract String makeRepresentation();
 }
