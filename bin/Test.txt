@@ -6,7 +6,7 @@
 main:  ADDI R2, R2, #20 
 	   ADDI R2, #20, R2
        ;MOVZ R0, data    
-       ;LDUR R1, [R0, #0]
+       LDUR R9, [R20, #45]
        ADD  R2, R2, R1  
        HALT             
 

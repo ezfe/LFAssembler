@@ -63,6 +63,8 @@ public class ASInstructionClassifier {
 				return Optional.of(new ASInstructionB(instruction, sc));
 			case "C":
 				return Optional.of(new ASInstructionC(instruction));
+			case "D":
+				return Optional.of(new ASInstructionD(instruction, sc));
 			}
 		}
 		return Optional.empty();
