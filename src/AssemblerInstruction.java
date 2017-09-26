@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /**
  * 
@@ -6,8 +6,22 @@
  *
  */
 
-public abstract class AssemblerInstruction {
-	String token;
+public abstract class AssemblerInstruction implements Token {
+	protected String token;
 	
-	abstract String makeRepresentation();
+	public abstract String sourceStringRepresentation();
+	public abstract String binaryStringRepresentation();
+	
+	@Override
+	public String toString() {
+		return "Instruction{" + this.sourceStringRepresentation() + "}";
+	}
+	
+	public Integer opcode() {
+		return ASInstructionClassifier.getOpcode(this.token).orElse(0);
+	}
+	
+	public String opcodeBinaryString() {
+		return NumberTools.numberToBinaryString(this.opcode(), Constants.OPCODE_LENGTH);
+	}
 }

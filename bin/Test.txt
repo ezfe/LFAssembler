@@ -1,8 +1,23 @@
-.directive a
-.lol b .asdfasd l
-.asdvasd c
-ADD R0 R1 R2
-label:
-SUB R1 R0 R3
-ADDI R0 #4359 R3
-label: ADDI R2 R1 #985
+.wordsize 16            
+.regcnt    4         
+.maxmem   0x10000000    
+
+.pos 0x0
+main:  ADDI R2, R2, #20 
+	   ADDI R2, #20, R2
+       ;MOVZ R0, data    
+       ;LDUR R1, [R0, #0]
+       ADD  R2, R2, R1  
+       HALT             
+
+.pos 0x100              
+.align 8                
+
+data:   
+        .double 0x0AB   
+        .single 0x0AB   
+        .half   0x0AB   
+        .byte   0x0AB   
+ 
+.pos 0x200              
+stack:  .double 0xDEF   
