@@ -24,4 +24,12 @@ public abstract class AssemblerInstruction implements Token {
 	public String opcodeBinaryString() {
 		return NumberTools.numberToBinaryString(this.opcode(), Constants.OPCODE_LENGTH);
 	}
+	
+	public static void checkRegister(Integer register) throws IllegalRegisterException {
+		if (register < 0) {
+			throw new IllegalRegisterException("Registers may not be below 0 (found " + register + ")");
+		} else if (register >= 32) {
+			throw new IllegalRegisterException("Registers may not be above 31 (found " + register + ")");
+		}
+	}
 }

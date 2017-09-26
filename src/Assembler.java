@@ -38,14 +38,15 @@ public class Assembler implements Tool {
 		
 		/* This was taken from https://stackoverflow.com/a/36884167/2059595 */
 		
-		
+		Integer lineNumber = 0;
+		Boolean error = false;
 		ArrayList<Token> tokens = new ArrayList<>();
-		while(lineScanner.hasNextLine()) {
+		while(lineScanner.hasNextLine() && !error) {
 			String line = lineScanner.nextLine();
 			Scanner scanner = new Scanner(line.split(";")[0]);
 			scanner.useDelimiter("(\\p{javaWhitespace}|,|,)+");
 			
-			while (scanner.hasNext()) {
+			while (scanner.hasNext() && !error) {
 				String token = scanner.next();
 				if (token.charAt(0) == '.') {
 					//DIRECTIVE
@@ -56,16 +57,26 @@ public class Assembler implements Tool {
 					tokens.add(l);
 				} else {
 					//OPERATION
-					Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner);
-
-					if (ins.isPresent()) {
-						tokens.add(ins.get());
-						System.out.println(ins.get().binaryStringRepresentation());
-					} else {
-						System.out.println(token + " is invalid");
+					try {
+						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner);
+	
+						if (ins.isPresent()) {
+							tokens.add(ins.get());
+							System.out.println(ins.get().binaryStringRepresentation());
+						} else {
+							System.err.println(token + " is invalid");
+							System.err.println("Line " + lineNumber);
+							System.err.println(line.trim());
+						}
+					} catch (IllegalRegisterException e) {
+						System.err.println(e.getLocalizedMessage());
+						System.err.println("Line " + lineNumber);
+						System.err.println(line.trim());
 					}
 				}
 			}
+			
+			lineNumber += 1;
 		}
 		
 		for(Token t: tokens) {

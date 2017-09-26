@@ -13,7 +13,7 @@ public class ASInstructionA extends AssemblerInstruction {
 	private Integer r2 = 0;
 	private Integer r3 = 0;
 	
-	public ASInstructionA(String token, Scanner scanner) {
+	public ASInstructionA(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
 		String r1String = scanner.next();
@@ -24,6 +24,10 @@ public class ASInstructionA extends AssemblerInstruction {
 			this.r1 = Integer.parseInt(r1String.substring(1));
 			this.r2 = Integer.parseInt(r2String.substring(1));
 			this.r3 = Integer.parseInt(r3String.substring(1));
+			
+			AssemblerInstruction.checkRegister(r1);
+			AssemblerInstruction.checkRegister(r2);
+			AssemblerInstruction.checkRegister(r3);
 		} catch (NumberFormatException e) {
 			System.err.println("Instruction parsing failed!");
 			System.err.println(e.getLocalizedMessage());

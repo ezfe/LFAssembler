@@ -6,7 +6,7 @@ public class ASInstructionD extends AssemblerInstruction {
 	private Integer r2 = 0;
 	private Integer r3 = 0;
 	
-	public ASInstructionD(String token, Scanner scanner) {
+	public ASInstructionD(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
 		String r1String = scanner.next();
@@ -21,6 +21,9 @@ public class ASInstructionD extends AssemblerInstruction {
 		this.r1 = Integer.parseInt(r1String.substring(1));
 		this.r2 = Integer.parseInt(r2String.substring(2));
 		this.r3 = Integer.parseInt(r3String.substring(1, r3String.length() - 1));
+		
+		AssemblerInstruction.checkRegister(r1);
+		AssemblerInstruction.checkRegister(r2);
 	}
 	
 	@Override

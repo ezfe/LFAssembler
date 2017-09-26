@@ -53,7 +53,7 @@ public class ASInstructionClassifier {
 		}
 	}
 	
-	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc) {
+	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc) throws IllegalRegisterException {
 		Optional<String> type = getType(instruction);
 		if (type.isPresent()) {
 			switch (type.get()) {

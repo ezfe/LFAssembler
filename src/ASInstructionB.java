@@ -14,7 +14,7 @@ public class ASInstructionB extends AssemblerInstruction {
 	private Boolean r2Constant = false;
 	private Boolean r3Constant = false;
 	
-	public ASInstructionB(String token, Scanner scanner) {
+	public ASInstructionB(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
 		String r1String = scanner.next();
@@ -32,6 +32,10 @@ public class ASInstructionB extends AssemblerInstruction {
 		this.r1 = Integer.parseInt(r1String.substring(1));
 		this.r2 = Integer.parseInt(r2String.substring(1));
 		this.r3 = Integer.parseInt(r3String.substring(1));
+		
+		AssemblerInstruction.checkRegister(r1);
+		if (!r2Constant) AssemblerInstruction.checkRegister(r2);
+		if (!r3Constant) AssemblerInstruction.checkRegister(r3);
 	}
 	
 	@Override
