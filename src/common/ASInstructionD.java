@@ -1,3 +1,4 @@
+package common;
 import java.util.Scanner;
 
 public class ASInstructionD extends AssemblerInstruction {

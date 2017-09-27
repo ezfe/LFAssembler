@@ -7,6 +7,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
+
+import common.ASInstructionClassifier;
+import common.AssemblerInstruction;
+import common.Directive;
+import common.IllegalRegisterException;
+import common.Label;
+import common.Token;
 /**
  * 
  * @author Ezekiel Elin
@@ -81,6 +88,20 @@ public class Assembler implements Tool {
 		
 		for(Token t: tokens) {
 			System.out.println(t.toString());
+		}
+		
+		ArrayList<String> linesOut = new ArrayList<>();
+		for(Token t: tokens) {
+			if (t instanceof AssemblerInstruction) {
+				linesOut.add(((AssemblerInstruction) t).binaryStringRepresentation());
+			}
+		}
+		
+		try {
+			Files.write(Paths.get("src/Out.txt"), linesOut, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return "OK";
