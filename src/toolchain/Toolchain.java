@@ -1,4 +1,12 @@
+package toolchain;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Optional;
+import java.util.Scanner;
+
+import assembler.Assembler;
+import common.ASInstructionClassifier;
+import reader.Reader;
 
 /**
  * The entry class for the entire project
@@ -13,12 +21,24 @@ public class Toolchain {
 			System.out.println("This is the help thing");
 			System.out.println("Format: ./toolchain [tool] (params...)");
 		} else {
+			File spec = new File("src/ASISpec.txt");
+			Scanner specScanner;
+			try {
+				specScanner = new Scanner(spec);
+				ASInstructionClassifier.populate(specScanner);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			String toolString = args[0];
-			Optional<Tool> tool = Optional.empty();
+			Optional<TCTool> tool = Optional.empty();
 
 			switch (toolString) {
-				case "assembler":
-					tool = Optional.of(new Assembler());
+			case "assembler":
+				tool = Optional.of(new Assembler());
+			case "reader":
+				tool = Optional.of(new Reader());
 				default:
 					System.out.println(toolString);
 			}

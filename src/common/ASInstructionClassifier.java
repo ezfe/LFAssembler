@@ -54,6 +54,15 @@ public class ASInstructionClassifier {
 		}
 	}
 	
+	public static Optional<String> getName(Integer opcode) {
+		for (HashMap.Entry<String, ASInstructionSpec> pair: map.entrySet()) {
+			if (pair.getValue().opcode == opcode) {
+				return Optional.of(pair.getKey());
+			}
+		}
+		return Optional.empty();
+	}
+	
 	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc) throws IllegalRegisterException {
 		Optional<String> type = getType(instruction);
 		if (type.isPresent()) {

@@ -1,3 +1,5 @@
+package assembler;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,12 +16,15 @@ import common.Directive;
 import common.IllegalRegisterException;
 import common.Label;
 import common.Token;
+import toolchain.TCTool;
+
 /**
  * 
  * @author Ezekiel Elin
  *
  */
-public class Assembler implements Tool {
+
+public class Assembler implements TCTool {
 
 	@Override
 	public String run(String[] args) {
@@ -32,16 +37,6 @@ public class Assembler implements Tool {
 			e.printStackTrace();
 		}
 		Scanner lineScanner = new Scanner(s);
-		
-		File spec = new File("src/ASISpec.txt");
-		Scanner specScanner;
-		try {
-			specScanner = new Scanner(spec);
-			ASInstructionClassifier.populate(specScanner);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		/* This was taken from https://stackoverflow.com/a/36884167/2059595 */
 		
@@ -83,6 +78,7 @@ public class Assembler implements Tool {
 				}
 			}
 			
+			scanner.close();
 			lineNumber += 1;
 		}
 		
@@ -103,6 +99,8 @@ public class Assembler implements Tool {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		lineScanner.close();
 		
 		return "OK";
 	}

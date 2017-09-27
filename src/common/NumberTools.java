@@ -13,6 +13,10 @@ public class NumberTools {
 		return formatted.substring(formatted.length() - width, formatted.length());
 	}
 	
+	public static Integer binaryStringToNumber(String string) {
+		return Integer.parseInt(string, 2);
+	}
+	
 	public static String rpad(String string, Character fill, Integer width) {
 		Integer needed = Math.max(width - string.length(), 0);
 		
