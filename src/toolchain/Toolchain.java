@@ -16,7 +16,6 @@ import reader.Reader;
 public class Toolchain {
 	
 	public static void main(String[] args) {
-		
 		if (args.length == 0 || args[0].equals("--help")) {
 			System.out.println("This is the help thing");
 			System.out.println("Format: ./toolchain [tool] (params...)");
@@ -37,10 +36,13 @@ public class Toolchain {
 			switch (toolString) {
 			case "assembler":
 				tool = Optional.of(new Assembler());
+				break;
 			case "reader":
 				tool = Optional.of(new Reader());
-				default:
-					System.out.println(toolString);
+				break;
+			default:
+				System.out.println(toolString);
+				break;
 			}
 			
 			if (tool.isPresent()) {

@@ -1,4 +1,5 @@
 package common;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -33,5 +34,19 @@ public class NumberTools {
 		Arrays.fill(chars, fill);
 		String s = new String(chars);
 		return s + string;
+	}
+	
+	public static ArrayList<String> splitAt(String input, Integer... index) {
+		ArrayList<String> strs = new ArrayList<>();
+		
+		Integer lastCut = 0;
+		for(Integer cut: index) {
+			strs.add(input.substring(lastCut, cut));
+			lastCut = cut;
+		}
+		
+		strs.add(input.substring(lastCut));
+		
+		return strs;
 	}
 }

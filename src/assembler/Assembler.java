@@ -1,7 +1,5 @@
 package assembler;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,7 +17,10 @@ import common.Token;
 import toolchain.TCTool;
 
 /**
+ * The assembler is the entry point for transferring an Assembly source file into machine code.
  * 
+ *
+ *
  * @author Ezekiel Elin
  *
  */
@@ -86,15 +87,17 @@ public class Assembler implements TCTool {
 			System.out.println(t.toString());
 		}
 		
-		ArrayList<String> linesOut = new ArrayList<>();
+		StringBuilder output = new StringBuilder();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
-				linesOut.add(((AssemblerInstruction) t).binaryStringRepresentation());
+				output.append(((AssemblerInstruction) t).binaryStringRepresentation());
+			} else if (t instanceof Directive) {
+				
 			}
 		}
 		
 		try {
-			Files.write(Paths.get("src/Out.txt"), linesOut, StandardCharsets.UTF_8);
+			Files.write(Paths.get("src/Out.txt"), output.toString().getBytes());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

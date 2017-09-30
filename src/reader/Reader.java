@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import common.ASInstructionClassifier;
 import common.NumberTools;
 import toolchain.TCTool;
 
+/**
+ * 
+ * @author Ezekiel Elin
+ *
+ */
 public class Reader implements TCTool {
 
 	@Override
@@ -25,10 +32,14 @@ public class Reader implements TCTool {
 		}
 		
 		Scanner lsc = new Scanner(s);
+		lsc.useDelimiter("");
+		Pattern pattern = Pattern.compile(".{32}");
 		
-		while (lsc.hasNextLine()) {
-			String instruction = lsc.nextLine();
-//			Scanner scanner = new Scanner(instruction);
+//		System.out.
+		
+		while (lsc.hasNext(pattern)) {
+			String instruction = lsc.next(pattern);
+			System.out.println(instruction);
 			
 			String opcodeString = instruction.substring(0, 7);
 			Integer opcode = NumberTools.binaryStringToNumber(opcodeString);
@@ -37,10 +48,32 @@ public class Reader implements TCTool {
 			
 			System.out.println(type);
 			
-			System.out.println(instruction.substring(0, 7) + "-" + instruction.substring(7));
+			ArrayList<String> splits = new ArrayList<>(); //java lol
+			switch (type) {
+			case "A":
+				splits = NumberTools.splitAt(instruction, 7, 12, 17, 22);
+				break;
+			case "B":
+				splits = NumberTools.splitAt(instruction, 7, 12, 13, 18);
+				break;
+			case "C":
+				splits = NumberTools.splitAt(instruction, 7);
+				break;
+			case "D":
+				splits = NumberTools.splitAt(instruction, 7, 12, 17, 31);
+				break;
+			}
+			
+			
+			for(String str: splits) { 
+				System.out.print(str + "-");
+			}
+			System.out.println("");
 			
 //			scanner.close();
 		}
+		
+		System.out.println(lsc.next());
 		
 		lsc.close();
 		
