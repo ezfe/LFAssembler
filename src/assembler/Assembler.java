@@ -89,11 +89,9 @@ public class Assembler implements TCTool {
 		}
 		
 		BitSet bitOutput = new BitSet();
-		StringBuilder output = new StringBuilder();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
 				String binaryString = ((AssemblerInstruction) t).binaryStringRepresentation();
-				output.append(binaryString);
 				bitOutput.append(binaryString);
 			} else if (t instanceof Directive) {
 				
@@ -101,7 +99,6 @@ public class Assembler implements TCTool {
 		}
 		
 		try {
-			Files.write(Paths.get("src/Out.txt"), output.toString().getBytes());
 			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

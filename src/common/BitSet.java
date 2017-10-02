@@ -1,7 +1,6 @@
 package common;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class BitSet {
 	private ArrayList<Byte> bits;
@@ -9,6 +8,14 @@ public class BitSet {
 	
 	public BitSet() {
 		bits = new ArrayList<>();
+		trailingLength = 8;
+	}
+	
+	public BitSet(byte[] bites) {
+		bits = new ArrayList<>();
+		for(byte b: bites) {
+			bits.add(b);
+		}
 		trailingLength = 8;
 	}
 	

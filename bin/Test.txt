@@ -3,7 +3,8 @@
 .maxmem   0x10000000    
 
 .pos 0x0
-main:  ADDI R2, R2, #20  ADDI R2,#20, R2
+main:  ADDI R2, R2, #20
+	   ADDI R2, #20, R2
        ;MOVZ R0, data    
        LDUR R9, [R20, #45]
        ADD  R2, R2, R1  
