@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import assembler.Assembler;
 import common.ASInstructionClassifier;
+import common.BitSet;
 import reader.Reader;
 
 /**
@@ -29,7 +30,7 @@ public class Toolchain {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+						
 			String toolString = args[0];
 			Optional<TCTool> tool = Optional.empty();
 

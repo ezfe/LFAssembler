@@ -49,4 +49,11 @@ public class NumberTools {
 		
 		return strs;
 	}
+
+	//TODO: Do I need this?
+	public static Object numberToBinaryString(Byte byte1, int width) {
+		String binary = Integer.toBinaryString(byte1);
+		String formatted = String.format("%" + width + "s", binary).replace(' ', byte1 < 0 ? '1' : '0');
+		return formatted.substring(formatted.length() - width, formatted.length());
+	}
 }

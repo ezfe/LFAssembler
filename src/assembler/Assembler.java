@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import common.ASInstructionClassifier;
 import common.AssemblerInstruction;
+import common.BitSet;
 import common.Directive;
 import common.IllegalRegisterException;
 import common.Label;
@@ -87,10 +88,13 @@ public class Assembler implements TCTool {
 			System.out.println(t.toString());
 		}
 		
+		BitSet bitOutput = new BitSet();
 		StringBuilder output = new StringBuilder();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
-				output.append(((AssemblerInstruction) t).binaryStringRepresentation());
+				String binaryString = ((AssemblerInstruction) t).binaryStringRepresentation();
+				output.append(binaryString);
+				bitOutput.append(binaryString);
 			} else if (t instanceof Directive) {
 				
 			}
@@ -98,6 +102,7 @@ public class Assembler implements TCTool {
 		
 		try {
 			Files.write(Paths.get("src/Out.txt"), output.toString().getBytes());
+			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
