@@ -20,6 +20,47 @@ public class BitSet {
 	}
 	
 	/**
+	 * Insert a byte at an address
+	 * @param bite The byte
+	 * @param byteAddress The byte-addressing address
+	 */
+	public void insertByte(byte bite, Integer byteAddress) {
+		bits.add(byteAddress, bite);
+	}
+	
+	/**
+	 * Overrwrite a byte at an address
+	 * @param bite The byte
+	 * @param byteAddress The byte-addressing address
+	 */
+	public void setByte(byte bite, Integer byteAddress) {
+		bits.set(byteAddress, bite);
+	}
+	
+	/**
+	 * Get a byte
+	 * @param byteAddress The byte-addressing address
+	 * @return The byte
+	 */
+	public byte getByte(Integer byteAddress) {
+		return (byte) bits.get(byteAddress);
+	}
+	
+	/**
+	 * 
+	 * @param bit
+	 * @param bitAddress
+	 */
+	public void setBit(Integer bit, Integer bitAddress) {
+		Integer byteAddress = (bitAddress / 8) + 1;
+		Integer subbyteAddress = bitAddress % 8;
+		
+		byte bite = getByte(byteAddress);
+		bite = BitTools.setBit(bit, bite, subbyteAddress);
+		this.setByte(bite, byteAddress);
+	}
+	
+	/**
 	 * Append a single bit to the BitSet
 	 * @param bit The bit
 	 */
