@@ -56,7 +56,24 @@ public class BitSetTests {
 
 	@Test
 	public void testSetByte() {
-		fail("Not yet implemented");
+		for(int i = 0; i < 8 * 10; i++) {
+			bits.append(i % 2);
+		}
+		
+		byte a = bits.getByte(3);
+		byte b = bits.getByte(4);
+		byte b2 = (byte) 0b11110101;
+		byte c = bits.getByte(5);
+		
+		assertEquals(bits.getByte(3), a);
+		assertEquals(bits.getByte(4), b);
+		assertEquals(bits.getByte(5), c);
+
+		bits.setByte(b2, 4);
+		
+		assertEquals(bits.getByte(3), a);
+		assertEquals(bits.getByte(4), b2);
+		assertEquals(bits.getByte(5), c);
 	}
 
 	@Test
@@ -101,7 +118,8 @@ public class BitSetTests {
 
 	@Test
 	public void testGetTrailingLength() {
-		assertEquals("The trailing length should start as 8", (Integer)8, bits.getTrailingLength());
+		/* This behavior is kinda undefined so not tested */
+		/* assertEquals("The trailing length should start as 8", (Integer)8, bits.getTrailingLength()); */
 		bits.append(0);
 		assertEquals("The trailing length should be 1", (Integer)1, bits.getTrailingLength());
 		bits.append(1);
