@@ -1,11 +1,11 @@
 package common;
 
 public class BitTools {
-	public static Integer bitAt(Integer index, Byte data) {
+	public static Integer bitAt(Integer index, byte data) {
 		return (data >> index) & 1;
 	}
 	
-	public static Byte setBit(Integer index, Byte data, Integer bit) {
+	public static byte setBit(Integer index, byte data, Integer bit) {
 		if (bit == 0) {
 			return BitTools.setFalse(index, data);
 		} else if (bit == 1) {
@@ -16,11 +16,11 @@ public class BitTools {
 		}
 	}
 	
-	public static Byte setTrue(Integer index, Byte data) {
+	public static byte setTrue(Integer index, byte data) {
 		return (byte) (data | (1 << index));
 	}
 	
-	public static Byte setFalse(Integer index, Byte data) {
+	public static byte setFalse(Integer index, byte data) {
 		return (byte) (BitTools.setTrue(index, data) ^ (1 << index));
 	}
 }
