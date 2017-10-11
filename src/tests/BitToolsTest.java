@@ -29,17 +29,18 @@ public class BitToolsTest {
 	@Test
 	public void testSetBit() {
 		byte b = (byte) 0b10100011;
-		BitTools.setBit(0, b, 1);
 		assertEquals((byte) 0b10100011, BitTools.setBit(0, b, 1));
 		assertEquals((byte) 0b10100111, BitTools.setBit(2, b, 1));
 		assertEquals((byte) 0b10100011, BitTools.setBit(4, b, 0));
 		assertEquals((byte) 0b10000011, BitTools.setBit(5, b, 0));
+		
+		assertEquals((byte) 0b10100011, BitTools.setBit(4, b, 2));
+		assertEquals((byte) 0b10100011, BitTools.setBit(5, b, 2));
 	}
 
 	@Test
 	public void testSetTrue() {
 		byte b = (byte) 0b10100011;
-		BitTools.setBit(0, b, 1);
 		assertEquals((byte) 0b10100011, BitTools.setTrue(0, b));
 		assertEquals((byte) 0b10100111, BitTools.setTrue(2, b));
 	}
@@ -47,7 +48,6 @@ public class BitToolsTest {
 	@Test
 	public void testSetFalse() {
 		byte b = (byte) 0b10100011;
-		BitTools.setBit(0, b, 1);
 		assertEquals((byte) 0b10100011, BitTools.setFalse(4, b));
 		assertEquals((byte) 0b10000011, BitTools.setFalse(5, b));
 	}
