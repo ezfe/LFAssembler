@@ -1,6 +1,7 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class BitSet {
 	private ArrayList<Byte> bits;
@@ -28,6 +29,10 @@ public class BitSet {
 		bits.add(byteAddress, bite);
 	}
 	
+	public void overwriteBitsStartingAt(Integer byteAddress, Integer bitAddress, BitSet bits) {
+		//TODO
+	}
+	
 	/**
 	 * Overrwrite a byte at an address
 	 * @param bite The byte
@@ -42,8 +47,13 @@ public class BitSet {
 	 * @param byteAddress The byte-addressing address
 	 * @return The byte
 	 */
-	public byte getByte(Integer byteAddress) {
-		return (byte) bits.get(byteAddress);
+	public Optional<Byte> getByte(Integer byteAddress) {
+		if (bits.size() > byteAddress) {
+			return Optional.of((byte) bits.get(byteAddress));
+		} else {
+			return Optional.empty();
+		}
+				
 	}
 	
 	/**
@@ -79,13 +89,13 @@ public class BitSet {
 		trailingLength += 1;
 	}
 	
-	public void append(Character c) {
-		if (c == '0') {
+	public void append(Character cbit) {
+		if (cbit == '0') {
 			this.append(0);
-		} else if (c == '1') {
+		} else if (cbit == '1') {
 			this.append(1);
 		} else {
-			System.out.println("Encountered unexpected bit character: " + c + ", expected 1 or 0");
+			System.out.println("Encountered unexpected bit character: " + cbit + ", expected 1 or 0");
 		}
 	}
 	
@@ -129,8 +139,8 @@ public class BitSet {
 	}
 	
 	/**
-	 * Get an iterator for the bytes
-	 * @return
+	 * Get the bytes
+	 * @return the bytes
 	 */
 	public byte[] bytes() {
 		byte[] res = new byte[bits.size()];
@@ -140,14 +150,19 @@ public class BitSet {
 		return res;
 	}
 	
+	/**
+	 *  Get the length of the last byte
+	 *  @return The length of the last byte
+	 */
 	public Integer getTrailingLength() {
 		return trailingLength;
 	}
 	
-	public Integer getFullByteCount() {
-		if (this.bits.size() == 0) {
-			return 0;
-		}
-		return this.bits.size() - 1;
+	public Integer getByteCount() {
+		return this.bits.size();
+	}
+	
+	public void byteAlign() {
+		this.trailingLength = 8;
 	}
 }

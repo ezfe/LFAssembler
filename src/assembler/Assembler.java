@@ -12,6 +12,7 @@ import assembler.DirectiveDataContainer.Size;
 import common.ASInstructionClassifier;
 import common.AssemblerInstruction;
 import common.BitSet;
+import common.BitTools;
 import common.Directive;
 import common.IllegalRegisterException;
 import common.Label;
@@ -140,17 +141,17 @@ public class Assembler implements TCTool {
 				String binaryString = NumberTools.numberToBinaryString(dc.getValue(), dc.getWidth());
 				bitOutput.append(binaryString);
 			} else if (t instanceof AlignToken) {
-				
+				int align = ((AlignToken) t).getAlignment();
+				while (bitOutput.getByteCount() % align != 0) {
+					bitOutput.append((byte) 0);
+				}
 			} else if (t instanceof PositionToken) {
 				int pos = ((PositionToken) t).getPosition();
-				System.out.println("Need to align to " + pos);
-				System.out.println("Starting at " + bitOutput.getFullByteCount());
-				
-				int needed = pos - bitOutput.getFullByteCount();
+				bitOutput.byteAlign();
+				int needed = pos - bitOutput.getByteCount();
 				for(int i = 0; i < needed; i++) {
 					bitOutput.append((byte) 0); 
 				}
-				System.out.println("Ending at " + bitOutput.getFullByteCount());
 			}
 		}
 		
