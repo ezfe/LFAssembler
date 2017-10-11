@@ -38,8 +38,8 @@ public class Directive implements Token {
 		return this.token.toString();
 	}
 	
-	public String getValue() {
-		return this.value.toString();
+	public Integer getValue() {
+		return this.value;
 	}
 
 	@Override

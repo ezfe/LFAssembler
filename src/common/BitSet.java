@@ -143,4 +143,11 @@ public class BitSet {
 	public Integer getTrailingLength() {
 		return trailingLength;
 	}
+	
+	public Integer getFullByteCount() {
+		if (this.bits.size() == 0) {
+			return 0;
+		}
+		return this.bits.size() - 1;
+	}
 }

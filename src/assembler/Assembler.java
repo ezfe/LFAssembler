@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
+import assembler.DirectiveDataContainer.Size;
 import common.ASInstructionClassifier;
 import common.AssemblerInstruction;
 import common.BitSet;
 import common.Directive;
 import common.IllegalRegisterException;
 import common.Label;
+import common.NumberTools;
 import common.Token;
 import toolchain.TCTool;
 
@@ -40,7 +42,7 @@ public class Assembler implements TCTool {
 		}
 		Scanner lineScanner = new Scanner(s);
 		
-		/* This was taken from https://stackoverflow.com/a/36884167/2059595 */
+		AssemblyConfigurations conf = new AssemblyConfigurations();
 		
 		Integer lineNumber = 0;
 		Boolean error = false;
@@ -55,7 +57,43 @@ public class Assembler implements TCTool {
 				if (token.charAt(0) == '.') {
 					//DIRECTIVE
 					Directive d = new Directive(token.substring(1), scanner);
-					tokens.add(d);
+					switch (d.getToken()) {
+					/* Global Configurations */
+					case "wordsize":
+						conf.setWordSize(d.getValue());
+						break;
+					case "regcnt":
+						conf.setRegisterCount(d.getValue());
+						break;
+					case "maxmem":
+						conf.setMaxMemory(d.getValue());
+						break;
+					
+					/* Memory Objects */
+					case "double":
+						tokens.add(new DirectiveDataContainer(Size.DOUBLE, d.getValue()));
+						break;
+					case "single":
+						tokens.add(new DirectiveDataContainer(Size.SINGLE, d.getValue()));
+						break;
+					case "half":
+						tokens.add(new DirectiveDataContainer(Size.HALF, d.getValue()));
+						break;
+					case "byte":
+						tokens.add(new DirectiveDataContainer(Size.BYTE, d.getValue()));
+						break;
+						
+					/* Memory Creation Logic */
+					case "align":
+						tokens.add(new AlignToken(d.getValue()));
+						break;
+					case "pos":
+						tokens.add(new PositionToken(d.getValue()));
+						break;
+						
+					default:
+						System.err.println("Unknown directive: " + d.toString());
+					}
 				} else if (token.charAt(token.length() - 1) == ':') {
 					Label l = new Label(token.substring(0, token.length() - 1));
 					tokens.add(l);
@@ -66,7 +104,6 @@ public class Assembler implements TCTool {
 	
 						if (ins.isPresent()) {
 							tokens.add(ins.get());
-							System.out.println(ins.get().binaryStringRepresentation());
 						} else {
 							System.err.println(token + " is invalid");
 							System.err.println("Line " + lineNumber);
@@ -88,13 +125,32 @@ public class Assembler implements TCTool {
 			System.out.println(t.toString());
 		}
 		
+		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
+			System.err.println("Configuration is incomplete!");
+			System.out.println(conf.toString());
+		}
+		
 		BitSet bitOutput = new BitSet();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
 				String binaryString = ((AssemblerInstruction) t).binaryStringRepresentation();
 				bitOutput.append(binaryString);
-			} else if (t instanceof Directive) {
+			} else if (t instanceof DirectiveDataContainer) {
+				DirectiveDataContainer dc = (DirectiveDataContainer) t;
+				String binaryString = NumberTools.numberToBinaryString(dc.getValue(), dc.getWidth());
+				bitOutput.append(binaryString);
+			} else if (t instanceof AlignToken) {
 				
+			} else if (t instanceof PositionToken) {
+				int pos = ((PositionToken) t).getPosition();
+				System.out.println("Need to align to " + pos);
+				System.out.println("Starting at " + bitOutput.getFullByteCount());
+				
+				int needed = pos - bitOutput.getFullByteCount();
+				for(int i = 0; i < needed; i++) {
+					bitOutput.append((byte) 0); 
+				}
+				System.out.println("Ending at " + bitOutput.getFullByteCount());
 			}
 		}
 		

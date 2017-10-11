@@ -22,4 +22,4 @@ data:
         .byte   0x0AB   
  
 .pos 0x200              
-stack:  .double 0xDEF   
+stack:  .double 0xDEF
