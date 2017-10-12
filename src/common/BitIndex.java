@@ -17,6 +17,11 @@ public class BitIndex {
 		}
 	}
 	
+	public BitIndex(int byteIndex, int bitIndex) {
+		this.bite = byteIndex;
+		this.bit = bitIndex;
+	}
+
 	public int getByte() {
 		return bite;
 	}

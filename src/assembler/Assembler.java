@@ -49,7 +49,7 @@ public class Assembler implements TCTool {
 		
 		//TODO
 		HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences = new HashMap<>();
-		HashMap<String, BitIndex> labelLocations = new HashMap<>();
+		HashMap<String, Long> labelLocations = new HashMap<>();
 		
 		Integer lineNumber = 0;
 		Boolean error = false;
@@ -174,8 +174,13 @@ public class Assembler implements TCTool {
 				}
 			} else if (t instanceof Label) {
 				String value = ((Label) t).getToken();
+				labelLocations.put(value, bitOutput.getNextByteIndex());
+			} else {
+				System.err.println("Found something: " + t);
 			}
 		}
+		
+		System.out.println("Locations: " + labelLocations);
 		
 		try {
 			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());

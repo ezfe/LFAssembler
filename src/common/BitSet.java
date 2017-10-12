@@ -166,6 +166,14 @@ public class BitSet {
 		return this.bits.size();
 	}
 	
+	/**
+	 * Get index of next free bit
+	 * @return The byte-bit index (from the left)
+	 */
+	public long getNextByteIndex() {
+		return this.bits.size();
+	}
+	
 	public void byteAlign() {
 		this.trailingLength = 8;
 	}

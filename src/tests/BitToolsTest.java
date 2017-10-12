@@ -33,9 +33,6 @@ public class BitToolsTest {
 		assertEquals((byte) 0b10100111, BitTools.setBit(2, b, 1));
 		assertEquals((byte) 0b10100011, BitTools.setBit(4, b, 0));
 		assertEquals((byte) 0b10000011, BitTools.setBit(5, b, 0));
-		
-		assertEquals((byte) 0b10100011, BitTools.setBit(4, b, 2));
-		assertEquals((byte) 0b10100011, BitTools.setBit(5, b, 2));
 	}
 
 	@Test

@@ -29,9 +29,9 @@ public class BitSetTests {
 		new Random().nextBytes(bites);
 		bits = new BitSet(bites);
 
-		assertEquals("The first bytes should be equal", bits.getByte(0), bites[0]);
-		assertEquals("The first bytes should be equal", bits.getByte(1), bites[1]);
-		assertEquals("The first bytes should be equal", bits.getByte(2), bites[2]);
+		assertEquals("The first bytes should be equal", (byte)bits.getByte(0).get(), bites[0]);
+		assertEquals("The first bytes should be equal", (byte)bits.getByte(1).get(), bites[1]);
+		assertEquals("The first bytes should be equal", (byte)bits.getByte(2).get(), bites[2]);
 	}
 
 	@Test
@@ -40,18 +40,18 @@ public class BitSetTests {
 		new Random().nextBytes(bites);
 		bits = new BitSet(bites);
 		
-		byte a = bits.getByte(3);
+		byte a = bits.getByte(3).get();
 		byte a2 = (byte) 0b11110101;
-		byte b = bits.getByte(4);
+		byte b = bits.getByte(4).get();
 		
-		assertEquals(bits.getByte(3), a);
-		assertEquals(bits.getByte(4), b);
+		assertEquals((byte)bits.getByte(3).get(), a);
+		assertEquals((byte)bits.getByte(4).get(), b);
 
 		bits.insertByte(a2, 4);
 		
-		assertEquals(bits.getByte(3), a);
-		assertEquals(bits.getByte(4), a2);
-		assertEquals(bits.getByte(5), b);
+		assertEquals((byte)bits.getByte(3).get(), a);
+		assertEquals((byte)bits.getByte(4).get(), a2);
+		assertEquals((byte)bits.getByte(5).get(), b);
 	}
 
 	@Test
@@ -60,20 +60,20 @@ public class BitSetTests {
 		new Random().nextBytes(bites);
 		bits = new BitSet(bites);
 		
-		byte a = bits.getByte(3);
-		byte b = bits.getByte(4);
+		byte a = bits.getByte(3).get();
+		byte b = bits.getByte(4).get();
 		byte b2 = (byte) 0b11110101;
-		byte c = bits.getByte(5);
+		byte c = bits.getByte(5).get();
 		
-		assertEquals(bits.getByte(3), a);
-		assertEquals(bits.getByte(4), b);
-		assertEquals(bits.getByte(5), c);
+		assertEquals((byte)bits.getByte(3).get(), a);
+		assertEquals((byte)bits.getByte(4).get(), b);
+		assertEquals((byte)bits.getByte(5).get(), c);
 
 		bits.setByte(b2, 4);
 		
-		assertEquals(bits.getByte(3), a);
-		assertEquals(bits.getByte(4), b2);
-		assertEquals(bits.getByte(5), c);
+		assertEquals((byte)bits.getByte(3).get(), a);
+		assertEquals((byte)bits.getByte(4).get(), b2);
+		assertEquals((byte)bits.getByte(5).get(), c);
 	}
 
 	@Test
@@ -130,21 +130,21 @@ public class BitSetTests {
 		/* assertEquals("The trailing length should start as 8", (Integer)8, bits.getTrailingLength()); */
 		for(int i = 0; i < 100; i++) {
 			bits.append(0);
-			assertEquals("The trailing length is wrong", (Integer)1, bits.getTrailingLength());
+			assertEquals("The trailing length is wrong", 1, bits.getTrailingLength());
 			bits.append(1);
-			assertEquals("The trailing length is wrong", (Integer)2, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 2, bits.getTrailingLength());		
 			bits.append(0);
-			assertEquals("The trailing length is wrong", (Integer)3, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 3, bits.getTrailingLength());		
 			bits.append(1);
-			assertEquals("The trailing length is wrong", (Integer)4, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 4, bits.getTrailingLength());		
 			bits.append(1);
-			assertEquals("The trailing length is wrong", (Integer)5, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 5, bits.getTrailingLength());		
 			bits.append(0);
-			assertEquals("The trailing length is wrong", (Integer)6, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 6, bits.getTrailingLength());		
 			bits.append(0);
-			assertEquals("The trailing length is wrong", (Integer)7, bits.getTrailingLength());		
+			assertEquals("The trailing length is wrong", 7, bits.getTrailingLength());		
 			bits.append(0);
-			assertEquals("The trailing length is wrong", (Integer)8, bits.getTrailingLength());
+			assertEquals("The trailing length is wrong", 8, bits.getTrailingLength());
 		}
 	}
 
