@@ -8,18 +8,18 @@ import java.util.Arrays;
  *
  */
 public class NumberTools {
-	public static String numberToBinaryString(Integer number, Integer width) {
-		String binary = Integer.toBinaryString(number);
+	public static String numberToBinaryString(long number, int width) {
+		String binary = Long.toBinaryString(number);
 		String formatted = String.format("%" + width + "s", binary).replace(' ', number < 0 ? '1' : '0');
 		return formatted.substring(formatted.length() - width, formatted.length());
 	}
 	
-	public static Integer binaryStringToNumber(String string) {
+	public static int binaryStringToNumber(String string) {
 		return Integer.parseInt(string, 2);
 	}
 	
-	public static String rpad(String string, Character fill, Integer width) {
-		Integer needed = Math.max(width - string.length(), 0);
+	public static String rpad(String string, char fill, int width) {
+		int needed = Math.max(width - string.length(), 0);
 		
 		char[] chars = new char[needed];
 		Arrays.fill(chars, fill);
@@ -27,8 +27,8 @@ public class NumberTools {
 		return string + s;
 	}
 	
-	public static String lpad(String string, Character fill, Integer width) {
-		Integer needed = Math.max(width - string.length(), 0);
+	public static String lpad(String string, Character fill, int width) {
+		int needed = Math.max(width - string.length(), 0);
 		
 		char[] chars = new char[needed];
 		Arrays.fill(chars, fill);
@@ -36,11 +36,11 @@ public class NumberTools {
 		return s + string;
 	}
 	
-	public static ArrayList<String> splitAt(String input, Integer... index) {
+	public static ArrayList<String> splitAt(String input, int... index) {
 		ArrayList<String> strs = new ArrayList<>();
 		
-		Integer lastCut = 0;
-		for(Integer cut: index) {
+		int lastCut = 0;
+		for(int cut: index) {
 			strs.add(input.substring(lastCut, cut));
 			lastCut = cut;
 		}
@@ -48,12 +48,5 @@ public class NumberTools {
 		strs.add(input.substring(lastCut));
 		
 		return strs;
-	}
-
-	//TODO: Do I need this?
-	public static Object numberToBinaryString(Byte byte1, int width) {
-		String binary = Integer.toBinaryString(byte1);
-		String formatted = String.format("%" + width + "s", binary).replace(' ', byte1 < 0 ? '1' : '0');
-		return formatted.substring(formatted.length() - width, formatted.length());
 	}
 }

@@ -8,18 +8,41 @@ public class DirectiveDataContainer implements Token {
 	}
 	
 	private Size size;
-	private Integer value;
+	private long value;
 	
-	public DirectiveDataContainer(Size size, Integer value) {
+	public DirectiveDataContainer(Size size, long value) {
 		this.size = size;
-		this.value = value;
+		
+		boolean valueOK = true;
+		switch (size) {
+		case DOUBLE:
+			valueOK = value >= Long.MIN_VALUE && value <= Long.MAX_VALUE;
+			this.value = (long) value;
+			break;
+		case SINGLE:
+			valueOK = value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE;
+			this.value = (int) value;
+			break;
+		case HALF:
+			valueOK = value >= Short.MIN_VALUE && value <= Short.MAX_VALUE;
+			this.value = (short) value;
+			break;
+		case BYTE:
+			valueOK = value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE;
+			this.value = (byte) value;
+			break;
+		}
+		
+		if (!valueOK) {
+			System.err.println("Passed value " + value + " is greater than maximum allowed for " + size);
+		}
 	}
 	
 	public Size getSize() {
 		return this.size;
 	}
 	
-	public Integer getValue() {
+	public long getValue() {
 		return this.value;
 	}
 	

@@ -5,12 +5,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 
 import assembler.DirectiveDataContainer.Size;
 import common.ASInstructionClassifier;
 import common.AssemblerInstruction;
+import common.BitIndex;
 import common.BitSet;
 import common.BitTools;
 import common.Directive;
@@ -44,6 +46,10 @@ public class Assembler implements TCTool {
 		Scanner lineScanner = new Scanner(s);
 		
 		AssemblyConfigurations conf = new AssemblyConfigurations();
+		
+		//TODO
+		HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences = new HashMap<>();
+		HashMap<String, BitIndex> labelLocations = new HashMap<>();
 		
 		Integer lineNumber = 0;
 		Boolean error = false;
@@ -141,17 +147,33 @@ public class Assembler implements TCTool {
 				String binaryString = NumberTools.numberToBinaryString(dc.getValue(), dc.getWidth());
 				bitOutput.append(binaryString);
 			} else if (t instanceof AlignToken) {
+				/* Fill up the last byte to avoid
+				 * issues with partially filled bytes
+				 */
+				bitOutput.byteAlign();
+				
 				int align = ((AlignToken) t).getAlignment();
+				
+				/*
+				 * Iterations would be required even if we know how many bytes to append,
+				 * this makes the code easier to understand.
+				 */
 				while (bitOutput.getByteCount() % align != 0) {
 					bitOutput.append((byte) 0);
 				}
 			} else if (t instanceof PositionToken) {
-				int pos = ((PositionToken) t).getPosition();
+				/* Fill up the last byte to avoid
+				 * issues with partially filled bytes
+				 */
 				bitOutput.byteAlign();
+				
+				int pos = ((PositionToken) t).getPosition();
 				int needed = pos - bitOutput.getByteCount();
 				for(int i = 0; i < needed; i++) {
 					bitOutput.append((byte) 0); 
 				}
+			} else if (t instanceof Label) {
+				String value = ((Label) t).getToken();
 			}
 		}
 		

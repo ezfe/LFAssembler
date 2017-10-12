@@ -19,7 +19,7 @@ data:
         .double 0x0AB   
         .single 0x0AB   
         .half   0x0AB   
-        .byte   0x0AB   
+        .byte   0x0ABFC  
  
 .pos 0x200              
 stack:  .double 0xDEF

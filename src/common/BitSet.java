@@ -3,9 +3,21 @@ package common;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * A collection of bits
+ * 
+ * @author Ezekiel Elin
+ */
 public class BitSet {
 	private ArrayList<Byte> bits;
-	private Integer trailingLength;
+	
+	/**
+	 * The length of last byte in the bits array
+	 * Values should be: 1-8 (inclusive)
+	 * 0 should not exist (the byte wouldn't be in the array)
+	 * 8 represents a full last-bit
+	 */
+	private int trailingLength;
 	
 	public BitSet() {
 		bits = new ArrayList<>();
@@ -25,12 +37,8 @@ public class BitSet {
 	 * @param bite The byte
 	 * @param byteAddress The byte-addressing address
 	 */
-	public void insertByte(byte bite, Integer byteAddress) {
+	public void insertByte(byte bite, int byteAddress) {
 		bits.add(byteAddress, bite);
-	}
-	
-	public void overwriteBitsStartingAt(Integer byteAddress, Integer bitAddress, BitSet bits) {
-		//TODO
 	}
 	
 	/**
@@ -38,7 +46,7 @@ public class BitSet {
 	 * @param bite The byte
 	 * @param byteAddress The byte-addressing address
 	 */
-	public void setByte(byte bite, Integer byteAddress) {
+	public void setByte(byte bite, int byteAddress) {
 		bits.set(byteAddress, bite);
 	}
 	
@@ -47,7 +55,7 @@ public class BitSet {
 	 * @param byteAddress The byte-addressing address
 	 * @return The byte
 	 */
-	public Optional<Byte> getByte(Integer byteAddress) {
+	public Optional<Byte> getByte(int byteAddress) {
 		if (bits.size() > byteAddress) {
 			return Optional.of((byte) bits.get(byteAddress));
 		} else {
@@ -57,33 +65,29 @@ public class BitSet {
 	}
 	
 	/**
-	 * 
+	 * Set a specific bit, left-indexed
 	 * @param bit
 	 * @param bitAddress
 	 */
-	public void setBit(Integer bit, Integer bitAddress) {
-		Integer byteAddress = (bitAddress / 8) + 1;
-		Integer subbyteAddress = bitAddress % 8;
-		
-		byte bite = getByte(byteAddress);
-		bite = BitTools.setBit(bit, bite, subbyteAddress);
-		this.setByte(bite, byteAddress);
+	public void setBit(int bit, BitIndex bitAddress) {
+		byte bite = getByte(bitAddress.getByte()).orElse((byte) 0);
+		bite = BitTools.setBit(7 - bitAddress.getBit(), bite, bit);
+		this.setByte(bite, bitAddress.getByte());
 	}
 	
 	/**
 	 * Append a single bit to the BitSet
 	 * @param bit The bit
 	 */
-	public void append(Integer bit) {
+	public void append(int bit) {
 		if (trailingLength == 8) {
 			bits.add((byte) 0);
 			trailingLength = 0;
 		}
 		
-		Integer lastIndex = bits.size() - 1;
+		int lastIndex = bits.size() - 1;
 		byte data = bits.get(lastIndex);
-		Integer setAt = 7 - trailingLength;
-		data = BitTools.setBit(setAt, data, bit);
+		data = BitTools.setBit(7 - trailingLength, data, bit);
 		bits.set(lastIndex, data);
 		
 		trailingLength += 1;
@@ -154,11 +158,11 @@ public class BitSet {
 	 *  Get the length of the last byte
 	 *  @return The length of the last byte
 	 */
-	public Integer getTrailingLength() {
+	public int getTrailingLength() {
 		return trailingLength;
 	}
 	
-	public Integer getByteCount() {
+	public int getByteCount() {
 		return this.bits.size();
 	}
 	
