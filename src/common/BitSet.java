@@ -121,11 +121,7 @@ public class BitSet {
 			
 			byte lastByte = bits.get(bits.size() - 1);
 			bits.set(bits.size() - 1, (byte) (lastByte | forCurrentByte));
-			
-			System.out.println("Finding new byte from " + NumberTools.numberToBinaryString(bite, 8));
-			System.out.println("Trailing length is " + trailingLength);			
-			byte newByte = (byte) ((bite & 0xFF) >>> trailingLength);
-			System.out.println("New byte is " + NumberTools.numberToBinaryString(newByte, 8));
+			byte newByte = (byte) ((bite & 0xFF) >>> (8 - trailingLength));
 			bits.add(newByte);
 		}
 	}
@@ -135,8 +131,9 @@ public class BitSet {
 	 * @param str A string containing just 1 and 0 characters
 	 */
 	public void append(String str) {
-		for(int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
+		String reversed = new StringBuilder(str).reverse().toString();
+		for(int i = 0; i < reversed.length(); i++) {
+			char c = reversed.charAt(i);
 			this.appendBit(c);
 		}
 	}
@@ -144,10 +141,10 @@ public class BitSet {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		if (trailingLength > 0) {
-			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1).byteValue(), trailingLength));
-		}
-		for(int i = bits.size() - 2; i >= 0; i--) {
+//		if (trailingLength > 0) {
+//			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1).byteValue(), trailingLength));
+//		}
+		for(int i = bits.size() - 1; i >= 0; i--) {
 			sb.append(NumberTools.numberToBinaryString(bits.get(i).byteValue(), 8));
 		}
 		return sb.toString();

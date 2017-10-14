@@ -121,14 +121,8 @@ public class BitSetTests {
 		//TODO: Test when there isn't byte-aligned # of bits
 		byte[] bites = new byte[3];
 		new Random().nextBytes(bites);
-		
-		System.out.println(NumberTools.numberToBinaryString(bites[0], 8));
-		System.out.println(NumberTools.numberToBinaryString(bites[1], 8));
-		System.out.println(NumberTools.numberToBinaryString(bites[2], 8));
-		
+				
 		bits = new BitSet(bites[0]);
-		
-		System.out.println(bits);
 		
 		bits.appendBit(((bites[1] >> 0) & 1));
 		bits.appendBit(((bites[1] >> 1) & 1));
@@ -136,19 +130,15 @@ public class BitSetTests {
 		bits.appendBit(((bites[1] >> 3) & 1));
 		bits.appendBit(((bites[1] >> 4) & 1));
 			
-		System.out.println(bits);
-		
-		assertEquals((byte)bits.getByte(0).get(), bites[0]);
-		assertEquals((byte)(bits.getByte(1).get() & 0b00011111), (byte)(bites[1] & 0b00011111));
+		assertEquals(bites[0], (byte)bits.getByte(0).get());
+		assertEquals((byte)(bites[1] & 0b00011111), (byte)(bits.getByte(1).get() & 0b00011111));
 		
 		bits.appendByte(bites[2]);
-	
-		System.out.println(bits);
 		
 		/* what the bytes should be */
 		byte b0 = bites[0];
 		byte b1 = (byte)((bites[1] & 0b00011111) | (bites[2] << 5));
-		byte b2 = (byte)((bites[2] >> (8 - 5)) & (0b00000111));
+		byte b2 = (byte)(((bites[2] & 0xFF) >>> 3) & (0b00000111));
 		
 		assertEquals(b0, (byte)bits.getByte(0).get());
 		assertEquals(b1, (byte)bits.getByte(1).get());
@@ -157,7 +147,17 @@ public class BitSetTests {
 
 	@Test
 	public void testAppendString() {
-		fail("Not yet implemented");
+		byte[] bites = new byte[3];
+		new Random().nextBytes(bites);
+				
+		bits = new BitSet(bites[0]);
+		bits.append("1100");
+		assertEquals(bites[0], (byte)bits.getByte(0).get());
+		assertEquals((byte)0b1100, (byte)bits.getByte(1).get() & 0xF);
+		
+		bits.append("10101010");
+		assertEquals((byte)0b10101100, (byte)bits.getByte(1).get());
+		assertEquals((byte)0b1010, (byte)bits.getByte(2).get() & 0xF);
 	}
 
 	@Test
