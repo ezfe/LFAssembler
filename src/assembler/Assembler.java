@@ -159,7 +159,7 @@ public class Assembler implements TCTool {
 				 * this makes the code easier to understand.
 				 */
 				while (bitOutput.getByteCount() % align != 0) {
-					bitOutput.append((byte) 0);
+					bitOutput.appendByte((byte) 0);
 				}
 			} else if (t instanceof PositionToken) {
 				/* Fill up the last byte to avoid
@@ -170,7 +170,7 @@ public class Assembler implements TCTool {
 				int pos = ((PositionToken) t).getPosition();
 				int needed = pos - bitOutput.getByteCount();
 				for(int i = 0; i < needed; i++) {
-					bitOutput.append((byte) 0); 
+					bitOutput.appendByte((byte) 0); 
 				}
 			} else if (t instanceof Label) {
 				String value = ((Label) t).getToken();

@@ -24,6 +24,12 @@ public class BitSet {
 		trailingLength = 8;
 	}
 	
+	public BitSet(byte b) {
+		bits = new ArrayList<>();
+		bits.add(b);
+		trailingLength = 8;
+	}
+	
 	public BitSet(byte[] bites) {
 		bits = new ArrayList<>();
 		for(byte b: bites) {
@@ -65,13 +71,13 @@ public class BitSet {
 	}
 	
 	/**
-	 * Set a specific bit, left-indexed
+	 * Set a specific bit
 	 * @param bit
 	 * @param bitAddress
 	 */
 	public void setBit(int bit, BitIndex bitAddress) {
 		byte bite = getByte(bitAddress.getByte()).orElse((byte) 0);
-		bite = BitTools.setBit(7 - bitAddress.getBit(), bite, bit);
+		bite = BitTools.setBit(bitAddress.getBit(), bite, bit);
 		this.setByte(bite, bitAddress.getByte());
 	}
 	
@@ -79,7 +85,7 @@ public class BitSet {
 	 * Append a single bit to the BitSet
 	 * @param bit The bit
 	 */
-	public void append(int bit) {
+	public void appendBit(int bit) {
 		if (trailingLength == 8) {
 			bits.add((byte) 0);
 			trailingLength = 0;
@@ -87,7 +93,7 @@ public class BitSet {
 		
 		int lastIndex = bits.size() - 1;
 		byte data = bits.get(lastIndex);
-		data = BitTools.setBit(7 - trailingLength, data, bit);
+		data = BitTools.setBit(trailingLength, data, bit);
 		bits.set(lastIndex, data);
 		
 		trailingLength += 1;
@@ -95,9 +101,9 @@ public class BitSet {
 	
 	public void append(Character cbit) {
 		if (cbit == '0') {
-			this.append(0);
+			this.appendBit(0);
 		} else if (cbit == '1') {
-			this.append(1);
+			this.appendBit(1);
 		} else {
 			System.out.println("Encountered unexpected bit character: " + cbit + ", expected 1 or 0");
 		}
@@ -111,11 +117,11 @@ public class BitSet {
 		if (trailingLength == 8) {
 			bits.add(bite);
 		} else {
-			byte fits = (byte) (bite >> (8 - trailingLength));
+			byte forCurrentByte = (byte) (bite << trailingLength);
 			byte last = bits.get(bits.size() - 1);
-			bits.set(bits.size() - 1, (byte) (last | fits));
-			byte biteRightSide = (byte) (bite << trailingLength);
-			bits.add(biteRightSide);
+			bits.set(bits.size() - 1, (byte) (last | forCurrentByte));
+			byte newByte = (byte) (bite >> trailingLength);
+			bits.add(newByte);
 		}
 	}
 	
