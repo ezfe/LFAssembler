@@ -26,14 +26,14 @@ public class BitSet {
 	
 	public BitSet(byte b) {
 		bits = new ArrayList<>();
-		bits.add(b);
+		bits.add(new Byte(b));
 		trailingLength = 8;
 	}
 	
 	public BitSet(byte[] bites) {
 		bits = new ArrayList<>();
 		for(byte b: bites) {
-			bits.add(b);
+			bits.add(new Byte(b));
 		}
 		trailingLength = 8;
 	}
@@ -99,7 +99,7 @@ public class BitSet {
 		trailingLength += 1;
 	}
 	
-	public void append(Character cbit) {
+	public void appendBit(char cbit) {
 		if (cbit == '0') {
 			this.appendBit(0);
 		} else if (cbit == '1') {
@@ -113,14 +113,19 @@ public class BitSet {
 	 * Append a byte of data to the BitSet
 	 * @param bite The byte to append
 	 */
-	public void append(byte bite) {
+	public void appendByte(byte bite) {
 		if (trailingLength == 8) {
 			bits.add(bite);
 		} else {
 			byte forCurrentByte = (byte) (bite << trailingLength);
-			byte last = bits.get(bits.size() - 1);
-			bits.set(bits.size() - 1, (byte) (last | forCurrentByte));
-			byte newByte = (byte) (bite >> trailingLength);
+			
+			byte lastByte = bits.get(bits.size() - 1);
+			bits.set(bits.size() - 1, (byte) (lastByte | forCurrentByte));
+			
+			System.out.println("Finding new byte from " + NumberTools.numberToBinaryString(bite, 8));
+			System.out.println("Trailing length is " + trailingLength);			
+			byte newByte = (byte) ((bite & 0xFF) >>> trailingLength);
+			System.out.println("New byte is " + NumberTools.numberToBinaryString(newByte, 8));
 			bits.add(newByte);
 		}
 	}
@@ -131,19 +136,19 @@ public class BitSet {
 	 */
 	public void append(String str) {
 		for(int i = 0; i < str.length(); i++) {
-			Character c = str.charAt(i);
-			this.append(c);
+			char c = str.charAt(i);
+			this.appendBit(c);
 		}
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < bits.size() - 1; i++) {
-			sb.append(NumberTools.numberToBinaryString(bits.get(i), 8));
-		}
 		if (trailingLength > 0) {
-			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1) >> (7 - trailingLength), trailingLength));
+			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1).byteValue(), trailingLength));
+		}
+		for(int i = bits.size() - 2; i >= 0; i--) {
+			sb.append(NumberTools.numberToBinaryString(bits.get(i).byteValue(), 8));
 		}
 		return sb.toString();
 	}

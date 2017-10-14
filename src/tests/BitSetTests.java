@@ -21,7 +21,7 @@ public class BitSetTests {
 
 	@Test
 	public void testBitSet() {
-		
+		fail("Not yet implemented");
 	}
 
 	@Test
