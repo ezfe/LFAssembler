@@ -28,7 +28,7 @@ public class ReaderGUI extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setEditable(false);
 		
-		textArea.append(this.bits.toString());
+		textArea.append(this.bits.toByteString());
 		textArea.setLineWrap(true);
 		
 		getContentPane().add(textArea);	

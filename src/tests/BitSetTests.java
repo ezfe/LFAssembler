@@ -151,11 +151,11 @@ public class BitSetTests {
 		new Random().nextBytes(bites);
 				
 		bits = new BitSet(bites[0]);
-		bits.append("1100");
+		bits.appendStringBlock("1100");
 		assertEquals(bites[0], (byte)bits.getByte(0).get());
 		assertEquals((byte)0b1100, (byte)bits.getByte(1).get() & 0xF);
 		
-		bits.append("10101010");
+		bits.appendStringBlock("10101010");
 		assertEquals((byte)0b10101100, (byte)bits.getByte(1).get());
 		assertEquals((byte)0b1010, (byte)bits.getByte(2).get() & 0xF);
 	}

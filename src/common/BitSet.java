@@ -128,9 +128,10 @@ public class BitSet {
 	
 	/**
 	 * Append a string of 1 and 0 characters to the BitSet
+	 * The characters will be appended sequentially with increasing bit-addresses
 	 * @param str A string containing just 1 and 0 characters
 	 */
-	public void append(String str) {
+	public void appendStringBlock(String str) {
 		String reversed = new StringBuilder(str).reverse().toString();
 		for(int i = 0; i < reversed.length(); i++) {
 			char c = reversed.charAt(i);
@@ -146,6 +147,16 @@ public class BitSet {
 //		}
 		for(int i = bits.size() - 1; i >= 0; i--) {
 			sb.append(NumberTools.numberToBinaryString(bits.get(i).byteValue(), 8));
+		}
+		return sb.toString();
+	}
+	
+	public String toByteString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i = this.bits.size() - 1; i >= 0; i--) {
+			byte b = this.bits.get(i).byteValue();
+			sb.append(NumberTools.numberToBinaryString(b, 8));
+			sb.append("\n");
 		}
 		return sb.toString();
 	}

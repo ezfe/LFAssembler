@@ -51,6 +51,7 @@ public class ASInstructionA extends AssemblerInstruction {
 
 	@Override
 	public String binaryStringRepresentation() {
+		BitSet bits = new BitSet();
 		String r1String = NumberTools.numberToBinaryString(this.r1, Constants.REGISTER_LENGTH);
 		String r2String = NumberTools.numberToBinaryString(this.r2, Constants.REGISTER_LENGTH);
 		String r3String = NumberTools.numberToBinaryString(this.r3, Constants.REGISTER_LENGTH);

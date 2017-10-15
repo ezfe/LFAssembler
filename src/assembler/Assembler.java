@@ -141,11 +141,11 @@ public class Assembler implements TCTool {
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
 				String binaryString = ((AssemblerInstruction) t).binaryStringRepresentation();
-				bitOutput.append(binaryString);
+				bitOutput.appendStringBlock(binaryString);
 			} else if (t instanceof DirectiveDataContainer) {
 				DirectiveDataContainer dc = (DirectiveDataContainer) t;
 				String binaryString = NumberTools.numberToBinaryString(dc.getValue(), dc.getWidth());
-				bitOutput.append(binaryString);
+				bitOutput.appendStringBlock(binaryString);
 			} else if (t instanceof AlignToken) {
 				/* Fill up the last byte to avoid
 				 * issues with partially filled bytes
