@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.Scanner;
 
+import assembler.ASInstructionClassifier;
 import assembler.Assembler;
-import common.ASInstructionClassifier;
 import common.BitSet;
 import reader.Reader;
 

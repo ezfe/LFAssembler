@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import assembler.DirectiveDataContainer.Size;
-import common.ASInstructionClassifier;
-import common.AssemblerInstruction;
 import common.BitIndex;
 import common.BitSet;
 import common.BitTools;
@@ -20,6 +18,7 @@ import common.IllegalRegisterException;
 import common.Label;
 import common.NumberTools;
 import common.Token;
+import instructions.AssemblerInstruction;
 import toolchain.TCTool;
 
 /**

@@ -2,4 +2,5 @@
 .regcnt    16             ; 4 general purpose registers
 .maxmem    0x10000000     ; max memory size is 32 bytes
 
-ADDI R1 R1 #-1
+ADDI R1 R1 #1
+.byte 0

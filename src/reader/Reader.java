@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import common.ASInstructionClassifier;
+import assembler.ASInstructionClassifier;
 import common.BitSet;
 import common.NumberTools;
 import toolchain.TCTool;
@@ -27,22 +27,9 @@ public class Reader implements TCTool {
 
 	@Override
 	public String run(String[] args) {		
-		
-		byte[] bites;
-		try {
-			bites = Files.readAllBytes(Paths.get("src/Out2.txt"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bites = new byte[0];
-		}
-		
-		BitSet bits = new BitSet(bites);
-		
-		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new ReaderGUI(bits);
+				new ReaderGUI();
 			}
 		});
 

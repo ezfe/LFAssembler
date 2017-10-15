@@ -1,6 +1,13 @@
 package reader;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -15,28 +22,45 @@ public class ReaderGUI extends JFrame {
 	private static final long serialVersionUID = 1262268315371446851L;
 	
 	private BitSet bits;
+	private JButton loadButton = null;
+	private JTextArea textArea = null;
 	
-	public ReaderGUI(BitSet bits) {
-		this.bits = bits;
+	public ReaderGUI() {
 		this.createUI();
+		this.reloadBitsFromFS();
+		this.updateUI();
 	}
 
+	private void reloadBitsFromFS() {
+		byte[] bites;
+		try {
+			bites = Files.readAllBytes(Paths.get("src/Out2.txt"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bites = new byte[0];
+		}
+		this.bits = new BitSet(bites);
+	}
+	
+	private void updateUI() {
+		this.textArea.setText(this.bits.toByteString());
+	}
+	
 	private void createUI() {
-		JButton loadButton = new JButton("Load file...");
+		loadButton = new JButton("Reload...");
+		loadButton.addActionListener(new ReloadAction());
 		
-		getContentPane().add(loadButton);
-		
-		JTextArea textArea = new JTextArea(5, 20);
+		textArea = new JTextArea(5, 20);
 		
 		textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setEditable(false);
 		
-		textArea.append(this.bits.toByteString());
 		textArea.setLineWrap(true);
 		
-		getContentPane().add(textArea);	
-		
+		getContentPane().add(textArea, BorderLayout.NORTH);	
+		getContentPane().add(loadButton, BorderLayout.SOUTH);
+
 //		GroupLayout layout = new GroupLayout(getContentPane());
 //		getContentPane().setLayout(layout);
 //		layout.setHorizontalGroup(group);
@@ -46,5 +70,12 @@ public class ReaderGUI extends JFrame {
 		
 		pack();
 		setVisible(true);
+	}
+	
+	public class ReloadAction extends MouseAdapter implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			reloadBitsFromFS();
+			updateUI();
+		}
 	}
 }

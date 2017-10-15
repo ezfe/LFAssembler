@@ -1,5 +1,9 @@
-package common;
+package instructions;
 import java.util.Scanner;
+
+import common.Constants;
+import common.IllegalRegisterException;
+import common.NumberTools;
 
 /**
  * 

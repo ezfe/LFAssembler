@@ -1,13 +1,15 @@
-package common;
+package instructions;
+
 import java.util.Scanner;
 
-public class ASInstructionD extends AssemblerInstruction {
-
+public class ASInstructionE extends AssemblerInstruction {
+/*
+	
 	private Integer r1 = 0;
 	private Integer r2 = 0;
 	private Integer r3 = 0;
 	
-	public ASInstructionD(String token, Scanner scanner) throws IllegalRegisterException {
+	public ASInstructionE(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
 		String r1String = scanner.next();
@@ -41,4 +43,16 @@ public class ASInstructionD extends AssemblerInstruction {
 		String instruction = this.opcodeBinaryString() + r1String + r2String + r3String;
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
 	}
+*/
+	@Override
+	public String sourceStringRepresentation() {
+		return null;
+	}
+
+	@Override
+	public String binaryStringRepresentation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

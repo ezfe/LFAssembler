@@ -15,7 +15,7 @@ public class Directive implements Token {
 		String valueString = scanner.next();
 		
 		Character numberType = 'd';
-		if (valueString.charAt(0) == '0') {
+		if (valueString.length() > 1 && valueString.charAt(0) == '0') {
 			numberType = valueString.toLowerCase().charAt(1);
 		}
 		switch (numberType) {

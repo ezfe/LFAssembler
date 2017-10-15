@@ -1,4 +1,10 @@
-package common;
+package instructions;
+
+import assembler.ASInstructionClassifier;
+import common.Constants;
+import common.IllegalRegisterException;
+import common.NumberTools;
+import common.Token;
 
 /**
  * 

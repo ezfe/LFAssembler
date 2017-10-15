@@ -1,4 +1,7 @@
-package common;
+package instructions;
+
+import common.Constants;
+import common.NumberTools;
 
 public class ASInstructionC extends AssemblerInstruction {
 

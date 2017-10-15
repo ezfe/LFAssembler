@@ -1,7 +1,14 @@
-package common;
+package assembler;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
+
+import common.IllegalRegisterException;
+import instructions.ASInstructionA;
+import instructions.ASInstructionB;
+import instructions.ASInstructionC;
+import instructions.ASInstructionD;
+import instructions.AssemblerInstruction;
 
 /**
  * 
