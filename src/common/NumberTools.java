@@ -8,9 +8,29 @@ import java.util.Arrays;
  *
  */
 public class NumberTools {
+	/**
+	 * Convert a long to a binary String.
+	 * 
+	 * @param number The number to convert into binary
+	 * @param width The length of the output String
+	 * @return The output String
+	 */
 	public static String numberToBinaryString(long number, int width) {
 		String binary = Long.toBinaryString(number);
 		String formatted = String.format("%" + width + "s", binary).replace(' ', number < 0 ? '1' : '0');
+		return formatted.substring(formatted.length() - width, formatted.length());
+	}
+		
+	/**
+	 * Convert a long to a hex String
+	 * 
+	 * @param number The number to convert into binary
+	 * @param width The length of the output String
+	 * @return The output String
+	 */
+	public static String numberToHexString(long number, int width) {
+		String hex = Long.toHexString(number);
+		String formatted = String.format("%" + width + "s", hex).replace(' ', number < 0 ? 'F' : '0');
 		return formatted.substring(formatted.length() - width, formatted.length());
 	}
 	

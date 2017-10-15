@@ -153,7 +153,10 @@ public class BitSet {
 	
 	public String toByteString() {
 		StringBuilder sb = new StringBuilder();
+		int maxwidth = Integer.toHexString(this.bits.size() - 1).length();
+		System.out.println(maxwidth);
 		for(int i = this.bits.size() - 1; i >= 0; i--) {
+			sb.append("0x" + NumberTools.numberToHexString(i, maxwidth) + " ");
 			byte b = this.bits.get(i).byteValue();
 			sb.append(NumberTools.numberToBinaryString(b, 8));
 			sb.append("\n");
