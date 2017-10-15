@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class Directive implements Token {
 	private String token;
-	private Integer value;
+	private long value;
 	
 	public Directive(String token, Scanner scanner) {
 		this.token = token;
@@ -16,20 +16,20 @@ public class Directive implements Token {
 		
 		Character numberType = 'd';
 		if (valueString.charAt(0) == '0') {
-			numberType = valueString.charAt(1);
+			numberType = valueString.toLowerCase().charAt(1);
 		}
 		switch (numberType) {
 		case 'o':
-			this.value = Integer.parseInt(valueString.substring(2), 8);
+			this.value = Long.parseLong(valueString.substring(2), 8);
 			break;
 		case 'x':
-			this.value = Integer.parseInt(valueString.substring(2), 16);
+			this.value = Long.parseLong(valueString.substring(2), 16);
 			break;
 		case 'b':
-			this.value = Integer.parseInt(valueString.substring(2), 2);
+			this.value = Long.parseLong(valueString.substring(2), 2);
 			break;
 		default:
-			this.value = Integer.parseInt(valueString, 10);
+			this.value = Long.parseLong(valueString, 10);
 			break;
 		}
 	}
@@ -38,7 +38,7 @@ public class Directive implements Token {
 		return this.token.toString();
 	}
 	
-	public Integer getValue() {
+	public long getValue() {
 		return this.value;
 	}
 

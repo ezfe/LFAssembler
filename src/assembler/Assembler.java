@@ -152,7 +152,7 @@ public class Assembler implements TCTool {
 				 */
 				bitOutput.byteAlign();
 				
-				int align = ((AlignToken) t).getAlignment();
+				long align = ((AlignToken) t).getAlignment();
 				
 				/*
 				 * Iterations would be required even if we know how many bytes to append,
@@ -167,8 +167,8 @@ public class Assembler implements TCTool {
 				 */
 				bitOutput.byteAlign();
 				
-				int pos = ((PositionToken) t).getPosition();
-				int needed = pos - bitOutput.getByteCount();
+				long pos = ((PositionToken) t).getPosition();
+				long needed = pos - bitOutput.getByteCount();
 				for(int i = 0; i < needed; i++) {
 					bitOutput.appendByte((byte) 0); 
 				}

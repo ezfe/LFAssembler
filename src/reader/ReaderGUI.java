@@ -1,5 +1,7 @@
 package reader;
 
+import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +27,8 @@ public class ReaderGUI extends JFrame {
 		getContentPane().add(loadButton);
 		
 		JTextArea textArea = new JTextArea(5, 20);
+		
+		textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setEditable(false);
 		

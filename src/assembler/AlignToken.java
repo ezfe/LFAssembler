@@ -3,13 +3,13 @@ package assembler;
 import common.Token;
 
 public class AlignToken implements Token {
-	private Integer alignment;
+	private long alignment;
 	
-	public AlignToken(Integer a) {
-		this.alignment = a;
+	public AlignToken(long l) {
+		this.alignment = l;
 	}
 	
-	public Integer getAlignment() {
+	public long getAlignment() {
 		return this.alignment;
 	}
 	

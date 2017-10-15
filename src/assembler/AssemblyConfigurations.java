@@ -1,44 +1,44 @@
 package assembler;
 
 public class AssemblyConfigurations {
-	private Integer wordSize = -1;
-	private Integer registerCount = -1;
-	private Integer maxMemory = -1;
+	private long wordSize = -1;
+	private long registerCount = -1;
+	private long maxMemory = -1;
 	
 
-	public Boolean wordSizeSet() {
+	public boolean wordSizeSet() {
 		return this.wordSize >= 0;
 	}
-	public Integer getWordSize() {
+	public long getWordSize() {
 		return wordSize;
 	}
-	public void setWordSize(Integer wordSize) {
-		this.wordSize = wordSize;
+	public void setWordSize(long l) {
+		this.wordSize = l;
 	}
 	public void unsetWordSize() {
 		this.wordSize = -1;
 	}
 	
-	public Boolean registerCountSet() {
+	public boolean registerCountSet() {
 		return this.registerCount >= 0;
 	}
-	public Integer getRegisterCount() {
+	public long getRegisterCount() {
 		return registerCount;
 	}
-	public void setRegisterCount(Integer registerCount) {
+	public void setRegisterCount(long registerCount) {
 		this.registerCount = registerCount;
 	}
 	public void unsetRegisterCount() {
 		this.registerCount = -1;
 	}
 	
-	public Boolean maxMemorySet() {
+	public boolean maxMemorySet() {
 		return this.maxMemory >= 0;
 	}
-	public Integer getMaxMemory() {
+	public long getMaxMemory() {
 		return maxMemory;
 	}
-	public void setMaxMemory(Integer maxMemory) {
+	public void setMaxMemory(long maxMemory) {
 		this.maxMemory = maxMemory;
 	}
 	public void unsetMaxMemory() {

@@ -3,13 +3,13 @@ package assembler;
 import common.Token;
 
 public class PositionToken implements Token {
-	private Integer position;
+	private long position;
 	
-	public PositionToken(Integer a) {
-		this.position = a;
+	public PositionToken(long l) {
+		this.position = l;
 	}
 	
-	public Integer getPosition() {
+	public long getPosition() {
 		return this.position;
 	}
 	
