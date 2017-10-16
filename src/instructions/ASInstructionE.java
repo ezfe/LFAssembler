@@ -11,18 +11,22 @@ import common.Constants;
  * @author Ezekiel Elin
  *
  */
-public class ASInstructionE extends AssemblerInstruction {	
+public class ASInstructionE extends AssemblerInstruction {
+	/**
+	 * Register
+	 */
 	private int r1 = 0;
-	private long r2 = 0;
+	
+	/**
+	 * Memory address literal
+	 */
+	private int r2 = 0;
 	
 	public ASInstructionE(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		String r1String = scanner.next();
-		String r2String = scanner.next();
-		
-		this.r1 = Integer.parseInt(r1String.substring(1));
-		this.r2 = NumberTools.parseNumber(r2String);
+		this.r1 = (int) NumberTools.parseNumber(scanner.next().substring(1));
+		this.r2 = (int) NumberTools.parseNumber(scanner.next());
 		
 		AssemblerInstruction.checkRegister(r1);
 	}

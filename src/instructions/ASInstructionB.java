@@ -12,12 +12,30 @@ import common.NumberTools;
  */
 public class ASInstructionB extends AssemblerInstruction {
 
-	private Integer r1 = 0;
-	private Integer r2 = 0;
-	private Integer r3 = 0;
+	/**
+	 * Register
+	 */
+	private int r1 = 0;
 	
-	private Boolean r2Constant = false;
-	private Boolean r3Constant = false;
+	/**
+	 * Register or numerical literal
+	 */
+	private int r2 = 0;
+	
+	/**
+	 * Register or numerical literal
+	 */
+	private int r3 = 0;
+	
+	/**
+	 * Indicates whether r2 is a numerical literal
+	 */
+	private boolean r2Constant = false;
+	
+	/**
+	 * Indicates whether r3 is a numerical literal
+	 */
+	private boolean r3Constant = false;
 	
 	public ASInstructionB(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
@@ -34,9 +52,9 @@ public class ASInstructionB extends AssemblerInstruction {
 			assert false;
 		}
 		
-		this.r1 = Integer.parseInt(r1String.substring(1));
-		this.r2 = Integer.parseInt(r2String.substring(1));
-		this.r3 = Integer.parseInt(r3String.substring(1));
+		this.r1 = (int) NumberTools.parseNumber(r1String.substring(1));
+		this.r2 = (int) NumberTools.parseNumber(r2String.substring(1));
+		this.r3 = (int) NumberTools.parseNumber(r3String.substring(1));
 		
 		AssemblerInstruction.checkRegister(r1);
 		if (!r2Constant) AssemblerInstruction.checkRegister(r2);
@@ -49,7 +67,7 @@ public class ASInstructionB extends AssemblerInstruction {
 	}
 
 	@Override
-	public String binaryStringRepresentation() {
+	public String binaryStringRepresentation() throws IllegalStateException {
 		String r1String = NumberTools.numberToBinaryString(this.r1, Constants.REGISTER_LENGTH);
 		String r2String = NumberTools.numberToBinaryString(this.r2, this.r2Constant ? Constants.LITERAL_LENGTH : Constants.REGISTER_LENGTH);
 		String r3String = NumberTools.numberToBinaryString(this.r3, this.r3Constant ? Constants.LITERAL_LENGTH : Constants.REGISTER_LENGTH);
@@ -60,8 +78,7 @@ public class ASInstructionB extends AssemblerInstruction {
 		} else if (this.r3Constant) {
 			instruction = this.opcodeBinaryString() + r1String + "0" + r2String + r3String;
 		} else {
-			System.err.println("Cannot have two or zero constants");
-			assert false;
+			throw new IllegalStateException("Cannot have two or zero constants");
 		}
 		
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);

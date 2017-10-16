@@ -8,6 +8,9 @@ import instructions.ASInstructionA;
 import instructions.ASInstructionB;
 import instructions.ASInstructionC;
 import instructions.ASInstructionD;
+import instructions.ASInstructionE;
+import instructions.ASInstructionG;
+import instructions.ASInstructionH;
 import instructions.AssemblerInstruction;
 
 /**
@@ -82,6 +85,12 @@ public class ASInstructionClassifier {
 				return Optional.of(new ASInstructionC(instruction));
 			case "D":
 				return Optional.of(new ASInstructionD(instruction, sc));
+			case "E":
+				return Optional.of(new ASInstructionE(instruction, sc));
+			case "G":
+				return Optional.of(new ASInstructionG(instruction, sc));
+			case "H":
+				return Optional.of(new ASInstructionH(instruction, sc));
 			}
 		}
 		return Optional.empty();

@@ -115,9 +115,9 @@ public class Assembler implements TCTool {
 							System.err.println("Line " + lineNumber);
 							System.err.println(line.trim());
 						}
-					} catch (IllegalRegisterException e) {
+					} catch (Exception e) {
 						System.err.println(e.getLocalizedMessage());
-						System.err.println("Line " + lineNumber);
+						System.err.print("Line " + lineNumber + ": ");
 						System.err.println(line.trim());
 					}
 				}
@@ -127,13 +127,13 @@ public class Assembler implements TCTool {
 			lineNumber += 1;
 		}
 		
-		for(Token t: tokens) {
-			System.out.println(t.toString());
-		}
+//		for(Token t: tokens) {
+//			System.out.println(t.toString());
+//		}
 		
 		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
 			System.err.println("Configuration is incomplete!");
-			System.out.println(conf.toString());
+			System.err.println(conf.toString());
 		}
 		
 		BitSet bitOutput = new BitSet();
@@ -184,7 +184,7 @@ public class Assembler implements TCTool {
 		try {
 			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("An error occurred writing the output file");
 			e.printStackTrace();
 		}
 		
