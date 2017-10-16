@@ -12,26 +12,7 @@ public class Directive implements Token {
 	
 	public Directive(String token, Scanner scanner) {
 		this.token = token;
-		String valueString = scanner.next();
-		
-		Character numberType = 'd';
-		if (valueString.length() > 1 && valueString.charAt(0) == '0') {
-			numberType = valueString.toLowerCase().charAt(1);
-		}
-		switch (numberType) {
-		case 'o':
-			this.value = Long.parseLong(valueString.substring(2), 8);
-			break;
-		case 'x':
-			this.value = Long.parseLong(valueString.substring(2), 16);
-			break;
-		case 'b':
-			this.value = Long.parseLong(valueString.substring(2), 2);
-			break;
-		default:
-			this.value = Long.parseLong(valueString, 10);
-			break;
-		}
+		this.value = NumberTools.parseNumber(scanner.next());
 	}
 	
 	public String getToken() {

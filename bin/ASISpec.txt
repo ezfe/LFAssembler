@@ -25,12 +25,12 @@ STURH D	14
 LDURB D	15
 STURB D	16
 
-CBZ   F 29
-CBNZ  F 30
-B.cond C 31
-B     G 32
+CBZ   E 29
+CBNZ  E 30
+B.cond E 31
+B     E 32
 BR    H 33
-BL    G 34
+BL    E 34
 
 PUSH Z -2
 POP Z -1

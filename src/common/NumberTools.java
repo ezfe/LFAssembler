@@ -69,4 +69,21 @@ public class NumberTools {
 		
 		return strs;
 	}
+	
+	public static long parseNumber(String valueString) {
+		char numberType = 'd';
+		if (valueString.length() > 1 && valueString.charAt(0) == '0') {
+			numberType = valueString.toLowerCase().charAt(1);
+		}
+		switch (numberType) {
+		case 'o':
+			return Long.parseLong(valueString.substring(2), 8);
+		case 'x':
+			return Long.parseLong(valueString.substring(2), 16);
+		case 'b':
+			return Long.parseLong(valueString.substring(2), 2);
+		default:
+			return Long.parseLong(valueString, 10);
+		}
+	}
 }
