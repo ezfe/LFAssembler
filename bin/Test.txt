@@ -2,5 +2,39 @@
 .regcnt    4              ; 4 general purpose registers
 .maxmem   0x10000000      ; max memory size is 32 bytes
 
-.byte 0x12
-.half 0xABCD
+ADD R1, R2, R3
+SUB R1, R2, R3
+ADDI R1, R2, #3
+ADDI R1, #2, R3
+SUBI R1, R2, #3
+SUBI R1, #2, R3
+ADDS R1, R2, R3
+SUBS R1, R2, R3
+ADDIS R1, R2, #3
+ADDIS R1, #2, R3
+SUBIS R1, R2, #3
+SUBIS R1, #2, R3
+
+LDUR R1, [R2, #8]
+STUR R1, [R2, #8]
+LDURSW R1, [R2, #8]
+STURW R1, [R2, #8]
+LDURH R1, [R2, #8]
+STURH R1, [R2, #8]
+LDURB R1, [R2, #8]
+STURB R1, [R2, #8]
+
+AND R1, R2, R3
+ORR R1, R2, R3
+EOR R1, R2, R3
+ANDI R1, R2, #3
+ORRI R1, R2, #3
+EORI R1, R2, #3
+LSL R1, R2, #3
+LSR R1, R2, #3
+CBZ R1, 2
+CBNZ R1, 2
+B.cond 1
+B 1
+BR R1
+BL 1

@@ -27,10 +27,10 @@ STURB D	16
 
 CBZ   E 29
 CBNZ  E 30
-B.cond E 31
-B     E 32
+B.cond G 31
+B     G 32
 BR    H 33
-BL    E 34
+BL    G 34
 
 PUSH Z -2
 POP Z -1
