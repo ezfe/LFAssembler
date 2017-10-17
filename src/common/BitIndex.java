@@ -9,17 +9,14 @@ public class BitIndex {
 	private int bit = 0;
 	
 	public BitIndex(int bitIndex) {
-		//TODO lol don't do this
 		this.bit = bitIndex;
-		while (this.bit >= 8) {
-			bite++;
-			bit -= 8;
-		}
+		this.normalize();
 	}
 	
 	public BitIndex(int byteIndex, int bitIndex) {
 		this.bite = byteIndex;
 		this.bit = bitIndex;
+		this.normalize();
 	}
 
 	public int getByte() {
@@ -36,9 +33,35 @@ public class BitIndex {
 	
 	public void setBit(int bit) {
 		this.bit = Math.max(0, bit);
+		this.normalize();
+	}
+	
+	public void addBits(int bits) {
+		this.bit += Math.max(0,  bits);
+		this.normalize();
+	}
+	
+	private void normalize() {
 		while (this.bit >= 8) {
 			bite++;
 			bit -= 8;
 		}
+		while (this.bit < 0) {
+			bite--;
+			bit += 8;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return this.getByte() + "@" + this.getBit();
+	}
+	
+	public BitIndex decrement() {
+		return new BitIndex(this.getByte(), this.getBit() - 1);
+	}
+	
+	public BitIndex increment() {
+		return new BitIndex(this.getByte(), this.getBit() + 1);
 	}
 }

@@ -36,38 +36,21 @@ public class ASInstructionA extends AssemblerInstruction {
 		String r2String = scanner.next();
 		String r3String = scanner.next();
 		
-		try {
-			this.r1 = (int) NumberTools.parseNumber(r1String.substring(1));
-			this.r2 = (int) NumberTools.parseNumber(r2String.substring(1));
-			this.r3 = (int) NumberTools.parseNumber(r3String.substring(1));
-			
-			AssemblerInstruction.checkRegister(r1);
-			AssemblerInstruction.checkRegister(r2);
-			AssemblerInstruction.checkRegister(r3);
-		} catch (NumberFormatException e) {
-			System.err.println("Instruction parsing failed!");
-			System.err.println(e.getLocalizedMessage());
-		}
+		this.r1 = (int) NumberTools.parseNumber(r1String.substring(1));
+		this.r2 = (int) NumberTools.parseNumber(r2String.substring(1));
+		this.r3 = (int) NumberTools.parseNumber(r3String.substring(1));
+		
+		AssemblerInstruction.checkRegister(r1);
+		AssemblerInstruction.checkRegister(r2);
+		AssemblerInstruction.checkRegister(r3);
 	}
 	
 	public String sourceStringRepresentation() {
 		return "" + this.token + " R" + this.r1 + " R" + this.r2 + " R"  + this.r3;
-
-//		Optional<Integer> opcode = ASInstructionClassifier.getOpcode(this.token);
-//		if (opcode.isPresent()) {
-//			String opcodeString = String.format("%11s", Integer.toBinaryString(opcode.get())).replace(" ", "0");
-//			String r1String = String.format("%5s", Integer.toBinaryString(this.r1)).replace(" ", "0");
-//			String r2String = String.format("%5s", Integer.toBinaryString(this.r2)).replace(" ", "0");
-//			String r3String = String.format("%5s", Integer.toBinaryString(this.r3)).replace(" ", "0");
-//			return opcodeString + r1String + r2String + r3String;
-//		} else {
-//			return "OPCODE CREATE ERROR";
-//		}
 	}
 
 	@Override
 	public String binaryStringRepresentation() {
-		BitSet bits = new BitSet();
 		String r1String = NumberTools.numberToBinaryString(this.r1, Constants.REGISTER_LENGTH);
 		String r2String = NumberTools.numberToBinaryString(this.r2, Constants.REGISTER_LENGTH);
 		String r3String = NumberTools.numberToBinaryString(this.r3, Constants.REGISTER_LENGTH);

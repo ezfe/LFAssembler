@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -13,6 +15,7 @@ import assembler.DirectiveDataContainer.Size;
 import common.BitIndex;
 import common.BitSet;
 import common.BitTools;
+import common.Constants;
 import common.Directive;
 import common.IllegalRegisterException;
 import common.Label;
@@ -106,7 +109,7 @@ public class Assembler implements TCTool {
 				} else {
 					//OPERATION
 					try {
-						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner);
+						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner, unfilledLabelReferences);
 	
 						if (ins.isPresent()) {
 							tokens.add(ins.get());
@@ -127,9 +130,9 @@ public class Assembler implements TCTool {
 			lineNumber += 1;
 		}
 		
-//		for(Token t: tokens) {
-//			System.out.println(t.toString());
-//		}
+		for(Token t: tokens) {
+			System.out.println(t.toString());
+		}
 		
 		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
 			System.err.println("Configuration is incomplete!");
@@ -139,7 +142,18 @@ public class Assembler implements TCTool {
 		BitSet bitOutput = new BitSet();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
-				String binaryString = ((AssemblerInstruction) t).binaryStringRepresentation();
+				AssemblerInstruction ins = (AssemblerInstruction) t;
+				if (ins instanceof LabelInstruction) {
+					LabelInstruction insLabel = (LabelInstruction) ins;
+					if (!unfilledLabelReferences.containsKey(insLabel.getLabel())) {
+						unfilledLabelReferences.put(insLabel.getLabel(), new ArrayList<BitIndex>());
+					}
+					ArrayList<BitIndex> existingIndexes = unfilledLabelReferences.get(insLabel.getLabel());
+					
+					BitIndex index = new BitIndex(bitOutput.getByteCount(), 31 - insLabel.getLabelBitIndex());
+					existingIndexes.add(index);
+				}
+				String binaryString = ins.binaryStringRepresentation();
 				bitOutput.appendStringBlock(binaryString);
 			} else if (t instanceof DirectiveDataContainer) {
 				DirectiveDataContainer dc = (DirectiveDataContainer) t;
@@ -180,6 +194,28 @@ public class Assembler implements TCTool {
 		}
 		
 		System.out.println("Locations: " + labelLocations);
+		System.out.println("Fill In: " + unfilledLabelReferences);
+		
+		for(Entry<String, ArrayList<BitIndex>> entry : unfilledLabelReferences.entrySet()) {
+			String label = entry.getKey();
+			
+			if (!labelLocations.containsKey(label)) {
+				System.err.println("Unable to fill in label: " + label);
+				continue;
+			}
+			ArrayList<BitIndex> fillThese = entry.getValue();
+			
+			long location = labelLocations.get(label);
+			String locationBinaryString = NumberTools.numberToBinaryString(location, Constants.MEMADDR_LENGTH);
+			for(BitIndex index: fillThese) {
+				BitIndex p = index;
+				for(int i = 0; i < locationBinaryString.length(); i++) {
+					char cbit = locationBinaryString.charAt(i);
+					bitOutput.setBit(cbit == '0' ? 0 : 1, p);
+					p = p.decrement();
+				}
+			}
+		}
 		
 		try {
 			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());

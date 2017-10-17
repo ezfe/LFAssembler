@@ -151,7 +151,13 @@ public class BitSet {
 		return sb.toString();
 	}
 	
-	public String toByteString() {
+	/**
+	 * Format the BitSet by byte
+	 * @param start The byte index to start at
+	 * @param end The byte index to end at
+	 * @return The formatted string
+	 */
+	public String toByteString(int start, int end) {
 		StringBuilder sb = new StringBuilder();
 		int maxwidth = Integer.toHexString(this.bits.size() - 1).length();
 		System.out.println(maxwidth);

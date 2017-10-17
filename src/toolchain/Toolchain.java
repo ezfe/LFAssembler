@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import assembler.ASInstructionClassifier;
 import assembler.Assembler;
-import common.BitSet;
 import reader.Reader;
 
 /**

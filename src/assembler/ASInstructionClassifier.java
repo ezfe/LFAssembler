@@ -1,8 +1,10 @@
 package assembler;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 
+import common.BitIndex;
 import common.IllegalRegisterException;
 import instructions.ASInstructionA;
 import instructions.ASInstructionB;
@@ -73,7 +75,7 @@ public class ASInstructionClassifier {
 		return Optional.empty();
 	}
 	
-	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc) throws IllegalRegisterException {
+	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc, HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences) throws IllegalRegisterException {
 		Optional<String> type = getType(instruction);
 		if (type.isPresent()) {
 			switch (type.get()) {

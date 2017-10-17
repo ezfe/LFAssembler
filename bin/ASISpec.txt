@@ -1,3 +1,5 @@
+NOP   C 0
+
 ADD  A	1
 SUB	 A	2
 ADDI B	3
@@ -27,14 +29,23 @@ STURB D	16
 
 CBZ   E 29
 CBNZ  E 30
-B.cond G 31
-B     G 32
-BR    H 33
-BL    G 34
+B     G 31
+BR    H 32
+BL    G 33
 
-PUSH Z -2
-POP Z -1
+B.EQ  G 34
+B.NE  G 35
+B.LT  G 36
+B.LE  G 37
+B.GT  G 38
+B.GE  G 39
 
-HALT  C 50
+B.MI  G 40
+B.PL  G 41
+B.VS  G 42
+B.VC  G 43
 
-NOP   C 51
+PUSH  H 44
+POP   H 45
+
+HALT  C 46

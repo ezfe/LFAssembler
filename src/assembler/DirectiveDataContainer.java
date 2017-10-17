@@ -43,7 +43,7 @@ public class DirectiveDataContainer implements Token {
 		return this.value;
 	}
 	
-	public Integer getWidth() {
+	public int getWidth() {
 		switch (this.size) {
 		case DOUBLE:
 			return 64;
@@ -54,6 +54,7 @@ public class DirectiveDataContainer implements Token {
 		case BYTE:
 			return 8;
 		}
+		// default to 8 bits wide
 		return 8;
 	}
 	
