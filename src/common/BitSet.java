@@ -1,5 +1,8 @@
 package common;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -9,7 +12,7 @@ import java.util.Optional;
  * @author Ezekiel Elin
  */
 public class BitSet {
-	private ArrayList<Byte> bits;
+	private ArrayList<Byte> bits = new ArrayList<>();
 	
 	/**
 	 * The length of last byte in the bits array
@@ -17,27 +20,32 @@ public class BitSet {
 	 * 0 should not exist (the byte wouldn't be in the array)
 	 * 8 represents a full last-bit
 	 */
-	private int trailingLength;
+	private int trailingLength = 8;
 	
 	public BitSet() {
-		bits = new ArrayList<>();
-		trailingLength = 8;
+		
 	}
 	
 	public BitSet(byte b) {
-		bits = new ArrayList<>();
-		bits.add(new Byte(b));
-		trailingLength = 8;
+		this.appendByte(b);
 	}
 	
 	public BitSet(byte[] bites) {
-		bits = new ArrayList<>();
-		for(byte b: bites) {
-			bits.add(new Byte(b));
-		}
-		trailingLength = 8;
+		this.appendBytes(bites);
 	}
 	
+	public BitSet(String string) {
+		byte[] bites;
+		try {
+			bites = Files.readAllBytes(Paths.get(string));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bites = new byte[0];
+		}
+		this.appendBytes(bites);
+	}
+
 	/**
 	 * Insert a byte at an address
 	 * @param bite The byte
@@ -127,6 +135,16 @@ public class BitSet {
 	}
 	
 	/**
+	 * Append a list of bytes to the BitSet
+	 * @param bytes The bytes to append
+	 */
+	public void appendBytes(byte[] bytes) {
+		for(byte b: bytes) {
+			this.bits.add(new Byte(b));
+		}
+	}
+	
+	/**
 	 * Append a string of 1 and 0 characters to the BitSet
 	 * The characters will be appended sequentially with increasing bit-addresses
 	 * @param str A string containing just 1 and 0 characters
@@ -190,6 +208,12 @@ public class BitSet {
 		return trailingLength;
 	}
 	
+	/**
+	 * Get the number of bytes
+	 * 
+	 * This will also be the byte index for the next byte suing getByte()
+	 * @return The byte count
+	 */
 	public int getByteCount() {
 		return this.bits.size();
 	}
@@ -202,7 +226,40 @@ public class BitSet {
 		return this.bits.size();
 	}
 	
+	/**
+	 * Fill in the trailing byte
+	 */
 	public void byteAlign() {
 		this.trailingLength = 8;
+	}
+	
+	/**
+	 * Read n bytes as a String
+	 * @param firstByte The first byte to read
+	 * @param width The number of bytes
+	 * @return The bytes
+	 */
+	public String readBytes(int firstByte, int width) {
+		StringBuilder returnString = new StringBuilder();
+		
+		for(int i = width - 1; i >= 0; i--) {
+			Optional<Byte> bite = this.getByte(firstByte + i);
+			if (bite.isPresent()) {
+				returnString.append(NumberTools.numberToBinaryString(bite.get(), 8));
+			} else {
+				throw new IndexOutOfBoundsException("Byte " + (firstByte + i) + " is out of bounds");
+			}
+		}
+		
+		return returnString.toString();
+	}
+	
+	/**
+	 * Read an instruction as a String
+	 * @param firstByte The first byte of the instruction
+	 * @return The bytes
+	 */
+	public String readInstruction(int firstByte) {
+		return this.readBytes(firstByte, 4);
 	}
 }

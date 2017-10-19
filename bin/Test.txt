@@ -2,5 +2,16 @@
 .regcnt    4              ; 4 general purpose registers
 .maxmem   0x10000000      ; max memory size is 32 bytes
 
-B a
-a:
+ADD R1, R2, R3
+
+ADD R2, R2, R1
+
+B labelname
+
+ADD R0, R0, R0
+
+.byte 0xFF
+
+labelname:
+
+SUB R0, R2, R3

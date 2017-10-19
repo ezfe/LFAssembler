@@ -1,12 +1,13 @@
 package assembler;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Scanner;
@@ -14,15 +15,12 @@ import java.util.Scanner;
 import assembler.DirectiveDataContainer.Size;
 import common.BitIndex;
 import common.BitSet;
-import common.BitTools;
 import common.Constants;
 import common.Directive;
-import common.IllegalRegisterException;
 import common.Label;
 import common.NumberTools;
 import common.Token;
 import instructions.AssemblerInstruction;
-import toolchain.TCTool;
 
 /**
  * The assembler is the entry point for transferring an Assembly source file into machine code.
@@ -33,10 +31,16 @@ import toolchain.TCTool;
  *
  */
 
-public class Assembler implements TCTool {
+public class Assembler {
 
-	@Override
-	public String run(String[] args) {
+	public static void main(String[] args) {
+		Assembler assembler = new Assembler();
+		assembler.run(args);
+	}
+	
+	public void run(String[] args) {
+		ASInstructionClassifier.populate("src/ASISpec.txt");
+		
 		String s = "";
 		try {
 			  byte[] encoded = Files.readAllBytes(Paths.get("src/Test.txt"));
@@ -109,7 +113,7 @@ public class Assembler implements TCTool {
 				} else {
 					//OPERATION
 					try {
-						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner, unfilledLabelReferences);
+						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner);
 	
 						if (ins.isPresent()) {
 							tokens.add(ins.get());
@@ -225,8 +229,5 @@ public class Assembler implements TCTool {
 		}
 		
 		lineScanner.close();
-		
-		return "OK";
-	}
-	
+	}	
 }

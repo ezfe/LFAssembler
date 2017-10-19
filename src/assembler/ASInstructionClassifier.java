@@ -1,4 +1,6 @@
 package assembler;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -34,13 +36,23 @@ public class ASInstructionClassifier {
 	
 	private static HashMap<String, ASInstructionSpec> map = new HashMap<>();
 	
-	public static void populate(Scanner sc) {
-		while (sc.hasNext()) {
-			String instruction = sc.next();
-			String type = sc.next();
-			Integer opcode = Integer.parseInt(sc.next());
-			ASInstructionSpec spec = new ASInstructionSpec(type, opcode);
-			map.put(instruction, spec);
+	public static void populate(String path) {
+		File specFile = new File(path);
+		Scanner sc;
+		try {
+			sc = new Scanner(specFile);
+
+			while (sc.hasNext()) {
+				String instruction = sc.next();
+				String type = sc.next();
+				Integer opcode = Integer.parseInt(sc.next());
+				ASInstructionSpec spec = new ASInstructionSpec(type, opcode);
+				map.put(instruction, spec);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Unable to populate instruction classifier");
+			e.printStackTrace();
 		}
 	}
 	
@@ -75,7 +87,7 @@ public class ASInstructionClassifier {
 		return Optional.empty();
 	}
 	
-	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc, HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences) throws IllegalRegisterException {
+	public static Optional<AssemblerInstruction> makeInstruction(String instruction, Scanner sc) throws IllegalRegisterException {
 		Optional<String> type = getType(instruction);
 		if (type.isPresent()) {
 			switch (type.get()) {
@@ -93,6 +105,29 @@ public class ASInstructionClassifier {
 				return Optional.of(new ASInstructionG(instruction, sc));
 			case "H":
 				return Optional.of(new ASInstructionH(instruction, sc));
+			}
+		}
+		return Optional.empty();
+	}
+	
+	public static Optional<AssemblerInstruction> makeInstruction(String instruction, String binaryString) {
+		Optional<String> type = getType(instruction);
+		if (type.isPresent()) {
+			switch (type.get()) {
+			case "A":
+				return Optional.of(new ASInstructionA(instruction, binaryString));
+//			case "B":
+//				return Optional.of(new ASInstructionB(instruction, binaryString));
+//			case "C":
+//				return Optional.of(new ASInstructionC(instruction));
+//			case "D":
+//				return Optional.of(new ASInstructionD(instruction, binaryString));
+//			case "E":
+//				return Optional.of(new ASInstructionE(instruction, binaryString));
+//			case "G":
+//				return Optional.of(new ASInstructionG(instruction, binaryString));
+//			case "H":
+//				return Optional.of(new ASInstructionH(instruction, binaryString));
 			}
 		}
 		return Optional.empty();

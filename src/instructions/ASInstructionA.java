@@ -45,6 +45,22 @@ public class ASInstructionA extends AssemblerInstruction {
 		AssemblerInstruction.checkRegister(r3);
 	}
 	
+	public ASInstructionA(String token, String binaryRepresentation) {
+		this.token = token;
+		
+		int start = Constants.OPCODE_LENGTH;
+		int end = start + Constants.REGISTER_LENGTH;
+		this.r1 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		
+		start = end;
+		end += Constants.REGISTER_LENGTH;
+		this.r2 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+
+		start = end;
+		end += Constants.REGISTER_LENGTH;
+		this.r3 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+	}
+	
 	public String sourceStringRepresentation() {
 		return "" + this.token + " R" + this.r1 + " R" + this.r2 + " R"  + this.r3;
 	}

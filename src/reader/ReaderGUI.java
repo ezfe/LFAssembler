@@ -5,9 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,15 +34,7 @@ public class ReaderGUI extends JFrame {
 	}
 
 	private void reloadBitsFromFS() {
-		byte[] bites;
-		try {
-			bites = Files.readAllBytes(Paths.get("src/Out2.txt"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bites = new byte[0];
-		}
-		this.bits = new BitSet(bites);
+		this.bits = new BitSet("src/Out2.txt");
 	}
 	
 	private void updateUI() {
