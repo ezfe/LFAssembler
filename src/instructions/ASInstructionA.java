@@ -1,10 +1,13 @@
 package instructions;
 import java.util.Scanner;
 
+import common.BinaryOperations;
 import common.BitSet;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
+import simulator.SimulatorRegister;
+import simulator.SimulatorState;
 
 /**
  * 
@@ -73,5 +76,26 @@ public class ASInstructionA extends AssemblerInstruction {
 		
 		String instruction = this.opcodeBinaryString() + r1String + r2String + r3String;
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
+	}
+	
+	/**
+	 * Perform the instruction
+	 * @param state The simulator state
+	 */
+	public void perform(SimulatorState state) {
+		System.out.println("Performing " + this.sourceStringRepresentation());
+		SimulatorRegister destinationRegister = state.getRegister(this.r1);
+		SimulatorRegister leftSourceRegister = state.getRegister(this.r2);
+		SimulatorRegister rightSourceRegister = state.getRegister(this.r3);
+		
+		switch (this.token) {
+		case "ADD":
+			String val = BinaryOperations.add(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val);
+			break;
+		default:
+			System.out.println(this.token + " is unimplemented");
+			break;
+		}
 	}
 }

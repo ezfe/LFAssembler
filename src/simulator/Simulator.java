@@ -6,12 +6,14 @@ import assembler.ASInstructionClassifier;
 import common.BitSet;
 import common.Constants;
 import common.NumberTools;
+import instructions.ASInstructionA;
 import instructions.AssemblerInstruction;
 
 public class Simulator {
 
 	BitSet bits = null;
-
+	SimulatorState state = null;
+	
 	public static void main(String[] args) {
 		ASInstructionClassifier.populate("src/ASISpec.txt");
 		Simulator simulator = new Simulator();
@@ -20,6 +22,9 @@ public class Simulator {
 	
 	public void run(String[] args) {
 		this.bits = new BitSet("src/Out2.txt");
+		this.state = new SimulatorState(3, 32);
+		
+		System.out.println(this.state);
 		
 		int index = 0;
 		while (true) {
@@ -28,9 +33,13 @@ public class Simulator {
 			Optional<String> opcodeName = ASInstructionClassifier.getName(NumberTools.binaryStringToNumber(opcodeBinaryString));
 			
 			if (opcodeName.isPresent()) {
-				Optional<AssemblerInstruction> instruction = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
-				if (instruction.isPresent()) {
-					System.out.println(instruction.get().toString());
+				Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
+				if (instructionOpt.isPresent()) {
+					AssemblerInstruction instruction = instructionOpt.get();
+					if (instruction instanceof ASInstructionA) {
+						((ASInstructionA) instruction).perform(this.state);
+						System.out.println(this.state);
+					}
 				} else {
 					System.out.println("Unable to make " + opcodeName.get() + " into an AssemblerInstruction");
 				}
