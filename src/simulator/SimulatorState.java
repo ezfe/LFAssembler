@@ -3,6 +3,8 @@ package simulator;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import common.BitSet;
+
 /**
  * Maintains the state of the simulator, and can be
  * passed along to allow shared manipulation of the
@@ -23,7 +25,12 @@ public class SimulatorState {
 	public final int registerCount;
 	public final int registerSize;
 	
-	private boolean isHalted = false;
+	public BitSet memory;
+	
+	/**
+	 * Has the simulator halted execution
+	 */
+	public boolean isHalted = false;
 	
 	/**
 	 * Negative result flag
@@ -50,13 +57,15 @@ public class SimulatorState {
 	 * @param registerCount The number of registers
 	 * @param registerSize The size of the registers
 	 */
-	public SimulatorState(int registerCount, int registerSize) {
+	public SimulatorState(int registerCount, int registerSize, String bitsPath) {
 		this.registerCount = registerCount;
 		this.registerSize = registerSize;
 		this.registers = new ArrayList<>();
 		for(int i = 0; i < registerCount; i++) {
 			this.registers.add(new SimulatorRegister(registerSize, i));
 		}
+		
+		this.memory = new BitSet(bitsPath);
 	}
 	
 	/**

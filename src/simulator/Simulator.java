@@ -8,11 +8,10 @@ import common.NumberTools;
 import instructions.ASInstructionA;
 import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
-import instructions.Performable;
+import instructions.PerformableInstruction;
 
 public class Simulator {
 
-	BitSet bits = null;
 	SimulatorState state = null;
 	
 	public static void main(String[] args) {
@@ -22,21 +21,20 @@ public class Simulator {
 	}
 	
 	public void run(String[] args) {
-		this.bits = new BitSet("src/Out2.txt");
-		this.state = new SimulatorState(6, 32);
+		this.state = new SimulatorState(4, 32, "src/Out2.txt");
 		
 		SimulatorRegister r0 = this.state.getRegister(0);
 		SimulatorRegister r1 = this.state.getRegister(1);
-		SimulatorRegister r4 = this.state.getRegister(4);
+		SimulatorRegister r2 = this.state.getRegister(2);
 		
-		r1.setValue(NumberTools.numberToBinaryString(8, 32));
-		r4.setValue(NumberTools.numberToBinaryString(5, 32));
+//		r1.setValue(NumberTools.numberToBinaryString(8, 32));
+//		r2.setValue(NumberTools.numberToBinaryString(7, 32));
 		
 		System.out.println(this.state);
 		
 		int index = 0;
-		while (true) {
-			String instructionString = bits.readInstruction(index);
+		while (!this.state.isHalted) {
+			String instructionString = this.state.memory.readInstruction(index);
 			String opcodeBinaryString = instructionString.substring(0, Constants.OPCODE_LENGTH);
 			Optional<String> opcodeName = ASInstructionClassifier.getName(NumberTools.binaryStringToNumber(opcodeBinaryString));
 			
@@ -44,8 +42,8 @@ public class Simulator {
 				Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
 				if (instructionOpt.isPresent()) {
 					AssemblerInstruction instruction = instructionOpt.get();
-					if (instruction instanceof Performable) {
-						((Performable) instruction).perform(this.state);
+					if (instruction instanceof PerformableInstruction) {
+						((PerformableInstruction) instruction).perform(this.state);
 						System.out.println(this.state);
 					}
 				} else {

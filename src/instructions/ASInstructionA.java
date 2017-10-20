@@ -16,7 +16,7 @@ import simulator.SimulatorState;
  *
  */
 
-public class ASInstructionA extends AssemblerInstruction implements Performable {
+public class ASInstructionA extends PerformableInstruction {
 	
 	/**
 	 * Register
@@ -81,7 +81,7 @@ public class ASInstructionA extends AssemblerInstruction implements Performable 
 	
 	@Override
 	public void perform(SimulatorState state) {
-		System.out.println("Performing " + this.sourceStringRepresentation());
+		super.perform(state);
 		SimulatorRegister destinationRegister = state.getRegister(this.r1);
 		SimulatorRegister leftSourceRegister = state.getRegister(this.r2);
 		SimulatorRegister rightSourceRegister = state.getRegister(this.r3);

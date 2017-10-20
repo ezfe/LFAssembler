@@ -14,55 +14,64 @@ import simulator.SimulatorState;
  * @author Ezekiel Elin
  *
  */
-public class ASInstructionB extends AssemblerInstruction implements Performable {
+public class ASInstructionB extends PerformableInstruction {
 
 	/**
 	 * Register
 	 */
-	private int r1 = 0;
+	private int destinationRegisterNumber = 0;
 	
 	/**
-	 * Register or numerical literal
+	 * Register
 	 */
-	private int r2 = 0;
+	private int sourceRegisterNumber = 0;
 	
 	/**
-	 * Register or numerical literal
+	 * Numerical literal
 	 */
-	private int r3 = 0;
+	private int sourceLiteral = 0;
 	
 	/**
-	 * Indicates whether r2 is a numerical literal
+	 * Indicates whether the order of the constants has been swapped
 	 */
-	private boolean r2Constant = false;
-	
-	/**
-	 * Indicates whether r3 is a numerical literal
-	 */
-	private boolean r3Constant = false;
+	private boolean constantOrderFlipped = false;
 	
 	public ASInstructionB(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		String r1String = scanner.next();
-		String r2String = scanner.next();
-		String r3String = scanner.next();
+		String arg1String = scanner.next();
+		String arg2String = scanner.next();
+		String arg3String = scanner.next();
 		
-		r2Constant = (r2String.charAt(0) == '#');
-		r3Constant = (r3String.charAt(0) == '#');
+		boolean arg2Constant = (arg2String.charAt(0) == '#');
+		boolean arg3Constant = (arg3String.charAt(0) == '#');
 		
-		if ((r2Constant && r3Constant) || !(r2Constant || r3Constant)) {
-			System.err.println("Cannot have two or zero constants");
-			assert false;
+		if ((arg2Constant && arg3Constant) || !(arg2Constant || arg3Constant)) {
+			throw new IllegalArgumentException("Cannot have two or zero constants");
 		}
 		
-		this.r1 = (int) NumberTools.parseNumber(r1String.substring(1));
-		this.r2 = (int) NumberTools.parseNumber(r2String.substring(1));
-		this.r3 = (int) NumberTools.parseNumber(r3String.substring(1));
+		// If r2 is a constant, then set the flag
+		this.constantOrderFlipped = arg2Constant;
 		
-		AssemblerInstruction.checkRegister(r1);
-		if (!r2Constant) AssemblerInstruction.checkRegister(r2);
-		if (!r3Constant) AssemblerInstruction.checkRegister(r3);
+		this.destinationRegisterNumber = (int) NumberTools.parseNumber(arg1String.substring(1));
+		if (constantOrderFlipped) {			
+			//Store arg3 in the register space
+			this.sourceRegisterNumber = (int) NumberTools.parseNumber(arg3String.substring(1));
+			
+			//Store arg2 in the constant space
+			this.sourceLiteral = (int) NumberTools.parseNumber(arg2String.substring(1));
+
+		} else {
+			//Store arg2 in the register space
+			this.sourceRegisterNumber = (int) NumberTools.parseNumber(arg2String.substring(1));
+			
+			//Store arg3 in the constant space
+			this.sourceLiteral = (int) NumberTools.parseNumber(arg3String.substring(1));
+		}
+		
+		AssemblerInstruction.checkRegister(destinationRegisterNumber);
+		if (!arg2Constant) AssemblerInstruction.checkRegister(sourceRegisterNumber);
+		if (!arg3Constant) AssemblerInstruction.checkRegister(sourceLiteral);
 	}
 	
 	public ASInstructionB(String token, String binaryRepresentation) {
@@ -70,51 +79,42 @@ public class ASInstructionB extends AssemblerInstruction implements Performable 
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.r1 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.destinationRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += 1;
-		this.r3Constant = binaryRepresentation.substring(start, end).equals("0") ? true : false;
-		this.r2Constant = !r3Constant;
+		this.constantOrderFlipped = binaryRepresentation.substring(start, end).equals("1") ? true : false;
 		
 		start = end;
 		end += Constants.REGISTER_LENGTH;
-		this.r2 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 
 		start = end;
 		end += Constants.LITERAL_LENGTH;
-		this.r3 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceLiteral = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 	}
 	
 	@Override
 	public String sourceStringRepresentation() {
-		return "" + this.token + " R" + this.r1 + " " + (this.r2Constant ? "#" : "R") + this.r2 + " "  + (this.r3Constant ? "#" : "R") + this.r3;
+		return "" + this.token + " R" + this.destinationRegisterNumber + " " + (this.constantOrderFlipped ? ("#" + this.sourceLiteral) : ("R" + this.sourceRegisterNumber)) + " "  +(this.constantOrderFlipped ?  ("R" + this.sourceRegisterNumber) : ("#" + this.sourceLiteral));
 	}
 
 	@Override
 	public String binaryStringRepresentation() throws IllegalStateException {
-		String r1String = NumberTools.numberToBinaryString(this.r1, Constants.REGISTER_LENGTH);
-		String r2String = NumberTools.numberToBinaryString(this.r2, this.r2Constant ? Constants.LITERAL_LENGTH : Constants.REGISTER_LENGTH);
-		String r3String = NumberTools.numberToBinaryString(this.r3, this.r3Constant ? Constants.LITERAL_LENGTH : Constants.REGISTER_LENGTH);
+		String r1String = NumberTools.numberToBinaryString(this.destinationRegisterNumber, Constants.REGISTER_LENGTH);
+		String r2String = NumberTools.numberToBinaryString(this.sourceRegisterNumber, Constants.REGISTER_LENGTH);
+		String r3String = NumberTools.numberToBinaryString(this.sourceLiteral, Constants.LITERAL_LENGTH);
 		
-		String instruction = null;
-		if (this.r2Constant) {
-			instruction = this.opcodeBinaryString() + r1String + "1" + r3String + r2String;
-		} else if (this.r3Constant) {
-			instruction = this.opcodeBinaryString() + r1String + "0" + r2String + r3String;
-		} else {
-			throw new IllegalStateException("Cannot have two or zero constants");
-		}
-		
+		String instruction = this.opcodeBinaryString() + r1String + (this.constantOrderFlipped ? "1" : "0") + r2String + r3String;
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
 	}
 
 	@Override
 	public void perform(SimulatorState state) {
-		System.out.println("Performing " + this.sourceStringRepresentation());
-		SimulatorRegister destinationRegister = state.getRegister(this.r1);
-		SimulatorRegister leftSourceRegister = state.getRegister(this.r2);
-		String rightValue = NumberTools.numberToBinaryString(this.r3, state.registerSize);
+		super.perform(state);
+		SimulatorRegister destinationRegister = state.getRegister(this.destinationRegisterNumber);
+		SimulatorRegister leftSourceRegister = state.getRegister(this.sourceRegisterNumber);
+		String rightValue = NumberTools.numberToBinaryString(this.sourceLiteral, state.registerSize);
 		
 		if (this.token.equals("ADDI")) {
 			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightValue);
@@ -125,22 +125,18 @@ public class ASInstructionB extends AssemblerInstruction implements Performable 
 			val.apply(state);
 		} else if (this.token.equals("SUBI")) {
 			BinaryOperationsResult val = null;
-			if (this.r2Constant) {
+			if (this.constantOrderFlipped) {
 				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
-			} else if (this.r3Constant) {
-				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
 			} else {
-				throw new IllegalStateException("Cannot have neitehr r2 nor r3 constant");
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
 			}
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("SUBIS")) {
 			BinaryOperationsResult val = null;
-			if (this.r2Constant) {
+			if (this.constantOrderFlipped) {
 				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
-			} else if (this.r3Constant) {
-				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
 			} else {
-				throw new IllegalStateException("Cannot have neitehr r2 nor r3 constant");
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
 			}
 			destinationRegister.setValue(val.result);
 			val.apply(state);
