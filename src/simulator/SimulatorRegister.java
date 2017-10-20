@@ -2,6 +2,8 @@ package simulator;
 
 import java.util.Collections;
 
+import common.NumberTools;
+
 public class SimulatorRegister {
 	private String value;
 	private int width;
@@ -34,13 +36,21 @@ public class SimulatorRegister {
 	 * @return The register value
 	 */
 	public String getValue() {
-		return this.value.substring(this.value.length() - this.width, this.value.length());
+		return NumberTools.forcelpad(this.value, '0', this.width);
+	}
+	
+	/**
+	 * Get the register value as an integer
+	 * @return The register value
+	 */
+	public long getIntValue() {
+		return NumberTools.binaryStringToNumber(this.getValue());
 	}
 	
 	/**
 	 * Set the register value
 	 */
 	public void setValue(String newValue) {
-		this.value = newValue.substring(newValue.length() - this.width, newValue.length());
+		this.value = NumberTools.forcelpad(newValue, '0', this.width);
 	}
 }

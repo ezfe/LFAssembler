@@ -114,55 +114,55 @@ public class ASInstructionB extends PerformableInstruction {
 		super.perform(state);
 		SimulatorRegister destinationRegister = state.getRegister(this.destinationRegisterNumber);
 		SimulatorRegister leftSourceRegister = state.getRegister(this.sourceRegisterNumber);
-		String rightValue = NumberTools.numberToBinaryString(this.sourceLiteral, state.registerSize);
+		String sourceLiteralBinaryString = NumberTools.numberToBinaryString(this.sourceLiteral, state.registerSize);
 		
 		if (this.token.equals("ADDI")) {
-			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightValue);
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("ADDIS")) {
-			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightValue);
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			destinationRegister.setValue(val.result);
 			val.apply(state);
 		} else if (this.token.equals("SUBI")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
+				val = BinaryOperations.subtract(sourceLiteralBinaryString, leftSourceRegister.getValue());
 			} else {
-				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			}
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("SUBIS")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
+				val = BinaryOperations.subtract(sourceLiteralBinaryString, leftSourceRegister.getValue());
 			} else {
-				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			}
 			destinationRegister.setValue(val.result);
 			val.apply(state);
 		} else if (this.token.equals("ANDI")) {
-			BinaryOperationsResult val = BinaryOperations.and(leftSourceRegister.getValue(), rightValue);
+			BinaryOperationsResult val = BinaryOperations.and(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("ORRI")) {
-			BinaryOperationsResult val = BinaryOperations.or(leftSourceRegister.getValue(), rightValue);
+			BinaryOperationsResult val = BinaryOperations.or(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("EORI")) {
-			BinaryOperationsResult val = BinaryOperations.xor(leftSourceRegister.getValue(), rightValue);
+			BinaryOperationsResult val = BinaryOperations.xor(leftSourceRegister.getValue(), sourceLiteralBinaryString);
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSL")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.lsl(rightValue, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+				val = BinaryOperations.lsl(sourceLiteralBinaryString, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {
-				val = BinaryOperations.lsl(leftSourceRegister.getValue(), NumberTools.binaryStringToNumber(rightValue));
+				val = BinaryOperations.lsl(leftSourceRegister.getValue(), this.sourceLiteral);
 			}
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSR")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.lsr(rightValue, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+				val = BinaryOperations.lsr(sourceLiteralBinaryString, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {
-				val = BinaryOperations.lsr(leftSourceRegister.getValue(), NumberTools.binaryStringToNumber(rightValue));
+				val = BinaryOperations.lsr(leftSourceRegister.getValue(), this.sourceLiteral);
 			}
 			destinationRegister.setValue(val.result);
 		} else {

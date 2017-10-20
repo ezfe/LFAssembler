@@ -110,8 +110,8 @@ public class ASInstructionClassifier {
 				return Optional.of(new ASInstructionB(instruction, binaryString));
 			case "C":
 				return Optional.of(new ASInstructionC(instruction));
-//			case "D":
-//				return Optional.of(new ASInstructionD(instruction, binaryString));
+			case "D":
+				return Optional.of(new ASInstructionD(instruction, binaryString));
 //			case "E":
 //				return Optional.of(new ASInstructionE(instruction, binaryString));
 			case "G":

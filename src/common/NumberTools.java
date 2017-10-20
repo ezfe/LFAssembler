@@ -56,6 +56,12 @@ public class NumberTools {
 		return s + string;
 	}
 	
+	public static String forcelpad(String string, char fill, int width) {
+		String filled = String.format("%" + width + "s", string).replace(' ', fill);
+		String trimmed =  filled.substring(filled.length() - width, filled.length()); 
+		return trimmed; 
+	}
+	
 	public static ArrayList<String> splitAt(String input, int... index) {
 		ArrayList<String> strs = new ArrayList<>();
 		
