@@ -95,12 +95,20 @@ public class ASInstructionA extends AssemblerInstruction {
 		} else if (this.token.equals("ADDS")) {
 			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightSourceRegister.getValue());
 			destinationRegister.setValue(val.result);
+			val.apply(state);
 		} else if (this.token.equals("SUB")) {
 			BinaryOperationsResult val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightSourceRegister.getValue());
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("SUBS")) {
 			BinaryOperationsResult val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightSourceRegister.getValue());
 			destinationRegister.setValue(val.result);
+			val.apply(state);
+		} else if (this.token.equals("AND")) {
+			//TODO
+		} else if (this.token.equals("ORR")) {
+			//TODO
+		} else if (this.token.equals("EOR")) {
+			//TODO
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}

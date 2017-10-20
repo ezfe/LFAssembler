@@ -21,6 +21,28 @@ public class SimulatorState {
 	 */
 	private ArrayList<SimulatorRegister> registers;
 	
+	private boolean isHalted = false;
+	
+	/**
+	 * Negative result flag
+	 */
+	public boolean negative;
+	
+	/**
+	 * Zero result flag
+	 */
+	public boolean zero;
+	
+	/**
+	 * Carry result flag
+	 */
+	public boolean carry;
+	
+	/**
+	 * Overflow result flag
+	 */
+	public boolean overflow;
+	
 	/**
 	 * Create a SimulatorState with parameters
 	 * @param registerCount The number of registers

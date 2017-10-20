@@ -28,5 +28,12 @@ public class BinaryOperationsResult {
 		public BinaryOperationsResult(String result, boolean negative, boolean zero, boolean carry, boolean overflow) {
 			this(result, negative, zero, carry, overflow, false);
 		}
+		
+		public void apply(SimulatorState state) {
+			state.negative = this.negative;
+			state.zero = this.zero;
+			state.carry = this.carry;
+			state.overflow = this.overflow;
+		}
 	}
 	
