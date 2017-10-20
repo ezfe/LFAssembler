@@ -104,4 +104,28 @@ public class BinaryOperations {
 //		
 		return res;
 	}
+	
+	/**
+	 * Logical AND two equally sized binary values
+	 * @param left The first value
+	 * @param right The second value
+	 * @return The resulting value
+	 */
+	public static BinaryOperationsResult and(String left, String right) {
+		if (left.length() != right.length()) {
+			throw new IllegalArgumentException("Binary values must be the same width (" + left.length() + " =/= " + right.length() + ")");
+		}
+		
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < right.length(); i++) {
+			if (left.charAt(i) == '0' || right.charAt(i) == '0') {
+				result.append('0');
+			} else if (left.charAt(i) == '1' && right.charAt(i) == '1') {
+				result.append('1');
+			}
+		}
+		
+		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
+		return res;
+	}
 }

@@ -76,6 +76,7 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 	 * @param address The address
 	 */
 	private void branchWith(SimulatorState state, Optional<Integer> address) {
+		System.out.println("Branch attempted...");
 		if (this.labelAddress.isPresent()) {
 			state.programCounter = this.labelAddress.get();
 		} else {

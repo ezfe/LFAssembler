@@ -100,7 +100,8 @@ public class ASInstructionA extends PerformableInstruction {
 			destinationRegister.setValue(val.result);
 			val.apply(state);
 		} else if (this.token.equals("AND")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.and(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("ORR")) {
 			//TODO
 		} else if (this.token.equals("EOR")) {

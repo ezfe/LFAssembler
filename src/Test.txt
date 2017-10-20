@@ -2,5 +2,24 @@
 .regcnt    4              ; 4 general purpose registers
 .maxmem   0x10000000      ; max memory size is 32 bytes
 
-start: ADDI R0, R0, #1
-B start
+B end
+
+add1:
+ADDI R6, R0, #1
+
+SUBIS R2, R0, #5
+B.EQ sub5				; if R0 == 5 goto sub5
+B add1					; else       goto add1 
+
+dont:
+ADDI R1, R1, #1
+
+sub5:
+
+SUBI R0, R0, #5
+
+B add1
+
+end:
+
+HALT
