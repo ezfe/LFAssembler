@@ -23,14 +23,14 @@ public class Simulator {
 	
 	public void run(String[] args) {
 		this.bits = new BitSet("src/Out2.txt");
-		this.state = new SimulatorState(3, 32);
+		this.state = new SimulatorState(6, 32);
 		
 		SimulatorRegister r0 = this.state.getRegister(0);
 		SimulatorRegister r1 = this.state.getRegister(1);
-		SimulatorRegister r2 = this.state.getRegister(2);
+		SimulatorRegister r4 = this.state.getRegister(4);
 		
-		r1.setValue(NumberTools.numberToBinaryString(12393, 32));
-		r2.setValue(NumberTools.numberToBinaryString(29391, 32));
+		r1.setValue(NumberTools.numberToBinaryString(8, 32));
+		r4.setValue(NumberTools.numberToBinaryString(5, 32));
 		
 		System.out.println(this.state);
 		

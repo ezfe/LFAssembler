@@ -20,6 +20,8 @@ public class SimulatorState {
 	 * The list of registers
 	 */
 	private ArrayList<SimulatorRegister> registers;
+	public final int registerCount;
+	public final int registerSize;
 	
 	private boolean isHalted = false;
 	
@@ -49,6 +51,8 @@ public class SimulatorState {
 	 * @param registerSize The size of the registers
 	 */
 	public SimulatorState(int registerCount, int registerSize) {
+		this.registerCount = registerCount;
+		this.registerSize = registerSize;
 		this.registers = new ArrayList<>();
 		for(int i = 0; i < registerCount; i++) {
 			this.registers.add(new SimulatorRegister(registerSize, i));

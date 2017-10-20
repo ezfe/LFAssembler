@@ -4,6 +4,9 @@ import java.util.Scanner;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
+import simulator.BinaryOperations;
+import simulator.BinaryOperationsResult;
+import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 
 /**
@@ -108,8 +111,42 @@ public class ASInstructionB extends AssemblerInstruction implements Performable 
 
 	@Override
 	public void perform(SimulatorState state) {
-		System.out.println(this.sourceStringRepresentation());
-		System.out.println(this.token + " is unimplemented");
+		System.out.println("Performing " + this.sourceStringRepresentation());
+		SimulatorRegister destinationRegister = state.getRegister(this.r1);
+		SimulatorRegister leftSourceRegister = state.getRegister(this.r2);
+		String rightValue = NumberTools.numberToBinaryString(this.r3, state.registerSize);
+		
+		if (this.token.equals("ADDI")) {
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightValue);
+			destinationRegister.setValue(val.result);
+		} else if (this.token.equals("ADDIS")) {
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightValue);
+			destinationRegister.setValue(val.result);
+			val.apply(state);
+		} else if (this.token.equals("SUBI")) {
+			BinaryOperationsResult val = null;
+			if (this.r2Constant) {
+				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
+			} else if (this.r3Constant) {
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
+			} else {
+				throw new IllegalStateException("Cannot have neitehr r2 nor r3 constant");
+			}
+			destinationRegister.setValue(val.result);
+		} else if (this.token.equals("SUBIS")) {
+			BinaryOperationsResult val = null;
+			if (this.r2Constant) {
+				val = BinaryOperations.subtract(rightValue, leftSourceRegister.getValue());
+			} else if (this.r3Constant) {
+				val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightValue);
+			} else {
+				throw new IllegalStateException("Cannot have neitehr r2 nor r3 constant");
+			}
+			destinationRegister.setValue(val.result);
+			val.apply(state);
+		} else {
+			System.out.println(this.token + " is unimplemented");
+		}
 	}
 
 }
