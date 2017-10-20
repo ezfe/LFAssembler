@@ -42,7 +42,7 @@ public class BinaryOperations {
 				res = 2;
 			} else if (carry && top == '1' && bottom == '0') {
 				res = 2;
-			} else if (carry && top == '1' && bottom == '1') {
+			} else { // (carry && top == '1' && bottom == '1')
 				res = 3;
 			}
 			
@@ -88,7 +88,7 @@ public class BinaryOperations {
 			char c = right.charAt(i);
 			if (c == '0') {
 				result.append('1');
-			} else if (c == '1') {
+			} else { // c == '1'
 				result.append('0');
 			}
 		}
@@ -120,8 +120,56 @@ public class BinaryOperations {
 		for(int i = 0; i < right.length(); i++) {
 			if (left.charAt(i) == '0' || right.charAt(i) == '0') {
 				result.append('0');
-			} else if (left.charAt(i) == '1' && right.charAt(i) == '1') {
+			} else { // left.charAt(i) == '1' && right.charAt(i) == '1'
 				result.append('1');
+			}
+		}
+		
+		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
+		return res;
+	}
+	
+	/**
+	 * Logical OR two equally sized binary values
+	 * @param left The first value
+	 * @param right The second value
+	 * @return The resulting value
+	 */
+	public static BinaryOperationsResult or(String left, String right) {
+		if (left.length() != right.length()) {
+			throw new IllegalArgumentException("Binary values must be the same width (" + left.length() + " =/= " + right.length() + ")");
+		}
+		
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < right.length(); i++) {
+			if (left.charAt(i) == '1' || right.charAt(i) == '1') {
+				result.append('1');
+			} else { // left.charAt(i) == '0' && right.charAt(i) == '0'
+				result.append('0');
+			}
+		}
+		
+		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
+		return res;
+	}
+	
+	/**
+	 * Logical XOR two equally sized binary values
+	 * @param left The first value
+	 * @param right The second value
+	 * @return The resulting value
+	 */
+	public static BinaryOperationsResult xor(String left, String right) {
+		if (left.length() != right.length()) {
+			throw new IllegalArgumentException("Binary values must be the same width (" + left.length() + " =/= " + right.length() + ")");
+		}
+		
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < right.length(); i++) {
+			if ((left.charAt(i) == '1' && right.charAt(i) == '0') || (left.charAt(i) == '0' && right.charAt(i) == '1')) {
+				result.append('1');
+			} else { // (left.charAt(i) == '0' && right.charAt(i) == '0') || (left.charAt(i) == '1' && right.charAt(i) == '1')
+				result.append('0');
 			}
 		}
 		

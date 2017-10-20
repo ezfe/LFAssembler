@@ -103,9 +103,11 @@ public class ASInstructionA extends PerformableInstruction {
 			BinaryOperationsResult val = BinaryOperations.and(leftSourceRegister.getValue(), rightSourceRegister.getValue());
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("ORR")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.or(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("EOR")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.xor(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}
