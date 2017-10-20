@@ -2,12 +2,13 @@ package simulator;
 
 import java.util.Optional;
 
-import assembler.ASInstructionClassifier;
 import common.BitSet;
 import common.Constants;
 import common.NumberTools;
 import instructions.ASInstructionA;
+import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
+import instructions.Performable;
 
 public class Simulator {
 
@@ -43,8 +44,8 @@ public class Simulator {
 				Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
 				if (instructionOpt.isPresent()) {
 					AssemblerInstruction instruction = instructionOpt.get();
-					if (instruction instanceof ASInstructionA) {
-						((ASInstructionA) instruction).perform(this.state);
+					if (instruction instanceof Performable) {
+						((Performable) instruction).perform(this.state);
 						System.out.println(this.state);
 					}
 				} else {

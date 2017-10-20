@@ -16,7 +16,7 @@ import simulator.SimulatorState;
  *
  */
 
-public class ASInstructionA extends AssemblerInstruction {
+public class ASInstructionA extends AssemblerInstruction implements Performable {
 	
 	/**
 	 * Register
@@ -79,10 +79,7 @@ public class ASInstructionA extends AssemblerInstruction {
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
 	}
 	
-	/**
-	 * Perform the instruction
-	 * @param state The simulator state
-	 */
+	@Override
 	public void perform(SimulatorState state) {
 		System.out.println("Performing " + this.sourceStringRepresentation());
 		SimulatorRegister destinationRegister = state.getRegister(this.r1);

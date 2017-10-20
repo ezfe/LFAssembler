@@ -4,13 +4,14 @@ import java.util.Scanner;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
+import simulator.SimulatorState;
 
 /**
  * 
  * @author Ezekiel Elin
  *
  */
-public class ASInstructionB extends AssemblerInstruction {
+public class ASInstructionB extends AssemblerInstruction implements Performable {
 
 	/**
 	 * Register
@@ -61,6 +62,27 @@ public class ASInstructionB extends AssemblerInstruction {
 		if (!r3Constant) AssemblerInstruction.checkRegister(r3);
 	}
 	
+	public ASInstructionB(String token, String binaryRepresentation) {
+		this.token = token;
+		
+		int start = Constants.OPCODE_LENGTH;
+		int end = start + Constants.REGISTER_LENGTH;
+		this.r1 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		
+		start = end;
+		end += 1;
+		this.r3Constant = binaryRepresentation.substring(start, end).equals("0") ? true : false;
+		this.r2Constant = !r3Constant;
+		
+		start = end;
+		end += Constants.REGISTER_LENGTH;
+		this.r2 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+
+		start = end;
+		end += Constants.LITERAL_LENGTH;
+		this.r3 = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+	}
+	
 	@Override
 	public String sourceStringRepresentation() {
 		return "" + this.token + " R" + this.r1 + " " + (this.r2Constant ? "#" : "R") + this.r2 + " "  + (this.r3Constant ? "#" : "R") + this.r3;
@@ -82,6 +104,12 @@ public class ASInstructionB extends AssemblerInstruction {
 		}
 		
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
+	}
+
+	@Override
+	public void perform(SimulatorState state) {
+		System.out.println(this.sourceStringRepresentation());
+		System.out.println(this.token + " is unimplemented");
 	}
 
 }

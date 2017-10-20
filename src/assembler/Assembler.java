@@ -20,6 +20,7 @@ import common.Directive;
 import common.Label;
 import common.NumberTools;
 import common.Token;
+import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 
 /**

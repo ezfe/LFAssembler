@@ -1,4 +1,4 @@
-package assembler;
+package instructions;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,14 +8,6 @@ import java.util.Scanner;
 
 import common.BitIndex;
 import common.IllegalRegisterException;
-import instructions.ASInstructionA;
-import instructions.ASInstructionB;
-import instructions.ASInstructionC;
-import instructions.ASInstructionD;
-import instructions.ASInstructionE;
-import instructions.ASInstructionG;
-import instructions.ASInstructionH;
-import instructions.AssemblerInstruction;
 
 /**
  * 
@@ -116,8 +108,8 @@ public class ASInstructionClassifier {
 			switch (type.get()) {
 			case "A":
 				return Optional.of(new ASInstructionA(instruction, binaryString));
-//			case "B":
-//				return Optional.of(new ASInstructionB(instruction, binaryString));
+			case "B":
+				return Optional.of(new ASInstructionB(instruction, binaryString));
 //			case "C":
 //				return Optional.of(new ASInstructionC(instruction));
 //			case "D":
