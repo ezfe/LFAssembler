@@ -1,4 +1,4 @@
-package simulator;
+package common;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -171,6 +171,43 @@ public class BinaryOperations {
 			} else { // (left.charAt(i) == '0' && right.charAt(i) == '0') || (left.charAt(i) == '1' && right.charAt(i) == '1')
 				result.append('0');
 			}
+		}
+		
+		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
+		return res;
+	}
+	
+	/**
+	 * Logical shift right
+	 * @param value The value
+	 * @param shift The shift amount
+	 * @return The resulting value
+	 */
+	public static BinaryOperationsResult lsr(String value, int shift) {
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < value.length(); i++) {
+			if (i < shift) {
+				result.append('0');
+			} else {
+				result.append(value.charAt(i - shift));
+			}
+		}
+		
+		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
+		return res;
+	}
+	
+	/**
+	 * Logical shift left
+	 * @param value The value
+	 * @param shift The shift amount
+	 * @return The resulting value
+	 */
+	public static BinaryOperationsResult lsl(String value, int shift) {
+		StringBuilder result = new StringBuilder();
+		result.append(value.substring(shift));
+		while (result.length() < value.length()) {
+			result.append('0');
 		}
 		
 		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());

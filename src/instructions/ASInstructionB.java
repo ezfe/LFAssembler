@@ -1,11 +1,11 @@
 package instructions;
 import java.util.Scanner;
 
+import common.BinaryOperations;
+import common.BinaryOperationsResult;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
-import simulator.BinaryOperations;
-import simulator.BinaryOperationsResult;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 
@@ -141,15 +141,30 @@ public class ASInstructionB extends PerformableInstruction {
 			destinationRegister.setValue(val.result);
 			val.apply(state);
 		} else if (this.token.equals("ANDI")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.and(leftSourceRegister.getValue(), rightValue);
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("ORRI")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.or(leftSourceRegister.getValue(), rightValue);
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("EORI")) {
-			//TODO
+			BinaryOperationsResult val = BinaryOperations.xor(leftSourceRegister.getValue(), rightValue);
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSL")) {
-			//TODO
+			BinaryOperationsResult val = null;
+			if (this.constantOrderFlipped) {
+				val = BinaryOperations.lsl(rightValue, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+			} else {
+				val = BinaryOperations.lsl(leftSourceRegister.getValue(), NumberTools.binaryStringToNumber(rightValue));
+			}
+			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSR")) {
-			//TODO
+			BinaryOperationsResult val = null;
+			if (this.constantOrderFlipped) {
+				val = BinaryOperations.lsr(rightValue, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+			} else {
+				val = BinaryOperations.lsr(leftSourceRegister.getValue(), NumberTools.binaryStringToNumber(rightValue));
+			}
+			destinationRegister.setValue(val.result);
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}

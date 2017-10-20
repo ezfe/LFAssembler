@@ -1,4 +1,6 @@
-package simulator;
+package common;
+
+import simulator.SimulatorState;
 
 public class BinaryOperationsResult {
 		public String result;

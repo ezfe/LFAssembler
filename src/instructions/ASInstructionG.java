@@ -4,10 +4,10 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import assembler.LabelInstruction;
+import common.BinaryOperations;
+import common.BinaryOperationsResult;
 import common.Constants;
 import common.NumberTools;
-import simulator.BinaryOperations;
-import simulator.BinaryOperationsResult;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 

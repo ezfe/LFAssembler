@@ -1,11 +1,11 @@
 package instructions;
 import java.util.Scanner;
 
+import common.BinaryOperations;
+import common.BinaryOperationsResult;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
-import simulator.BinaryOperations;
-import simulator.BinaryOperationsResult;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 
