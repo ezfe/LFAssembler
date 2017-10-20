@@ -44,7 +44,7 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 		if (this.labelValue.isPresent()) {
 			return "" + this.token + " " + this.labelValue.get();
 		} else if (this.labelAddress.isPresent()) {
-			return "" + this.token + " " + Integer.toHexString(this.labelAddress.get());
+			return "" + this.token + " 0x" + Integer.toHexString(this.labelAddress.get());
 		} else {
 			throw new IllegalStateException("G-format instructions must have either a label address or location");
 		}
@@ -69,38 +69,58 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 		return labelValue.get();
 	}
 	
+	/**
+	 * Attempts to modify the passed simulator state with the passed address.
+	 * 
+	 * @param state The simulator state
+	 * @param address The address
+	 */
+	private void branchWith(SimulatorState state, Optional<Integer> address) {
+		if (this.labelAddress.isPresent()) {
+			state.programCounter = this.labelAddress.get();
+		} else {
+			throw new IllegalStateException("No labelAddress found");
+		}
+	}
+	
 	@Override
 	public void perform(SimulatorState state) {
 		super.perform(state);
-
+		
 		if (this.token.equals("B")) {
-			if (this.labelAddress.isPresent()) {
-				state.programCounter = this.labelAddress.get();
-			} else {
-				throw new IllegalStateException("No labelAddress found");
-			}
+			branchWith(state, labelAddress);
 		} else if (this.token.equals("BL")) {
 			//TODO
 		} else if (this.token.equals("B.EQ")) {
-			//TODO
+			/* Z = 1 */
+			if (state.zero) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.NE")) {
-			//TODO
+			/* Z = 0 */
+			if (!state.zero) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.LT")) {
-			//TODO
+			/* N != V */
+			if (state.negative != state.overflow) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.LE")) {
-			//TODO
+			/* ~(Z = 0 & N = V) */
+			if (!(!state.zero && state.negative == state.overflow)) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.GT")) {
-			//TODO
+			/* Z = 0 & N = V */
+			if (!state.zero && state.negative == state.overflow) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.GE")) {
-			//TODO
+			/* N = V */
+			if (state.negative == state.overflow) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.MI")) {
-			//TODO
+			/* N = 1 */
+			if (state.negative) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.PL")) {
-			//TODO
+			/* N = 0 */
+			if (!state.negative) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.VS")) {
-			//TODO
+			/* V = 1 */
+			if (state.overflow) this.branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.VC")) {
-			//TODO
+			/* V = 0 */
+			if (!state.overflow) this.branchWith(state, this.labelAddress);
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}
