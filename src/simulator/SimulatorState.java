@@ -1,7 +1,6 @@
 package simulator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import common.BitSet;
 
@@ -26,6 +25,7 @@ public class SimulatorState {
 	public final int registerSize;
 	
 	public BitSet memory;
+	public int programCounter;
 	
 	/**
 	 * Has the simulator halted execution
@@ -65,6 +65,7 @@ public class SimulatorState {
 			this.registers.add(new SimulatorRegister(registerSize, i));
 		}
 		
+		this.programCounter = 0;
 		this.memory = new BitSet(bitsPath);
 	}
 	

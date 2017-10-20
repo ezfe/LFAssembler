@@ -1,12 +1,10 @@
 package instructions;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 
-import common.BitIndex;
 import common.IllegalRegisterException;
 
 /**
@@ -116,8 +114,8 @@ public class ASInstructionClassifier {
 //				return Optional.of(new ASInstructionD(instruction, binaryString));
 //			case "E":
 //				return Optional.of(new ASInstructionE(instruction, binaryString));
-//			case "G":
-//				return Optional.of(new ASInstructionG(instruction, binaryString));
+			case "G":
+				return Optional.of(new ASInstructionG(instruction, binaryString));
 //			case "H":
 //				return Optional.of(new ASInstructionH(instruction, binaryString));
 			}

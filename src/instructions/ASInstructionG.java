@@ -1,33 +1,60 @@
 package instructions;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import assembler.LabelInstruction;
 import common.Constants;
-import common.IllegalRegisterException;
 import common.NumberTools;
+import simulator.BinaryOperations;
+import simulator.BinaryOperationsResult;
+import simulator.SimulatorRegister;
+import simulator.SimulatorState;
 
-public class ASInstructionG extends AssemblerInstruction implements LabelInstruction {
+public class ASInstructionG extends PerformableInstruction implements LabelInstruction {
 	/**
 	 * Memory address label
 	 */
-	private String r1;
+	private Optional<String> labelValue;
 	
-	public ASInstructionG(String token, Scanner scanner) throws IllegalRegisterException {
+	/**
+	 * Memory address
+	 */
+	private Optional<Integer> labelAddress;
+	
+	public ASInstructionG(String token, Scanner scanner) {
 		this.token = token;
 		
-		this.r1 = scanner.next();
+		this.labelValue = Optional.ofNullable(scanner.next());
+		this.labelAddress = Optional.empty();
+	}
+	
+	public ASInstructionG(String token, String binaryRepresentation) {
+		this.token = token;
+		
+		this.labelValue = Optional.empty();
+		
+		int start = Constants.OPCODE_LENGTH;
+		int end = start + Constants.MEMADDR_LENGTH;
+		this.labelAddress = Optional.of(NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end)));
 	}
 	
 	@Override
 	public String sourceStringRepresentation() {
-		return "" + this.token + " " + this.r1;
+		if (this.labelValue.isPresent()) {
+			return "" + this.token + " " + this.labelValue.get();
+		} else if (this.labelAddress.isPresent()) {
+			return "" + this.token + " " + Integer.toHexString(this.labelAddress.get());
+		} else {
+			throw new IllegalStateException("G-format instructions must have either a label address or location");
+		}
 	}
 
 	@Override
 	public String binaryStringRepresentation() {
-		String r1String = NumberTools.numberToBinaryString(/*this.r1*/0, Constants.MEMADDR_LENGTH);
-		String instruction = this.opcodeBinaryString() + r1String;
+		//If we have an address, fill it in. Otherwise, fill in zeros.
+		String addressBinaryString = NumberTools.numberToBinaryString(this.labelAddress.orElse(0), Constants.MEMADDR_LENGTH);
+		String instruction = this.opcodeBinaryString() + addressBinaryString;
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
 	}
 
@@ -39,7 +66,43 @@ public class ASInstructionG extends AssemblerInstruction implements LabelInstruc
 
 	@Override
 	public String getLabel() {
-		return r1;
+		return labelValue.get();
 	}
+	
+	@Override
+	public void perform(SimulatorState state) {
+		super.perform(state);
 
+		if (this.token.equals("B")) {
+			if (this.labelAddress.isPresent()) {
+				state.programCounter = this.labelAddress.get();
+			} else {
+				throw new IllegalStateException("No labelAddress found");
+			}
+		} else if (this.token.equals("BL")) {
+			//TODO
+		} else if (this.token.equals("B.EQ")) {
+			//TODO
+		} else if (this.token.equals("B.NE")) {
+			//TODO
+		} else if (this.token.equals("B.LT")) {
+			//TODO
+		} else if (this.token.equals("B.LE")) {
+			//TODO
+		} else if (this.token.equals("B.GT")) {
+			//TODO
+		} else if (this.token.equals("B.GE")) {
+			//TODO
+		} else if (this.token.equals("B.MI")) {
+			//TODO
+		} else if (this.token.equals("B.PL")) {
+			//TODO
+		} else if (this.token.equals("B.VS")) {
+			//TODO
+		} else if (this.token.equals("B.VC")) {
+			//TODO
+		} else {
+			System.out.println(this.token + " is unimplemented");
+		}
+	}
 }

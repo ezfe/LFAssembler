@@ -140,6 +140,16 @@ public class ASInstructionB extends PerformableInstruction {
 			}
 			destinationRegister.setValue(val.result);
 			val.apply(state);
+		} else if (this.token.equals("ANDI")) {
+			//TODO
+		} else if (this.token.equals("ORRI")) {
+			//TODO
+		} else if (this.token.equals("EORI")) {
+			//TODO
+		} else if (this.token.equals("LSL")) {
+			//TODO
+		} else if (this.token.equals("LSR")) {
+			//TODO
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}

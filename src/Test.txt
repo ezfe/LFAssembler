@@ -2,8 +2,5 @@
 .regcnt    4              ; 4 general purpose registers
 .maxmem   0x10000000      ; max memory size is 32 bytes
 
-ADDI R0, R0, #5 ;should leave 5 in r0
-ADDI R1, R0, #4 ;should leave 9 in r1
-SUBI R2 R1, #8 ;should leave 1 in r2
-NOP
-HALT
+start: ADDI R0, R0, #1
+B start
