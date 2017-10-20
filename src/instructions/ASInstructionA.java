@@ -1,11 +1,12 @@
 package instructions;
 import java.util.Scanner;
 
-import common.BinaryOperations;
 import common.BitSet;
 import common.Constants;
 import common.IllegalRegisterException;
 import common.NumberTools;
+import simulator.BinaryOperations;
+import simulator.BinaryOperationsResult;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 
@@ -88,14 +89,20 @@ public class ASInstructionA extends AssemblerInstruction {
 		SimulatorRegister leftSourceRegister = state.getRegister(this.r2);
 		SimulatorRegister rightSourceRegister = state.getRegister(this.r3);
 		
-		switch (this.token) {
-		case "ADD":
-			String val = BinaryOperations.add(leftSourceRegister.getValue(), rightSourceRegister.getValue());
-			destinationRegister.setValue(val);
-			break;
-		default:
+		if (this.token.equals("ADD")) {
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
+		} else if (this.token.equals("ADDS")) {
+			BinaryOperationsResult val = BinaryOperations.add(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
+		} else if (this.token.equals("SUB")) {
+			BinaryOperationsResult val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
+		} else if (this.token.equals("SUBS")) {
+			BinaryOperationsResult val = BinaryOperations.subtract(leftSourceRegister.getValue(), rightSourceRegister.getValue());
+			destinationRegister.setValue(val.result);
+		} else {
 			System.out.println(this.token + " is unimplemented");
-			break;
 		}
 	}
 }

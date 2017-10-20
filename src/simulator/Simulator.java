@@ -24,6 +24,13 @@ public class Simulator {
 		this.bits = new BitSet("src/Out2.txt");
 		this.state = new SimulatorState(3, 32);
 		
+		SimulatorRegister r0 = this.state.getRegister(0);
+		SimulatorRegister r1 = this.state.getRegister(1);
+		SimulatorRegister r2 = this.state.getRegister(2);
+		
+		r1.setValue(NumberTools.numberToBinaryString(12393, 32));
+		r2.setValue(NumberTools.numberToBinaryString(29391, 32));
+		
 		System.out.println(this.state);
 		
 		int index = 0;
