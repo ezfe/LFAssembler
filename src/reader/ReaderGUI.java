@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,8 +25,8 @@ public class ReaderGUI extends JFrame {
 	private JScrollPane scroller = null;
 	private JTextArea textArea = null;
 	
-	private JTextField startAddressField = null;
-	private JTextField endAddressField = null;
+	private JTextField examineField = null;
+	private JLabel examineOut = null;
 	
 	public ReaderGUI() {
 		this.createUI();
@@ -39,8 +40,7 @@ public class ReaderGUI extends JFrame {
 	
 	private void updateUI() {
 		this.textArea.setText(this.bits.toByteString(0, 0));
-		startAddressField.setText("0x0");
-		endAddressField.setText("0x" + Integer.toHexString(this.bits.getByteCount() - 1));
+		examineField.setText("0x0");
 	}
 	
 	private void createUI() {
@@ -58,10 +58,10 @@ public class ReaderGUI extends JFrame {
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
 		JPanel delimeterFields = new JPanel();
-		startAddressField = new JTextField(8);
-		endAddressField = new JTextField(8);
-		delimeterFields.add(startAddressField, BorderLayout.WEST);
-		delimeterFields.add(endAddressField, BorderLayout.EAST);
+		examineField = new JTextField(8);
+		examineOut = new JLabel("");
+		delimeterFields.add(examineField, BorderLayout.NORTH);
+		delimeterFields.add(examineOut, BorderLayout.SOUTH);
 		
 		getContentPane().add(delimeterFields, BorderLayout.NORTH);
 		getContentPane().add(scroller, BorderLayout.CENTER);	

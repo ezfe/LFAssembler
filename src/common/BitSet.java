@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -16,6 +17,7 @@ public class BitSet {
 	 * The bytes
 	 */
 	private ArrayList<Byte> byteArray = new ArrayList<>();
+	public final String configurationBytes;
 	
 	/**
 	 * The maximum byte count allowed
@@ -23,13 +25,6 @@ public class BitSet {
 	 * Use Long.MAX_VALUE to represent uncapped
 	 */
 	private long maxByteCount = Long.MAX_VALUE;
-	
-	/**
-	 * Indicates the first four bits of the BitSet are configuration bits
-	 * 
-	 *  Can be removed with removeConfigurationBytes()
-	 */
-	private boolean includesConfiguration = false;
 	
 	/**
 	 * The length of last byte in the bits array
@@ -43,7 +38,7 @@ public class BitSet {
 	 * Create an empty BitSet object
 	 */
 	public BitSet() {
-		
+		this.configurationBytes = null;
 	}
 	
 	/**
@@ -52,6 +47,7 @@ public class BitSet {
 	 */
 	public BitSet(byte b) {
 		this.appendByte(b);
+		this.configurationBytes = null;
 	}
 	
 	/**
@@ -60,6 +56,7 @@ public class BitSet {
 	 */
 	public BitSet(byte[] bites) {
 		this.appendBytes(bites);
+		this.configurationBytes = null;
 	}
 	
 	/**
@@ -75,8 +72,15 @@ public class BitSet {
 			e.printStackTrace();
 			bites = new byte[0];
 		}
-		this.appendBytes(bites);
-		this.includesConfiguration = true;
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(NumberTools.numberToBinaryString(bites[3], 8));
+		builder.append(NumberTools.numberToBinaryString(bites[2], 8));
+		builder.append(NumberTools.numberToBinaryString(bites[1], 8));
+		builder.append(NumberTools.numberToBinaryString(bites[0], 8));
+		this.configurationBytes = builder.toString();
+		
+		this.appendBytes(Arrays.copyOfRange(bites, 4, bites.length));
 	}
 
 	/**
@@ -124,17 +128,6 @@ public class BitSet {
 		} else {
 			throw new IndexOutOfBoundsException("Byte " + byteAddress + " is too large");
 		}
-	}
-	
-	/**
-	 * Remove configuration bytes
-	 */
-	public void removeConfigurationBytes() {
-		this.removeByte(0);
-		this.removeByte(0);
-		this.removeByte(0);
-		this.removeByte(0);
-		this.includesConfiguration = false;
 	}
 	
 	/**
@@ -252,10 +245,10 @@ public class BitSet {
 	 */
 	public String toByteString(int start, int end) {
 		StringBuilder sb = new StringBuilder();
-		int maxwidth = Integer.toHexString(this.byteArray.size() - 1 - (this.includesConfiguration ? 4 : 0)).length();
+		int maxwidth = Integer.toHexString(this.byteArray.size() - 1).length();
 		System.out.println(maxwidth);
 		for(int i = this.byteArray.size() - 1; i >= 0; i--) {
-			sb.append("0x" + NumberTools.numberToHexString(i - (this.includesConfiguration ? 4 : 0), maxwidth) + " ");
+			sb.append("0x" + NumberTools.numberToHexString(i, maxwidth) + " ");
 			byte b = this.byteArray.get(i).byteValue();
 			sb.append(NumberTools.numberToBinaryString(b, 8));
 			sb.append("\n");

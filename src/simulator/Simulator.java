@@ -19,40 +19,41 @@ public class Simulator {
 	
 	public static void main(String[] args) throws InterruptedException {
 		ASInstructionClassifier.populate("src/ASISpec.txt");
-		Simulator simulator = new Simulator();
+		
+		Simulator simulator = new Simulator("src/Out2.txt");
 		simulator.run(args);
 	}
 	
-	public void run(String[] args) throws InterruptedException {
-		BitSet readBits = new BitSet("src/Out2.txt");
-		ProgramConfiguration conf = new ProgramConfiguration(readBits.readBytes(0, 4));
-		/* Remove the first four bytes */
-		readBits.removeConfigurationBytes();
+	public Simulator(String path) {
+		BitSet readBits = new BitSet(path);
+
+		ProgramConfiguration conf = new ProgramConfiguration(readBits.configurationBytes);
 		
 		readBits.setMaxByteCount(conf.getMaxMemory());
 		this.state = new SimulatorState((int) conf.getRegisterCount(), (int) conf.getWordSize(), readBits);
 		this.state.stackRegister.setValue(NumberTools.numberToBinaryString(conf.getStackAddress(), Constants.MEMADDR_LENGTH));
+	}
+	
+	public void run(String[] args) throws InterruptedException {
 				
 		System.out.println(this.state);
 		
-		long delay = 5;
 		while (!this.state.isHalted) {
-			step();
 			if (timeout < 0) {
-				if (true) {//!autostep) {
-					System.out.println("Press any key to step, or x to exit");
-					Scanner sc = new Scanner(System.in);
-					String next = sc.nextLine().trim();
-					if (next.equals("x")) {
-						this.state.isHalted = true;
-					}
+				System.out.println("Press any key to step, or x to exit");
+				Scanner sc = new Scanner(System.in);
+				String next = sc.nextLine().trim();
+				if (next.equals("x")) {
+					System.out.println("Manual termination");
+					break;
 				}
-
+				sc.close();
 			} else if (timeout > 0) {
 				TimeUnit.SECONDS.sleep(timeout);
 			}
+			step();
 		}
-		System.out.println("Terminated...");
+		System.out.println("Finished execution...");
 	}
 	
 	private void step() {
