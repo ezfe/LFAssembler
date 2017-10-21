@@ -14,8 +14,6 @@ import instructions.PerformableInstruction;
 import reader.ReaderView;
 
 public class SimulatorController {
-
-    ReaderView memoryViewer;
     SimulatorView simulatorViewer;
 
 	long timeout = -1;
@@ -25,7 +23,6 @@ public class SimulatorController {
 		ASInstructionClassifier.populate("src/ASISpec.txt");
 
 		SimulatorController simulator = new SimulatorController("src/Out2.txt");
-		simulator.run(args);
 	}
 
 	public SimulatorController(String path) {
@@ -37,56 +34,6 @@ public class SimulatorController {
 		this.state = new SimulatorState((int) conf.getRegisterCount(), (int) conf.getWordSize(), readBits);
 		this.state.stackRegister.setValue(NumberTools.numberToBinaryString(conf.getStackAddress(), Constants.MEMADDR_LENGTH));
 
-		this.memoryViewer = ReaderView.show(readBits);
-	}
-	
-	public void run(String[] args) throws InterruptedException {
-				
-		System.out.println(this.state);
-		Scanner sc = new Scanner(System.in);
-		
-		while (!this.state.isHalted) {
-			if (timeout < 0) {
-				System.out.println("Press any key to step, or x to exit");
-				if (sc.hasNextLine()) {
-					String next = sc.nextLine().trim();
-					if (next.equals("x")) {
-						System.out.println("Manual termination");
-						break;
-					}
-				}
-			} else if (timeout > 0) {
-				TimeUnit.SECONDS.sleep(timeout);
-			}
-			step();
-			memoryViewer.updateMemoryViewport();
-		}
-
-		sc.close();
-		System.out.println("Finished execution...");
-	}
-	
-	private void step() {
-		int currentIndex = this.state.programCounter;
-		this.state.programCounter += 4;
-		
-		String instructionString = this.state.memory.readInstruction(currentIndex);
-		String opcodeBinaryString = instructionString.substring(0, Constants.OPCODE_LENGTH);
-		Optional<String> opcodeName = ASInstructionClassifier.getName((int) NumberTools.binaryStringToNumber(opcodeBinaryString));
-		
-		if (opcodeName.isPresent()) {
-			Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
-			if (instructionOpt.isPresent()) {
-				AssemblerInstruction instruction = instructionOpt.get();
-				if (instruction instanceof PerformableInstruction) {
-					((PerformableInstruction) instruction).perform(this.state);
-					System.out.println(this.state);
-				}
-			} else {
-				System.out.println("Unable to make " + opcodeName.get() + " into an AssemblerInstruction");
-			}
-		} else {
-			System.out.println("Unable to make " + opcodeBinaryString + " into an opcode name");
-		}
+        this.simulatorViewer = SimulatorView.show(state);
 	}
 }
