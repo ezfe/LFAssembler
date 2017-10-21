@@ -22,6 +22,8 @@ public class Simulator {
 		
 		Simulator simulator = new Simulator("src/Out2.txt");
 		simulator.run(args);
+
+		SimulatorController.main(new String[0]);
 	}
 	
 	public Simulator(String path) {
