@@ -1,6 +1,9 @@
-.wordsize 32              ; sets the machine wordsize
+.wordsize 16              ; sets the machine wordsize
 .regcnt    4              ; 4 general purpose registers
-.maxmem   8      ; max memory size is 32 bytes
+.maxmem   0x10000000      ; max memory size is 32 bytes
 
-NOP
-NOP
+BL lol
+HALT
+
+lol:
+BR LINK
