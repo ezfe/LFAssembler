@@ -12,19 +12,20 @@ import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 import instructions.PerformableInstruction;
 
-public class Simulator {
+public class SimulatorController {
 
 	long timeout = -1;
 	SimulatorState state = null;
 	
 	public static void main(String[] args) throws InterruptedException {
 		ASInstructionClassifier.populate("src/ASISpec.txt");
-		
-		Simulator simulator = new Simulator("src/Out2.txt");
-		simulator.run(args);
+
+		SimulatorView.show();
+//		SimulatorController simulator = new SimulatorController("src/Out2.txt");
+//		simulator.run(args);
 	}
 	
-	public Simulator(String path) {
+	public SimulatorController(String path) {
 		BitSet readBits = new BitSet(path);
 
 		ProgramConfiguration conf = new ProgramConfiguration(readBits.configurationBytes);

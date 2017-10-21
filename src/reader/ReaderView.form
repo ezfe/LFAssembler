@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="reader.ReaderController">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="reader.ReaderView">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -7,20 +7,12 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="a6ede" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
-        <constraints border-constraint="Center"/>
-        <properties>
-          <columns value="16"/>
-          <font name="Courier" size="12" style="0"/>
-          <text value=""/>
-        </properties>
-      </component>
       <grid id="8ea70" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="North"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="3ebff" class="javax.swing.JLabel">
+          <component id="3ebff" class="javax.swing.JLabel" binding="readOutLabel">
             <constraints border-constraint="South"/>
             <properties>
               <text value="EXAMPLE OP OP OP"/>
@@ -46,6 +38,23 @@
           <text value="Reload From File"/>
         </properties>
       </component>
+      <scrollpane id="488aa">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="a6ede" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+            <constraints/>
+            <properties>
+              <columns value="16"/>
+              <editable value="false"/>
+              <font name="Courier" size="12" style="0"/>
+              <rows value="24"/>
+              <text value="No memory loaded..."/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

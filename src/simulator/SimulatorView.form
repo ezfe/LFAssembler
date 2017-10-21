@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="simulator.SimulatorView">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="be687">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="de61" class="javax.swing.JTextArea" binding="simulatorStateTextArea">
+            <constraints/>
+            <properties>
+              <columns value="32"/>
+              <font name="Courier" size="12" style="0"/>
+              <rows value="32"/>
+              <text value="Not loaded..."/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="a4875" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="c0a01" class="javax.swing.JButton" binding="stepButton" default-binding="true">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="Step"/>
+            </properties>
+          </component>
+          <component id="83ad6" class="javax.swing.JSlider" binding="simulatorSpeed">
+            <constraints border-constraint="North"/>
+            <properties>
+              <majorTickSpacing value="1"/>
+              <maximum value="4"/>
+              <minimum value="0"/>
+              <paintLabels value="true"/>
+              <paintTicks value="true"/>
+              <paintTrack value="true"/>
+              <snapToTicks value="true"/>
+              <value value="0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -1,6 +1,6 @@
 package reader;
 
-import javax.swing.*;
+import instructions.ASInstructionClassifier;
 
 /**
  * 
@@ -9,7 +9,8 @@ import javax.swing.*;
  */
 public class Reader {
 	public static void main(String[] args) {
-        ReaderController.main(new String[0]);
+        ASInstructionClassifier.populate("src/ASISpec.txt");
+        ReaderView.show(null);
 	}
 
 }

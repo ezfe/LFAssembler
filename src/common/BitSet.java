@@ -3,6 +3,7 @@ package common;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,16 +60,23 @@ public class BitSet {
 		this.appendBytes(bites);
 		this.configurationBytes = null;
 	}
-	
-	/**
-	 * Create a BitSet object from a file
-	 * @param string The path to the file
-	 */
-	public BitSet(File file) {
 
+    /**
+     * Create a BitSet object from a path
+     * @param path The path
+     */
+	public BitSet(String path) {
+	    this(Paths.get(path));
+    }
+
+	/**
+	 * Create a BitSet object from a path
+	 * @param path The path
+	 */
+	public BitSet(Path path) {
 		byte[] bites;
 		try {
-			bites = Files.readAllBytes(Paths.get(string));
+			bites = Files.readAllBytes(path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,11 +249,9 @@ public class BitSet {
 	
 	/**
 	 * Format the BitSet by byte
-	 * @param start The byte index to start at
-	 * @param end The byte index to end at
 	 * @return The formatted string
 	 */
-	public String toByteString(int start, int end) {
+	public String toByteString() {
 		StringBuilder sb = new StringBuilder();
 		int maxwidth = Integer.toHexString(this.byteArray.size() - 1).length();
 		System.out.println(maxwidth);
