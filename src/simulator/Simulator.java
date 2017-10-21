@@ -37,22 +37,25 @@ public class Simulator {
 	public void run(String[] args) throws InterruptedException {
 				
 		System.out.println(this.state);
+		Scanner sc = new Scanner(System.in);
 		
 		while (!this.state.isHalted) {
 			if (timeout < 0) {
 				System.out.println("Press any key to step, or x to exit");
-				Scanner sc = new Scanner(System.in);
-				String next = sc.nextLine().trim();
-				if (next.equals("x")) {
-					System.out.println("Manual termination");
-					break;
+				if (sc.hasNextLine()) {
+					String next = sc.nextLine().trim();
+					if (next.equals("x")) {
+						System.out.println("Manual termination");
+						break;
+					}
 				}
-				sc.close();
 			} else if (timeout > 0) {
 				TimeUnit.SECONDS.sleep(timeout);
 			}
 			step();
 		}
+
+		sc.close();
 		System.out.println("Finished execution...");
 	}
 	
