@@ -48,4 +48,6 @@ B.VC  G 43
 PUSH  H 44
 POP   H 45
 
-HALT  C 46
+MOVZ  E 46
+
+HALT  C 47

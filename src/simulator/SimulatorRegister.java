@@ -9,6 +9,8 @@ public class SimulatorRegister {
 	private int width;
 	private int registerNumber;
 	
+	private boolean isLocked = false;
+	
 	/**
 	 * Initialize the register with a given width between 1 and 64, inclusive
 	 * @param registerSize
@@ -43,7 +45,7 @@ public class SimulatorRegister {
 	 * Get the register value as an integer
 	 * @return The register value
 	 */
-	public long getIntValue() {
+	public long getNumericalValue() {
 		return NumberTools.binaryStringToNumber(this.getValue());
 	}
 	
@@ -51,6 +53,17 @@ public class SimulatorRegister {
 	 * Set the register value
 	 */
 	public void setValue(String newValue) {
-		this.value = NumberTools.forcelpad(newValue, '0', this.width);
+		if (!this.isLocked) {
+			this.value = NumberTools.forcelpad(newValue, '0', this.width);
+		} else {
+			throw new UnsupportedOperationException("Unable to modify locked register");
+		}
+	}
+	
+	/**
+	 * Lock the register (permanently)
+	 */
+	public void lockRegister() {
+		this.isLocked = true;
 	}
 }

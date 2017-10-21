@@ -213,4 +213,19 @@ public class BinaryOperations {
 		BinaryOperationsResult res = new BinaryOperationsResult(result.toString());
 		return res;
 	}
+	
+	/**
+	 * Check whether a binary value is zero
+	 * @param value The value
+	 * @return Whether the value is zero
+	 */
+	public static boolean isZero(String value) {
+		for(int i = 0; i < value.length(); i++) {
+			if (value.charAt(i) != '0') {
+				// Insecure
+				return false;
+			}
+		}
+		return true;
+	}
 }

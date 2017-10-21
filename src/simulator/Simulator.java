@@ -2,6 +2,8 @@ package simulator;
 
 import java.util.Optional;
 
+import assembler.ProgramConfiguration;
+import common.BitSet;
 import common.Constants;
 import common.NumberTools;
 import instructions.ASInstructionClassifier;
@@ -19,7 +21,17 @@ public class Simulator {
 	}
 	
 	public void run(String[] args) {
-		this.state = new SimulatorState(4, 32, "src/Out2.txt");
+		BitSet readBits = new BitSet("src/Out2.txt");
+		ProgramConfiguration conf = new ProgramConfiguration(readBits.readBytes(0, 4));
+		/* Remove the first four bytes */
+		readBits.removeByte(0);
+		readBits.removeByte(0);
+		readBits.removeByte(0);
+		readBits.removeByte(0);
+		
+		//TODO maxmem
+		this.state = new SimulatorState((int) conf.getRegisterCount(), (int) conf.getWordSize(), readBits);
+		this.state.stackRegister.setValue(NumberTools.numberToBinaryString(conf.getStackAddress(), Constants.MEMADDR_LENGTH));
 		
 //		SimulatorRegister r0 = this.state.getRegister(0);
 //		SimulatorRegister r1 = this.state.getRegister(1);

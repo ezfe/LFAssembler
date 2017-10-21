@@ -11,7 +11,7 @@ import common.NumberTools;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
 
-public class ASInstructionG extends PerformableInstruction implements LabelInstruction {
+public class ASInstructionG extends BranchingInstruction implements LabelInstruction {
 	/**
 	 * Memory address label
 	 */
@@ -54,6 +54,7 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 	public String binaryStringRepresentation() {
 		//If we have an address, fill it in. Otherwise, fill in zeros.
 		String addressBinaryString = NumberTools.numberToBinaryString(this.labelAddress.orElse(0), Constants.MEMADDR_LENGTH);
+		
 		String instruction = this.opcodeBinaryString() + addressBinaryString;
 		return NumberTools.rpad(instruction, '0', Constants.INSTRUCTION_LENGTH);
 	}
@@ -69,21 +70,6 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 		return labelValue.get();
 	}
 	
-	/**
-	 * Attempts to modify the passed simulator state with the passed address.
-	 * 
-	 * @param state The simulator state
-	 * @param address The address
-	 */
-	private void branchWith(SimulatorState state, Optional<Integer> address) {
-		System.out.println("Branch attempted...");
-		if (this.labelAddress.isPresent()) {
-			state.programCounter = this.labelAddress.get();
-		} else {
-			throw new IllegalStateException("No labelAddress found");
-		}
-	}
-	
 	@Override
 	public void perform(SimulatorState state) {
 		super.perform(state);
@@ -94,34 +80,34 @@ public class ASInstructionG extends PerformableInstruction implements LabelInstr
 			//TODO
 		} else if (this.token.equals("B.EQ")) {
 			/* Z = 1 */
-			if (state.zero) this.branchWith(state, this.labelAddress);
+			if (state.zeroFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.NE")) {
 			/* Z = 0 */
-			if (!state.zero) this.branchWith(state, this.labelAddress);
+			if (!state.zeroFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.LT")) {
 			/* N != V */
-			if (state.negative != state.overflow) this.branchWith(state, this.labelAddress);
+			if (state.negativeFlag != state.overflowFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.LE")) {
 			/* ~(Z = 0 & N = V) */
-			if (!(!state.zero && state.negative == state.overflow)) this.branchWith(state, this.labelAddress);
+			if (!(!state.zeroFlag && state.negativeFlag == state.overflowFlag)) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.GT")) {
 			/* Z = 0 & N = V */
-			if (!state.zero && state.negative == state.overflow) this.branchWith(state, this.labelAddress);
+			if (!state.zeroFlag && state.negativeFlag == state.overflowFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.GE")) {
 			/* N = V */
-			if (state.negative == state.overflow) this.branchWith(state, this.labelAddress);
+			if (state.negativeFlag == state.overflowFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.MI")) {
 			/* N = 1 */
-			if (state.negative) this.branchWith(state, this.labelAddress);
+			if (state.negativeFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.PL")) {
 			/* N = 0 */
-			if (!state.negative) this.branchWith(state, this.labelAddress);
+			if (!state.negativeFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.VS")) {
 			/* V = 1 */
-			if (state.overflow) this.branchWith(state, this.labelAddress);
+			if (state.overflowFlag) branchWith(state, this.labelAddress);
 		} else if (this.token.equals("B.VC")) {
 			/* V = 0 */
-			if (!state.overflow) this.branchWith(state, this.labelAddress);
+			if (!state.overflowFlag) branchWith(state, this.labelAddress);
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}

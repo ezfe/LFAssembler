@@ -50,7 +50,7 @@ public class Assembler {
 		}
 		Scanner lineScanner = new Scanner(s);
 		
-		AssemblyConfigurations conf = new AssemblyConfigurations();
+		ProgramConfiguration conf = new ProgramConfiguration();
 		
 		//TODO
 		HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences = new HashMap<>();
@@ -137,11 +137,6 @@ public class Assembler {
 			System.out.println(t.toString());
 		}
 		
-		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
-			System.err.println("Configuration is incomplete!");
-			System.err.println(conf.toString());
-		}
-		
 		BitSet bitOutput = new BitSet();
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
@@ -219,6 +214,27 @@ public class Assembler {
 				}
 			}
 		}
+		
+		int stackLocation = bitOutput.getByteCount();
+		if (labelLocations.containsKey("stack")) {
+			stackLocation = (int) /* i hate java */ (long) labelLocations.get("stack");
+		}
+		conf.setStackAddress(stackLocation);
+		
+		
+//		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
+//			System.err.println("Configuration is incomplete!");
+			System.out.println(conf.toString());
+//		}
+
+		
+		String infoBytes = conf.binaryStringRepresentation();
+		System.out.println(infoBytes);
+		bitOutput.insertByte((byte)0, 0);
+		bitOutput.insertByte((byte)0, 0);
+		bitOutput.insertByte((byte)0, 0);
+		bitOutput.insertByte((byte)0, 0);
+		bitOutput.writeBytes(0, infoBytes);
 		
 		try {
 			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());

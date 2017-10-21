@@ -81,29 +81,33 @@ public class ASInstructionD extends PerformableInstruction {
 		SimulatorRegister sourceRegister = state.getRegister(this.sourceRegisterNumber);
 		
 		if (token.equals("LDUR")) {
-			long memaddr = sourceRegister.getIntValue() + this.sourceLiteral;
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
 			String found = state.memory.readBytes((int) memaddr, 8);
 			destinationRegister.setValue(found);
-//		} else if (token.equals("STUR")) {
-			//TODO
+		} else if (token.equals("STUR")) {
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
+			state.memory.writeBytes((int) memaddr, NumberTools.forcelpad(destinationRegister.getValue(), '0', 8 * 8));
 		} else if (token.equals("LDURSW")) {
-			long memaddr = sourceRegister.getIntValue() + this.sourceLiteral;
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
 			String found = state.memory.readBytes((int) memaddr, 4);
 			destinationRegister.setValue(found);
-//		} else if (token.equals("STURW")) {
-			//TODO
+		} else if (token.equals("STURW")) {
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
+			state.memory.writeBytes((int) memaddr, NumberTools.forcelpad(destinationRegister.getValue(), '0', 8 * 4));
 		} else if (token.equals("LDURH")) {
-			long memaddr = sourceRegister.getIntValue() + this.sourceLiteral;
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
 			String found = state.memory.readBytes((int) memaddr, 2);
 			destinationRegister.setValue(found);
-//		} else if (token.equals("STURH")) {
-			//TODO
+		} else if (token.equals("STURH")) {
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
+			state.memory.writeBytes((int) memaddr, NumberTools.forcelpad(destinationRegister.getValue(), '0', 8 * 2));
 		} else if (token.equals("LDURB")) {
-			long memaddr = sourceRegister.getIntValue() + this.sourceLiteral;
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
 			String found = state.memory.readBytes((int) memaddr, 1);
 			destinationRegister.setValue(found);
-//		} else if (token.equals("STURB")) {
-			//TODO
+		} else if (token.equals("STURB")) {
+			long memaddr = sourceRegister.getNumericalValue() + this.sourceLiteral;
+			state.memory.writeBytes((int) memaddr, NumberTools.forcelpad(destinationRegister.getValue(), '0', 8 * 1));
 		} else {
 			System.out.println(this.token + " is unimplemented");
 		}

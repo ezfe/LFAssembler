@@ -35,29 +35,39 @@ public class SimulatorState {
 	/**
 	 * Negative result flag
 	 */
-	public boolean negative;
+	public boolean negativeFlag;
 	
 	/**
 	 * Zero result flag
 	 */
-	public boolean zero;
+	public boolean zeroFlag;
 	
 	/**
 	 * Carry result flag
 	 */
-	public boolean carry;
+	public boolean carryFlag;
 	
 	/**
 	 * Overflow result flag
 	 */
-	public boolean overflow;
+	public boolean overflowFlag;
+	
+	/**
+	 * Zero register
+	 */
+	public SimulatorRegister zeroRegister;
+	
+	/**
+	 * Stack Register
+	 */
+	public SimulatorRegister stackRegister;
 	
 	/**
 	 * Create a SimulatorState with parameters
 	 * @param registerCount The number of registers
 	 * @param registerSize The size of the registers
 	 */
-	public SimulatorState(int registerCount, int registerSize, String bitsPath) {
+	public SimulatorState(int registerCount, int registerSize, BitSet bits) {
 		this.registerCount = registerCount;
 		this.registerSize = registerSize;
 		this.registers = new ArrayList<>();
@@ -66,7 +76,13 @@ public class SimulatorState {
 		}
 		
 		this.programCounter = 0;
-		this.memory = new BitSet(bitsPath);
+		this.memory = bits;
+		
+		this.zeroRegister = new SimulatorRegister(registerSize, registerCount + 1);
+		this.zeroRegister.setValue("0");
+		this.zeroRegister.lockRegister();
+		
+		this.stackRegister = new SimulatorRegister(registerSize, registerCount + 2);
 	}
 	
 	/**

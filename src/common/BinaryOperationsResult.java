@@ -32,10 +32,10 @@ public class BinaryOperationsResult {
 		}
 		
 		public void apply(SimulatorState state) {
-			state.negative = this.negative;
-			state.zero = this.zero;
-			state.carry = this.carry;
-			state.overflow = this.overflow;
+			state.negativeFlag = this.negative;
+			state.zeroFlag = this.zero;
+			state.carryFlag = this.carry;
+			state.overflowFlag = this.overflow;
 		}
 	}
 	

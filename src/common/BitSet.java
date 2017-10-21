@@ -79,6 +79,16 @@ public class BitSet {
 	}
 	
 	/**
+	 * Remove a byte
+	 * @param byteAddress The byte-addressing address
+	 */
+	public void removeByte(int byteAddress) {
+		if (bits.size() > byteAddress) {
+			bits.remove(byteAddress);
+		}
+	}
+	
+	/**
 	 * Set a specific bit
 	 * @param bit
 	 * @param bitAddress
@@ -231,6 +241,31 @@ public class BitSet {
 	 */
 	public void byteAlign() {
 		this.trailingLength = 8;
+	}
+
+	/**
+	 * Write n bytes from a String
+	 * @param firstByte The first byte to write
+	 * @return The bytes
+	 */
+	public void writeBytes(int firstByte, String bytes) {
+		if (bytes.length() % 8 != 0) {
+			throw new IllegalArgumentException("Byte string must be divisible by 8");
+		}
+		
+		int byteCount = bytes.length() / 8;
+		
+		int start = bytes.length() - 8;
+		int end = start + 8;
+		
+		for(int i = 0; i < byteCount; i++) {
+			String bite = bytes.substring(start, end);
+			byte biteval = (byte) NumberTools.binaryStringToNumber(bite);
+			this.setByte(biteval, firstByte + i);
+			
+			start -= 8;
+			end -= 8;
+		}
 	}
 	
 	/**
