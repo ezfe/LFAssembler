@@ -34,8 +34,8 @@ public class NumberTools {
 		return formatted.substring(formatted.length() - width, formatted.length());
 	}
 	
-	public static int binaryStringToNumber(String string) {
-		return Integer.parseInt(string, 2);
+	public static long binaryStringToNumber(String string) {
+		return Long.parseLong(string, 2);
 	}
 	
 	public static String rpad(String string, char fill, int width) {

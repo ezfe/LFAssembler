@@ -16,15 +16,15 @@ public class ProgramConfiguration {
 	public ProgramConfiguration(String binaryRepresentation) {
 		int start = 0;
 		int end = start + 3;
-		int wordSizeExponent = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		int wordSizeExponent = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += 3;
-		int registerCountExponent = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		int registerCountExponent = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += 6;
-		int maxMemoryExponent = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		int maxMemoryExponent = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += 20;

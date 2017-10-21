@@ -12,7 +12,24 @@ import java.util.Optional;
  * @author Ezekiel Elin
  */
 public class BitSet {
-	private ArrayList<Byte> bits = new ArrayList<>();
+	/**
+	 * The bytes
+	 */
+	private ArrayList<Byte> byteArray = new ArrayList<>();
+	
+	/**
+	 * The maximum byte count allowed
+	 * 
+	 * Negative values don't cap artificially
+	 */
+	private long maxByteCount = -1;
+	
+	/**
+	 * Indicates the first four bits of the BitSet are configuration bits
+	 * 
+	 *  Can be removed with removeConfigurationBytes()
+	 */
+	private boolean includesConfiguration = false;
 	
 	/**
 	 * The length of last byte in the bits array
@@ -22,18 +39,33 @@ public class BitSet {
 	 */
 	private int trailingLength = 8;
 	
+	/**
+	 * Create an empty BitSet object
+	 */
 	public BitSet() {
 		
 	}
 	
+	/**
+	 * Create a BitSet object from a single byte
+	 * @param b The byte
+	 */
 	public BitSet(byte b) {
 		this.appendByte(b);
 	}
 	
+	/**
+	 * Create a BitSet object from an array of bytes
+	 * @param bites The bytes
+	 */
 	public BitSet(byte[] bites) {
 		this.appendBytes(bites);
 	}
 	
+	/**
+	 * Create a BitSet object from a file
+	 * @param string The path to the file
+	 */
 	public BitSet(String string) {
 		byte[] bites;
 		try {
@@ -44,6 +76,7 @@ public class BitSet {
 			bites = new byte[0];
 		}
 		this.appendBytes(bites);
+		this.includesConfiguration = true;
 	}
 
 	/**
@@ -52,16 +85,16 @@ public class BitSet {
 	 * @param byteAddress The byte-addressing address
 	 */
 	public void insertByte(byte bite, int byteAddress) {
-		bits.add(byteAddress, bite);
+		byteArray.add(byteAddress, bite);
 	}
 	
 	/**
-	 * Overrwrite a byte at an address
+	 * Overwrite a byte at an address
 	 * @param bite The byte
 	 * @param byteAddress The byte-addressing address
 	 */
 	public void setByte(byte bite, int byteAddress) {
-		bits.set(byteAddress, bite);
+		byteArray.set(byteAddress, bite);
 	}
 	
 	/**
@@ -70,12 +103,11 @@ public class BitSet {
 	 * @return The byte
 	 */
 	public Optional<Byte> getByte(int byteAddress) {
-		if (bits.size() > byteAddress) {
-			return Optional.of((byte) bits.get(byteAddress));
+		if (byteArray.size() > byteAddress) {
+			return Optional.of((byte) byteArray.get(byteAddress));
 		} else {
 			return Optional.empty();
 		}
-				
 	}
 	
 	/**
@@ -83,15 +115,26 @@ public class BitSet {
 	 * @param byteAddress The byte-addressing address
 	 */
 	public void removeByte(int byteAddress) {
-		if (bits.size() > byteAddress) {
-			bits.remove(byteAddress);
+		if (byteArray.size() > byteAddress) {
+			byteArray.remove(byteAddress);
 		}
 	}
 	
 	/**
+	 * Remove configuration bytes
+	 */
+	public void removeConfigurationBytes() {
+		this.removeByte(0);
+		this.removeByte(0);
+		this.removeByte(0);
+		this.removeByte(0);
+		this.includesConfiguration = false;
+	}
+	
+	/**
 	 * Set a specific bit
-	 * @param bit
-	 * @param bitAddress
+	 * @param bit The bit
+	 * @param bitAddress The bit address
 	 */
 	public void setBit(int bit, BitIndex bitAddress) {
 		byte bite = getByte(bitAddress.getByte()).orElse((byte) 0);
@@ -105,18 +148,22 @@ public class BitSet {
 	 */
 	public void appendBit(int bit) {
 		if (trailingLength == 8) {
-			bits.add((byte) 0);
+			byteArray.add((byte) 0);
 			trailingLength = 0;
 		}
 		
-		int lastIndex = bits.size() - 1;
-		byte data = bits.get(lastIndex);
+		int lastIndex = byteArray.size() - 1;
+		byte data = byteArray.get(lastIndex);
 		data = BitTools.setBit(trailingLength, data, bit);
-		bits.set(lastIndex, data);
+		byteArray.set(lastIndex, data);
 		
 		trailingLength += 1;
 	}
 	
+	/**
+	 * Append a single bit to the BitSet
+	 * @param cbit The bit
+	 */
 	public void appendBit(char cbit) {
 		if (cbit == '0') {
 			this.appendBit(0);
@@ -133,14 +180,14 @@ public class BitSet {
 	 */
 	public void appendByte(byte bite) {
 		if (trailingLength == 8) {
-			bits.add(bite);
+			byteArray.add(bite);
 		} else {
 			byte forCurrentByte = (byte) (bite << trailingLength);
 			
-			byte lastByte = bits.get(bits.size() - 1);
-			bits.set(bits.size() - 1, (byte) (lastByte | forCurrentByte));
+			byte lastByte = byteArray.get(byteArray.size() - 1);
+			byteArray.set(byteArray.size() - 1, (byte) (lastByte | forCurrentByte));
 			byte newByte = (byte) ((bite & 0xFF) >>> (8 - trailingLength));
-			bits.add(newByte);
+			byteArray.add(newByte);
 		}
 	}
 	
@@ -150,7 +197,7 @@ public class BitSet {
 	 */
 	public void appendBytes(byte[] bytes) {
 		for(byte b: bytes) {
-			this.bits.add(new Byte(b));
+			this.byteArray.add(new Byte(b));
 		}
 	}
 	
@@ -173,8 +220,8 @@ public class BitSet {
 //		if (trailingLength > 0) {
 //			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1).byteValue(), trailingLength));
 //		}
-		for(int i = bits.size() - 1; i >= 0; i--) {
-			sb.append(NumberTools.numberToBinaryString(bits.get(i).byteValue(), 8));
+		for(int i = byteArray.size() - 1; i >= 0; i--) {
+			sb.append(NumberTools.numberToBinaryString(byteArray.get(i).byteValue(), 8));
 		}
 		return sb.toString();
 	}
@@ -187,11 +234,11 @@ public class BitSet {
 	 */
 	public String toByteString(int start, int end) {
 		StringBuilder sb = new StringBuilder();
-		int maxwidth = Integer.toHexString(this.bits.size() - 1).length();
+		int maxwidth = Integer.toHexString(this.byteArray.size() - 1 - (this.includesConfiguration ? 4 : 0)).length();
 		System.out.println(maxwidth);
-		for(int i = this.bits.size() - 1; i >= 0; i--) {
-			sb.append("0x" + NumberTools.numberToHexString(i, maxwidth) + " ");
-			byte b = this.bits.get(i).byteValue();
+		for(int i = this.byteArray.size() - 1; i >= 0; i--) {
+			sb.append("0x" + NumberTools.numberToHexString(i - (this.includesConfiguration ? 4 : 0), maxwidth) + " ");
+			byte b = this.byteArray.get(i).byteValue();
 			sb.append(NumberTools.numberToBinaryString(b, 8));
 			sb.append("\n");
 		}
@@ -203,9 +250,9 @@ public class BitSet {
 	 * @return the bytes
 	 */
 	public byte[] bytes() {
-		byte[] res = new byte[bits.size()];
-		for(int i = 0; i < bits.size(); i++) {
-		    res[i] = bits.get(i).byteValue();
+		byte[] res = new byte[byteArray.size()];
+		for(int i = 0; i < byteArray.size(); i++) {
+		    res[i] = byteArray.get(i).byteValue();
 		}
 		return res;
 	}
@@ -225,7 +272,7 @@ public class BitSet {
 	 * @return The byte count
 	 */
 	public int getByteCount() {
-		return this.bits.size();
+		return this.byteArray.size();
 	}
 	
 	/**
@@ -233,7 +280,7 @@ public class BitSet {
 	 * @return The byte-bit index (from the left)
 	 */
 	public long getNextByteIndex() {
-		return this.bits.size();
+		return this.byteArray.size();
 	}
 	
 	/**
@@ -296,5 +343,25 @@ public class BitSet {
 	 */
 	public String readInstruction(int firstByte) {
 		return this.readBytes(firstByte, 4);
+	}
+
+	/**
+	 * Get the max byte count
+	 * @return The max byte count
+	 */
+	public long getMaxByteCount() {
+		return maxByteCount;
+	}
+
+	/**
+	 * Set the max byte count
+	 * @param maxByteCount The new max byte count
+	 */
+	public void setMaxByteCount(long maxByteCount) {
+		this.maxByteCount = maxByteCount;
+		
+		if (this.getByteCount() > this.maxByteCount) {
+			System.err.println("Currently exceeding new byte count quota (have " + this.getByteCount() + ", " + this.maxByteCount + " allowed)");
+		}
 	}
 }

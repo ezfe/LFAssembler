@@ -27,8 +27,8 @@ public class ASInstructionD extends PerformableInstruction {
 	public ASInstructionD(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		String r1String = scanner.next();
-		String r2String = scanner.next();
+		String r1String = AssemblerInstruction.transformRegister(scanner.next());
+		String r2String = AssemblerInstruction.transformRegister(scanner.next());
 		String r3String = scanner.next();
 		
 		if (r3String.charAt(0) != '#') {
@@ -48,15 +48,15 @@ public class ASInstructionD extends PerformableInstruction {
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.destinationRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.destinationRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += Constants.REGISTER_LENGTH;
-		this.sourceRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 
 		start = end;
 		end += Constants.LITERAL_LENGTH;
-		this.sourceLiteral = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceLiteral = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 	}
 	
 	@Override

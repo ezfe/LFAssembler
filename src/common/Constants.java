@@ -10,4 +10,7 @@ public class Constants {
 	public static final int LITERAL_LENGTH = 14;
 	public static final int INSTRUCTION_LENGTH = 32;
 	public static final int MEMADDR_LENGTH = 20;
+	
+	public static final int ZERO_REGISTER_NUMBER = 31;
+	public static final int LINK_REGISTER_NUMBER = 30;
 }

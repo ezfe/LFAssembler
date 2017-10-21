@@ -24,22 +24,12 @@ public class Simulator {
 		BitSet readBits = new BitSet("src/Out2.txt");
 		ProgramConfiguration conf = new ProgramConfiguration(readBits.readBytes(0, 4));
 		/* Remove the first four bytes */
-		readBits.removeByte(0);
-		readBits.removeByte(0);
-		readBits.removeByte(0);
-		readBits.removeByte(0);
+		readBits.removeConfigurationBytes();
 		
-		//TODO maxmem
+		readBits.setMaxByteCount(conf.getMaxMemory());
 		this.state = new SimulatorState((int) conf.getRegisterCount(), (int) conf.getWordSize(), readBits);
 		this.state.stackRegister.setValue(NumberTools.numberToBinaryString(conf.getStackAddress(), Constants.MEMADDR_LENGTH));
-		
-//		SimulatorRegister r0 = this.state.getRegister(0);
-//		SimulatorRegister r1 = this.state.getRegister(1);
-//		SimulatorRegister r2 = this.state.getRegister(2);
-		
-//		r1.setValue(NumberTools.numberToBinaryString(8, 32));
-//		r2.setValue(NumberTools.numberToBinaryString(7, 32));
-		
+				
 		System.out.println(this.state);
 		
 		while (!this.state.isHalted) {
@@ -48,7 +38,7 @@ public class Simulator {
 			
 			String instructionString = this.state.memory.readInstruction(currentIndex);
 			String opcodeBinaryString = instructionString.substring(0, Constants.OPCODE_LENGTH);
-			Optional<String> opcodeName = ASInstructionClassifier.getName(NumberTools.binaryStringToNumber(opcodeBinaryString));
+			Optional<String> opcodeName = ASInstructionClassifier.getName((int) NumberTools.binaryStringToNumber(opcodeBinaryString));
 			
 			if (opcodeName.isPresent()) {
 				Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);

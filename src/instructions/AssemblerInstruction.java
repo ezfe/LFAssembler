@@ -37,4 +37,14 @@ public abstract class AssemblerInstruction implements Token {
 			throw new IllegalRegisterException("Registers may not be above 31 (found " + register + ")");
 		}
 	}
+	
+	public static String transformRegister(String register) {
+		if (register.equals("ZERO")) {
+			return "R" + Constants.ZERO_REGISTER_NUMBER; 
+		} else if (register.equals("LINK")) {
+			return "R" + Constants.LINK_REGISTER_NUMBER;
+		} else {
+			return register;
+		}
+	}
 }

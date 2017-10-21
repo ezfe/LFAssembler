@@ -3,6 +3,7 @@ package simulator;
 import java.util.ArrayList;
 
 import common.BitSet;
+import common.Constants;
 
 /**
  * Maintains the state of the simulator, and can be
@@ -63,6 +64,11 @@ public class SimulatorState {
 	public SimulatorRegister stackRegister;
 	
 	/**
+	 * Branch Link Register
+	 */
+	public SimulatorRegister branchLinkRegister;
+	
+	/**
 	 * Create a SimulatorState with parameters
 	 * @param registerCount The number of registers
 	 * @param registerSize The size of the registers
@@ -83,6 +89,10 @@ public class SimulatorState {
 		this.zeroRegister.lockRegister();
 		
 		this.stackRegister = new SimulatorRegister(registerSize, registerCount + 2);
+		this.stackRegister.setValue("0");
+		
+		this.branchLinkRegister = new SimulatorRegister(registerSize, registerCount + 3);
+		this.branchLinkRegister.setValue("0");
 	}
 	
 	/**
@@ -91,7 +101,15 @@ public class SimulatorState {
 	 * @return THe register
 	 */
 	public SimulatorRegister getRegister(int i) {
-		return this.registers.get(i);
+		if (i == Constants.ZERO_REGISTER_NUMBER) {
+			return this.zeroRegister;
+		} else if (i == Constants.LINK_REGISTER_NUMBER) {
+			return this.branchLinkRegister;
+		} else if (i < this.registerCount) {
+			return this.registers.get(i);
+		} else {
+			throw new IndexOutOfBoundsException("Register " + i + " is out of bounds (" + this.registerCount + " registers)");
+		}
 	}
 	
 	@Override
@@ -100,7 +118,7 @@ public class SimulatorState {
 		for(int i = 0; i < this.registers.size(); i++) {
 			SimulatorRegister reg = this.getRegister(i);
 			str.append("R" + i + "\t");
-			str.append(reg.getValue());
+			str.append(reg.getNumericalValue());
 			if (i < this.registers.size() - 1) {
 				str.append("\n");
 			}

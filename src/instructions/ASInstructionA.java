@@ -35,9 +35,9 @@ public class ASInstructionA extends PerformableInstruction {
 	public ASInstructionA(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		String r1String = scanner.next();
-		String r2String = scanner.next();
-		String r3String = scanner.next();
+		String r1String = AssemblerInstruction.transformRegister(scanner.next());
+		String r2String = AssemblerInstruction.transformRegister(scanner.next());
+		String r3String = AssemblerInstruction.transformRegister(scanner.next());
 		
 		this.destinationRegisterNumber = (int) NumberTools.parseNumber(r1String.substring(1));
 		this.leftSourceRegisterNumber = (int) NumberTools.parseNumber(r2String.substring(1));
@@ -53,15 +53,15 @@ public class ASInstructionA extends PerformableInstruction {
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.destinationRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.destinationRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += Constants.REGISTER_LENGTH;
-		this.leftSourceRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.leftSourceRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 
 		start = end;
 		end += Constants.REGISTER_LENGTH;
-		this.rightSourceRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.rightSourceRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 	}
 	
 	public String sourceStringRepresentation() {

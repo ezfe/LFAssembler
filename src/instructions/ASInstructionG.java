@@ -36,7 +36,7 @@ public class ASInstructionG extends BranchingInstruction implements LabelInstruc
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.MEMADDR_LENGTH;
-		this.labelAddress = Optional.of(NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end)));
+		this.labelAddress = Optional.of((int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end)));
 	}
 	
 	@Override
@@ -77,7 +77,9 @@ public class ASInstructionG extends BranchingInstruction implements LabelInstruc
 		if (this.token.equals("B")) {
 			branchWith(state, labelAddress);
 		} else if (this.token.equals("BL")) {
-			//TODO
+			state.branchLinkRegister.setValue(NumberTools.numberToBinaryString(state.programCounter, state.registerSize));
+			branchWith(state, labelAddress);
+			System.out.println("Set link to " + state.branchLinkRegister.getNumericalValue());
 		} else if (this.token.equals("B.EQ")) {
 			/* Z = 1 */
 			if (state.zeroFlag) branchWith(state, this.labelAddress);

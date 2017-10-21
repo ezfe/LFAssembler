@@ -18,7 +18,7 @@ import common.BitSet;
 
 public class ReaderGUI extends JFrame {
 	private static final long serialVersionUID = 1262268315371446851L;
-	
+		
 	private BitSet bits;
 	private JButton loadButton = null;
 	private JScrollPane scroller = null;

@@ -35,7 +35,9 @@ public class ASInstructionE extends BranchingInstruction implements LabelInstruc
 	public ASInstructionE(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		this.registerNumber = (int) NumberTools.parseNumber(scanner.next().substring(1));
+		String r1String = AssemblerInstruction.transformRegister(scanner.next());
+		this.registerNumber = (int) NumberTools.parseNumber(r1String.substring(1));
+
 		this.labelValue = Optional.ofNullable(scanner.next());
 		this.labelAddress = Optional.empty();
 		
@@ -49,11 +51,11 @@ public class ASInstructionE extends BranchingInstruction implements LabelInstruc
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.registerNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.registerNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += Constants.MEMADDR_LENGTH;
-		this.labelAddress = Optional.of(NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end)));
+		this.labelAddress = Optional.of((int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end)));
 	}
 	
 	@Override

@@ -39,8 +39,8 @@ public class ASInstructionB extends PerformableInstruction {
 	public ASInstructionB(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		String arg1String = scanner.next();
-		String arg2String = scanner.next();
+		String arg1String = AssemblerInstruction.transformRegister(scanner.next());
+		String arg2String = AssemblerInstruction.transformRegister(scanner.next());
 		String arg3String = scanner.next();
 		
 		boolean arg2Constant = (arg2String.charAt(0) == '#');
@@ -79,7 +79,7 @@ public class ASInstructionB extends PerformableInstruction {
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.destinationRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.destinationRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 		
 		start = end;
 		end += 1;
@@ -87,11 +87,11 @@ public class ASInstructionB extends PerformableInstruction {
 		
 		start = end;
 		end += Constants.REGISTER_LENGTH;
-		this.sourceRegisterNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceRegisterNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 
 		start = end;
 		end += Constants.LITERAL_LENGTH;
-		this.sourceLiteral = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.sourceLiteral = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 	}
 	
 	@Override
@@ -152,7 +152,7 @@ public class ASInstructionB extends PerformableInstruction {
 		} else if (this.token.equals("LSL")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.lsl(sourceLiteralBinaryString, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+				val = BinaryOperations.lsl(sourceLiteralBinaryString, (int) NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {
 				val = BinaryOperations.lsl(leftSourceRegister.getValue(), this.sourceLiteral);
 			}
@@ -160,7 +160,7 @@ public class ASInstructionB extends PerformableInstruction {
 		} else if (this.token.equals("LSR")) {
 			BinaryOperationsResult val = null;
 			if (this.constantOrderFlipped) {
-				val = BinaryOperations.lsr(sourceLiteralBinaryString, NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
+				val = BinaryOperations.lsr(sourceLiteralBinaryString, (int) NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {
 				val = BinaryOperations.lsr(leftSourceRegister.getValue(), this.sourceLiteral);
 			}

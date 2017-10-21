@@ -20,7 +20,8 @@ public class ASInstructionH extends BranchingInstruction {
 	public ASInstructionH(String token, Scanner scanner) throws IllegalRegisterException {
 		this.token = token;
 		
-		this.registerNumber = (int) NumberTools.parseNumber(scanner.next().substring(1));
+		String r1String = AssemblerInstruction.transformRegister(scanner.next());
+		this.registerNumber = (int) NumberTools.parseNumber(r1String.substring(1));
 	}
 	
 	public ASInstructionH(String token, String binaryRepresentation) {
@@ -28,7 +29,7 @@ public class ASInstructionH extends BranchingInstruction {
 		
 		int start = Constants.OPCODE_LENGTH;
 		int end = start + Constants.REGISTER_LENGTH;
-		this.registerNumber = NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
+		this.registerNumber = (int) NumberTools.binaryStringToNumber(binaryRepresentation.substring(start, end));
 	}
 
 	
