@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="reader.ReaderController">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="a6ede" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <columns value="16"/>
+          <font name="Courier" size="12" style="0"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <grid id="8ea70" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3ebff" class="javax.swing.JLabel">
+            <constraints border-constraint="South"/>
+            <properties>
+              <text value="EXAMPLE OP OP OP"/>
+            </properties>
+          </component>
+          <component id="23bf3" class="javax.swing.JButton" binding="readInstructionButton" default-binding="true">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Read Instruction"/>
+            </properties>
+          </component>
+          <component id="d7e2b" class="javax.swing.JTextField" binding="a0x0TextField" default-binding="true">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="0x0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="92eaf" class="javax.swing.JButton" binding="reloadFromFileButton" default-binding="true">
+        <constraints border-constraint="South"/>
+        <properties>
+          <text value="Reload From File"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

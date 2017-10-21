@@ -1,5 +1,6 @@
 package common;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -63,7 +64,8 @@ public class BitSet {
 	 * Create a BitSet object from a file
 	 * @param string The path to the file
 	 */
-	public BitSet(String string) {
+	public BitSet(File file) {
+
 		byte[] bites;
 		try {
 			bites = Files.readAllBytes(Paths.get(string));
