@@ -55,10 +55,9 @@ public class SimulatorRegister {
 	public void setValue(String newValue) {
 		if (!this.isLocked) {
 			this.value = NumberTools.forcelpad(newValue, '0', this.width);
-		} else {
-			System.out.println("Don't modify this lol");
-//			throw new UnsupportedOperationException("Unable to modify locked register");
 		}
+		// It's normal to try to modify locked registers, so there is
+		// no negative feedback here
 	}
 	
 	/**

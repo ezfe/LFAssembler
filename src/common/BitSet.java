@@ -20,9 +20,9 @@ public class BitSet {
 	/**
 	 * The maximum byte count allowed
 	 * 
-	 * Negative values don't cap artificially
+	 * Use Long.MAX_VALUE to represent uncapped
 	 */
-	private long maxByteCount = -1;
+	private long maxByteCount = Long.MAX_VALUE;
 	
 	/**
 	 * Indicates the first four bits of the BitSet are configuration bits
@@ -85,7 +85,11 @@ public class BitSet {
 	 * @param byteAddress The byte-addressing address
 	 */
 	public void insertByte(byte bite, int byteAddress) {
-		byteArray.add(byteAddress, bite);
+		if (byteAddress < this.getMaxByteCount()) {
+			byteArray.add(byteAddress, bite);
+		} else {
+			throw new IndexOutOfBoundsException("Byte " + byteAddress + " is too large");
+		}
 	}
 	
 	/**
@@ -117,6 +121,8 @@ public class BitSet {
 	public void removeByte(int byteAddress) {
 		if (byteArray.size() > byteAddress) {
 			byteArray.remove(byteAddress);
+		} else {
+			throw new IndexOutOfBoundsException("Byte " + byteAddress + " is too large");
 		}
 	}
 	
@@ -148,8 +154,12 @@ public class BitSet {
 	 */
 	public void appendBit(int bit) {
 		if (trailingLength == 8) {
-			byteArray.add((byte) 0);
-			trailingLength = 0;
+			if (this.getByteCount() < this.getMaxByteCount()) {
+				byteArray.add((byte) 0);
+				trailingLength = 0;
+			} else {
+				throw new IndexOutOfBoundsException("Cannot add new byte: exceeded max byte count");
+			}
 		}
 		
 		int lastIndex = byteArray.size() - 1;
@@ -180,7 +190,11 @@ public class BitSet {
 	 */
 	public void appendByte(byte bite) {
 		if (trailingLength == 8) {
-			byteArray.add(bite);
+			if (this.getByteCount() < this.getMaxByteCount()) {
+				byteArray.add(bite);
+			} else {
+				throw new IndexOutOfBoundsException("Cannot add new byte: exceeded max byte count");
+			}
 		} else {
 			byte forCurrentByte = (byte) (bite << trailingLength);
 			
@@ -197,7 +211,11 @@ public class BitSet {
 	 */
 	public void appendBytes(byte[] bytes) {
 		for(byte b: bytes) {
-			this.byteArray.add(new Byte(b));
+			if (this.getByteCount() < this.getMaxByteCount()) {
+				this.byteArray.add(new Byte(b));
+			} else {
+				throw new IndexOutOfBoundsException("Cannot add new byte: exceeded max byte count");
+			}
 		}
 	}
 	

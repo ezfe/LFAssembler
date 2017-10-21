@@ -138,6 +138,7 @@ public class Assembler {
 		}
 		
 		BitSet bitOutput = new BitSet();
+		bitOutput.setMaxByteCount(conf.getMaxMemory());
 		for(Token t: tokens) {
 			if (t instanceof AssemblerInstruction) {
 				AssemblerInstruction ins = (AssemblerInstruction) t;
