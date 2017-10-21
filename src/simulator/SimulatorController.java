@@ -11,8 +11,12 @@ import common.NumberTools;
 import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 import instructions.PerformableInstruction;
+import reader.ReaderView;
 
 public class SimulatorController {
+
+    ReaderView memoryViewer;
+    SimulatorView simulatorViewer;
 
 	long timeout = -1;
 	SimulatorState state = null;
@@ -20,11 +24,10 @@ public class SimulatorController {
 	public static void main(String[] args) throws InterruptedException {
 		ASInstructionClassifier.populate("src/ASISpec.txt");
 
-		SimulatorView.show();
-//		SimulatorController simulator = new SimulatorController("src/Out2.txt");
-//		simulator.run(args);
+		SimulatorController simulator = new SimulatorController("src/Out2.txt");
+		simulator.run(args);
 	}
-	
+
 	public SimulatorController(String path) {
 		BitSet readBits = new BitSet(path);
 
@@ -33,6 +36,8 @@ public class SimulatorController {
 		readBits.setMaxByteCount(conf.getMaxMemory());
 		this.state = new SimulatorState((int) conf.getRegisterCount(), (int) conf.getWordSize(), readBits);
 		this.state.stackRegister.setValue(NumberTools.numberToBinaryString(conf.getStackAddress(), Constants.MEMADDR_LENGTH));
+
+		this.memoryViewer = ReaderView.show(readBits);
 	}
 	
 	public void run(String[] args) throws InterruptedException {
@@ -54,6 +59,7 @@ public class SimulatorController {
 				TimeUnit.SECONDS.sleep(timeout);
 			}
 			step();
+			memoryViewer.updateMemoryViewport();
 		}
 
 		sc.close();

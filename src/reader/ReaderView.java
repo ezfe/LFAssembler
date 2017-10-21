@@ -78,11 +78,13 @@ public class ReaderView {
         }
     }
 
-    public static void show(BitSet attachedMemory) {
+    public static ReaderView show(BitSet attachedMemory) {
+        ReaderView view = new ReaderView(attachedMemory);
         JFrame frame = new JFrame("Viewer");
-        frame.setContentPane(new ReaderView(attachedMemory).panel1);
+        frame.setContentPane(view.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        return view;
     }
 }

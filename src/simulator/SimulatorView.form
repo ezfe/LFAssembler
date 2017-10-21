@@ -28,25 +28,57 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="c0a01" class="javax.swing.JButton" binding="stepButton" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <text value="Step"/>
-            </properties>
-          </component>
-          <component id="83ad6" class="javax.swing.JSlider" binding="simulatorSpeed">
-            <constraints border-constraint="North"/>
-            <properties>
-              <majorTickSpacing value="1"/>
-              <maximum value="4"/>
-              <minimum value="0"/>
-              <paintLabels value="true"/>
-              <paintTicks value="true"/>
-              <paintTrack value="true"/>
-              <snapToTicks value="true"/>
-              <value value="0"/>
-            </properties>
-          </component>
+          <grid id="d04dd" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="East"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="c0a01" class="javax.swing.JButton" binding="stepButton" default-binding="true">
+                <constraints border-constraint="East"/>
+                <properties>
+                  <text value="Step"/>
+                </properties>
+              </component>
+              <component id="5ecf7" class="javax.swing.JCheckBox" binding="autoStepCheckBox" default-binding="true">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <text value="Auto-step"/>
+                </properties>
+              </component>
+              <component id="83ad6" class="javax.swing.JSlider" binding="simulatorSpeed">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <majorTickSpacing value="1"/>
+                  <maximum value="4"/>
+                  <minimum value="0"/>
+                  <paintLabels value="true"/>
+                  <paintTicks value="true"/>
+                  <paintTrack value="true"/>
+                  <snapToTicks value="true"/>
+                  <value value="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="e7a44" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="West"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ebd4" class="javax.swing.JButton" binding="haltButton" default-binding="true">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <text value="Halt"/>
+                </properties>
+              </component>
+              <component id="f52cc" class="javax.swing.JButton" binding="reloadButton" default-binding="true">
+                <constraints border-constraint="South"/>
+                <properties>
+                  <text value="Reload"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

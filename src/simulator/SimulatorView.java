@@ -7,6 +7,9 @@ public class SimulatorView {
     private JTextArea simulatorStateTextArea;
     private JButton stepButton;
     private JSlider simulatorSpeed;
+    private JCheckBox autoStepCheckBox;
+    private JButton haltButton;
+    private JButton reloadButton;
 
     public static void show() {
         JFrame frame = new JFrame("Simulator");

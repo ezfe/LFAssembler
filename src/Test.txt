@@ -2,8 +2,10 @@
 .regcnt    4              ; 4 general purpose registers
 .maxmem   0x10000000      ; max memory size is 32 bytes
 
-BL lol
-HALT
+MOVZ R0 data
+LDURB R1 [R0, #0]
+LSL R1 R1 #1
+STURB R1 [R0, #0]
 
-lol:
-BR LINK
+data:
+.byte 0b1011
