@@ -13,6 +13,7 @@ import common.Constants;
 import common.NumberTools;
 import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
+import instructions.PerformableInstruction;
 
 public class ReaderView {
 
@@ -54,15 +55,10 @@ public class ReaderView {
                 String hexString = a0x0TextField.getText();
                 long memaddr = Long.parseLong(hexString.substring(2), 16);
                 String binaryInstructionString = memory.readBytes((int) memaddr, 4);
-                Optional<String> opcodeName = ASInstructionClassifier.getName((int) NumberTools.binaryStringToNumber(binaryInstructionString.substring(0, Constants.OPCODE_LENGTH)));
-                if (opcodeName.isPresent()) {
-                    Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(opcodeName.get(), binaryInstructionString);
-                    if (ins.isPresent()) {
 
-                        readOutLabel.setText(ins.get().sourceStringRepresentation());
-                    } else {
-                        readOutLabel.setText("Unable to classify " + opcodeName.get() + "...");
-                    }
+                Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(binaryInstructionString);
+                if (instructionOpt.isPresent()) {
+                    readOutLabel.setText(instructionOpt.get().sourceStringRepresentation());
                 } else {
                     readOutLabel.setText("Unable to get instruction name...");
                 }

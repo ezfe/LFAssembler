@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 
+import common.Constants;
 import common.IllegalRegisterException;
+import common.NumberTools;
+import sun.tools.asm.Assembler;
 
 /**
  * 
@@ -122,4 +125,15 @@ public class ASInstructionClassifier {
 		}
 		return Optional.empty();
 	}
+
+	public static Optional<AssemblerInstruction> makeInstruction(String binaryString) {
+        Optional<String> opcodeName = ASInstructionClassifier.getName((int) NumberTools.binaryStringToNumber(binaryString.substring(0, Constants.OPCODE_LENGTH)));
+
+        if (opcodeName.isPresent()) {
+            Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), binaryString);
+            return instructionOpt;
+        } else {
+            return Optional.empty();
+        }
+    }
 }

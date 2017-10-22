@@ -29,7 +29,7 @@ public class SimulatorView {
     private SimulatorState state;
 
     private Timer stepTimer;
-    private final int TIMER_DELAY = 50;
+    private final int TIMER_DELAY = 1;
     private int timerCalls = 0;
 
     public SimulatorView(SimulatorState state) {
@@ -71,8 +71,10 @@ public class SimulatorView {
         autoStepCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                while(autoStepCheckBox.isSelected() && !state.isHalted) {
-                    step();
+                if (autoStepCheckBox.isSelected()) {
+                    stepTimer.start();
+                } else {
+                    stepTimer.stop();
                 }
             }
         });
@@ -111,25 +113,20 @@ public class SimulatorView {
             state.isHalted = true;
             return;
         }
-        String opcodeBinaryString = instructionString.substring(0, Constants.OPCODE_LENGTH);
-        Optional<String> opcodeName = ASInstructionClassifier.getName((int) NumberTools.binaryStringToNumber(opcodeBinaryString));
 
-        if (opcodeName.isPresent()) {
-            Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(opcodeName.get(), instructionString);
-            if (instructionOpt.isPresent()) {
-                AssemblerInstruction instruction = instructionOpt.get();
-                if (instruction instanceof PerformableInstruction) {
-                    ((PerformableInstruction) instruction).perform(this.state);
-                    System.out.println(this.state);
-                }
-            } else {
-                System.out.println("Unable to make " + opcodeName.get() + " into an AssemblerInstruction");
+        Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(instructionString);
+        if (instructionOpt.isPresent()) {
+            AssemblerInstruction instruction = instructionOpt.get();
+            if (instruction instanceof PerformableInstruction) {
+                ((PerformableInstruction) instruction).perform(this.state);
+                System.out.println(this.state);
             }
         } else {
-            System.out.println("Unable to make " + opcodeBinaryString + " into an opcode name");
+            System.out.println("Unable to make " + instructionString + " into an opcode name");
         }
 
         memoryViewer.updateMemoryViewport();
+        simulatorStateTextArea.setText(state.toString());
     }
 
     /**
@@ -193,11 +190,12 @@ public class SimulatorView {
         simulatorSpeed.setMajorTickSpacing(1);
         simulatorSpeed.setMaximum(4);
         simulatorSpeed.setMinimum(0);
+        simulatorSpeed.setMinorTickSpacing(0);
         simulatorSpeed.setPaintLabels(true);
         simulatorSpeed.setPaintTicks(true);
         simulatorSpeed.setPaintTrack(true);
         simulatorSpeed.setSnapToTicks(true);
-        simulatorSpeed.setValue(0);
+        simulatorSpeed.setValue(1);
         panel3.add(simulatorSpeed, BorderLayout.NORTH);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0, 0));

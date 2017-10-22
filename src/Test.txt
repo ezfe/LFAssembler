@@ -1,11 +1,17 @@
 .wordsize 16              ; sets the machine wordsize
-.regcnt    4              ; 4 general purpose registers
-.maxmem   0x10000000      ; max memory size is 32 bytes
+.regcnt    2              ; 4 general purpose registers
+.maxmem   10              ; max memory size is 32 bytes
 
+start:
 MOVZ R0 data
-LDURB R1 [R0, #0]
-LSL R1 R1 #1
-STURB R1 [R0, #0]
+
+LDUR R1 [R0, #0]
+ADDI R1 R1 #1
+STUR R1 [R0, #0]
+
+SUBIS ZERO R1 #1000
+B.LT start
+HALT
 
 data:
-.byte 0b1011
+.double 0b0
