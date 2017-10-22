@@ -19,7 +19,7 @@ public class BitSet {
 	 * The bytes
 	 */
 	private ArrayList<Byte> byteArray = new ArrayList<>();
-	public final String configurationBytes;
+	public String configurationBytes;
 	
 	/**
 	 * The maximum byte count allowed
@@ -256,10 +256,16 @@ public class BitSet {
 		int maxwidth = Integer.toHexString(this.byteArray.size() - 1).length();
 		System.out.println(maxwidth);
 		for(int i = this.byteArray.size() - 1; i >= 0; i--) {
-			sb.append("0x" + NumberTools.numberToHexString(i, maxwidth) + " ");
+			if ((i + 1) % 4 == 0) {
+				sb.append("0x" + NumberTools.numberToHexString(i - 3, maxwidth) + " ");
+			} else {
+				sb.append(" ");
+			}
 			byte b = this.byteArray.get(i).byteValue();
 			sb.append(NumberTools.numberToBinaryString(b, 8));
-			sb.append("\n");
+			if (i % 4 == 0) {
+				sb.append("\n");
+			}
 		}
 		return sb.toString();
 	}
@@ -381,6 +387,33 @@ public class BitSet {
 		
 		if (this.getByteCount() > this.maxByteCount) {
 			System.err.println("Currently exceeding new byte count quota (have " + this.getByteCount() + ", " + this.maxByteCount + " allowed)");
+		}
+	}
+
+	public void writeToFile(Path path) {
+		byte[] bytesToWryte = new byte[4 + this.getByteCount()];
+		byte[] dataBytes = this.bytes();
+		for(int i = 0; i < dataBytes.length; i++) {
+			bytesToWryte[i + 4] = dataBytes[i];
+		}
+
+		int start = configurationBytes.length() - 8;
+		int end = start + 8;
+
+		for(int i = 0; i < 4; i++) {
+			String bite = configurationBytes.substring(start, end);
+			byte biteval = (byte) NumberTools.binaryStringToNumber(bite);
+			bytesToWryte[i] = biteval;
+
+			start -= 8;
+			end -= 8;
+		}
+
+		try {
+			Files.write(path, bytesToWryte);
+		} catch (IOException e) {
+			System.err.println("An error occurred writing the output file");
+			e.printStackTrace();
 		}
 	}
 }

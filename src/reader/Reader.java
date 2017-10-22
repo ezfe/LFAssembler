@@ -9,7 +9,7 @@ import instructions.ASInstructionClassifier;
  */
 public class Reader {
 	public static void main(String[] args) {
-        ASInstructionClassifier.populate("src/ASISpec.txt");
+        ASInstructionClassifier.populate();
         ReaderView.show(null);
 	}
 

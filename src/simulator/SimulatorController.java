@@ -20,7 +20,7 @@ public class SimulatorController {
 	SimulatorState state = null;
 	
 	public static void main(String[] args) throws InterruptedException {
-		ASInstructionClassifier.populate("src/ASISpec.txt");
+		ASInstructionClassifier.populate();
 
 		SimulatorController simulator = new SimulatorController("src/Out2.txt");
 	}

@@ -1,7 +1,5 @@
 package simulator;
 
-import common.Constants;
-import common.NumberTools;
 import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 import instructions.PerformableInstruction;
@@ -13,6 +11,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 public class SimulatorView {
@@ -24,7 +26,7 @@ public class SimulatorView {
     private JSlider simulatorSpeed;
     private JCheckBox autoStepCheckBox;
     private JButton haltButton;
-    private JButton reloadButton;
+    private JButton saveButton;
 
     private SimulatorState state;
 
@@ -62,10 +64,17 @@ public class SimulatorView {
                 state.isHalted = true;
             }
         });
-        reloadButton.addActionListener(new ActionListener() {
+        saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //
+                try {
+                    JFileChooser fileChooser = new JFileChooser();
+                    if (fileChooser.showSaveDialog(saveButton) == JFileChooser.APPROVE_OPTION) {
+                        Files.write(fileChooser.getSelectedFile().toPath(), state.toString().getBytes(), StandardOpenOption.CREATE);
+                    }
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
             }
         });
         autoStepCheckBox.addChangeListener(new ChangeListener() {
@@ -209,9 +218,9 @@ public class SimulatorView {
         haltButton = new JButton();
         haltButton.setText("Halt");
         panel4.add(haltButton, BorderLayout.NORTH);
-        reloadButton = new JButton();
-        reloadButton.setText("Reload");
-        panel4.add(reloadButton, BorderLayout.SOUTH);
+        saveButton = new JButton();
+        saveButton.setText("Save");
+        panel4.add(saveButton, BorderLayout.SOUTH);
     }
 
     /**

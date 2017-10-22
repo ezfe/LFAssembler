@@ -34,19 +34,24 @@ public class Assembler {
 
 	public static void main(String[] args) {
 		Assembler assembler = new Assembler();
-		assembler.run(args);
+		if (args.length < 2) {
+			System.out.println("The assembler must be run with two parameters:");
+			System.out.println("assembler [source file path] [output file path]");
+			return;
+		}
+		assembler.run(args[0], args[1]);
 	}
 	
-	public void run(String[] args) {
-		ASInstructionClassifier.populate("src/ASISpec.txt");
+	public void run(String assemblyFilePath, String outputFilePath) {
+		ASInstructionClassifier.populate();
 		
 		String s = "";
 		try {
-			  byte[] encoded = Files.readAllBytes(Paths.get("src/Test.txt"));
+			  byte[] encoded = Files.readAllBytes(Paths.get(assemblyFilePath));
 			  s = new String(encoded, StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Unable to find file: " + assemblyFilePath);
+			return;
 		}
 		Scanner lineScanner = new Scanner(s);
 		
@@ -221,29 +226,19 @@ public class Assembler {
 			stackLocation = (int) /* i hate java */ (long) labelLocations.get("stack");
 		}
 		conf.setStackAddress(stackLocation);
-		
-		
-//		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
-//			System.err.println("Configuration is incomplete!");
-			System.out.println(conf.toString());
-//		}
 
-		
-		String infoBytes = conf.binaryStringRepresentation();
-		System.out.println(infoBytes);
-		bitOutput.insertByte((byte)0, 0);
-		bitOutput.insertByte((byte)0, 0);
-		bitOutput.insertByte((byte)0, 0);
-		bitOutput.insertByte((byte)0, 0);
-		bitOutput.writeBytes(0, infoBytes);
-		
-		try {
-			Files.write(Paths.get("src/Out2.txt"), bitOutput.bytes());
-		} catch (IOException e) {
-			System.err.println("An error occurred writing the output file");
-			e.printStackTrace();
+        while (bitOutput.getByteCount() < conf.getMaxMemory()) {
+            bitOutput.appendByte((byte) 0);
+        }
+
+		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
+			System.err.println("Configuration is incomplete!");
+			System.out.println(conf.toString());
 		}
-		
+
+		bitOutput.configurationBytes = conf.binaryStringRepresentation();
+		bitOutput.writeToFile(Paths.get(outputFilePath));
+
 		lineScanner.close();
 	}	
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import common.BitSet;
@@ -27,6 +28,7 @@ public class ReaderView {
     private JButton reloadFromFileButton;
     private JButton readInstructionButton;
     private JLabel readOutLabel;
+    private JButton saveAsButton;
 
     public ReaderView(BitSet attachedMemory) {
         this.attached = attachedMemory != null;
@@ -61,6 +63,15 @@ public class ReaderView {
                     readOutLabel.setText(instructionOpt.get().sourceStringRepresentation());
                 } else {
                     readOutLabel.setText("Unable to get instruction name...");
+                }
+            }
+        });
+        saveAsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                if (fileChooser.showSaveDialog(saveAsButton) == JFileChooser.APPROVE_OPTION && memory != null) {
+                    memory.writeToFile(fileChooser.getSelectedFile().toPath());
                 }
             }
         });
@@ -130,7 +141,7 @@ public class ReaderView {
         panel2.setLayout(new BorderLayout(0, 0));
         panel1.add(panel2, BorderLayout.NORTH);
         readOutLabel = new JLabel();
-        readOutLabel.setText("EXAMPLE OP OP OP");
+        readOutLabel.setText("Click Read Instruction to parse 4-byte space as instruction");
         panel2.add(readOutLabel, BorderLayout.SOUTH);
         readInstructionButton = new JButton();
         readInstructionButton.setText("Read Instruction");
@@ -138,19 +149,25 @@ public class ReaderView {
         a0x0TextField = new JTextField();
         a0x0TextField.setText("0x0");
         panel2.add(a0x0TextField, BorderLayout.CENTER);
-        reloadFromFileButton = new JButton();
-        reloadFromFileButton.setText("Reload From File");
-        panel1.add(reloadFromFileButton, BorderLayout.SOUTH);
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, BorderLayout.CENTER);
         textArea1 = new JTextArea();
-        textArea1.setColumns(16);
+        textArea1.setColumns(50);
         textArea1.setEditable(false);
         Font textArea1Font = this.$$$getFont$$$("Courier", Font.PLAIN, 12, textArea1.getFont());
         if (textArea1Font != null) textArea1.setFont(textArea1Font);
         textArea1.setRows(24);
         textArea1.setText("No memory loaded...");
         scrollPane1.setViewportView(textArea1);
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new BorderLayout(0, 0));
+        panel1.add(panel3, BorderLayout.SOUTH);
+        saveAsButton = new JButton();
+        saveAsButton.setText("Save As");
+        panel3.add(saveAsButton, BorderLayout.WEST);
+        reloadFromFileButton = new JButton();
+        reloadFromFileButton.setText("Reload");
+        panel3.add(reloadFromFileButton, BorderLayout.EAST);
     }
 
     /**

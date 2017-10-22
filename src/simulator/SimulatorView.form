@@ -72,10 +72,10 @@
                   <text value="Halt"/>
                 </properties>
               </component>
-              <component id="f52cc" class="javax.swing.JButton" binding="reloadButton" default-binding="true">
+              <component id="f52cc" class="javax.swing.JButton" binding="saveButton">
                 <constraints border-constraint="South"/>
                 <properties>
-                  <text value="Reload"/>
+                  <text value="Save"/>
                 </properties>
               </component>
             </children>

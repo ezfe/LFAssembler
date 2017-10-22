@@ -134,6 +134,12 @@ public class SimulatorState {
 		str.append("Last Instruction Executed:\n");
 		str.append(lastInstruction);
 
+		str.append("\nCPU Flags:\n");
+		str.append("Negative: " + this.negativeFlag);
+		str.append("\nZero: " + this.zeroFlag);
+		str.append("\nOverflow: " + this.overflowFlag);
+		str.append("\nCarry: " + this.carryFlag);
+
 		return str.toString();
 	}
 }

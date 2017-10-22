@@ -15,7 +15,7 @@
           <component id="3ebff" class="javax.swing.JLabel" binding="readOutLabel">
             <constraints border-constraint="South"/>
             <properties>
-              <text value="EXAMPLE OP OP OP"/>
+              <text value="Click Read Instruction to parse 4-byte space as instruction"/>
             </properties>
           </component>
           <component id="23bf3" class="javax.swing.JButton" binding="readInstructionButton" default-binding="true">
@@ -32,12 +32,6 @@
           </component>
         </children>
       </grid>
-      <component id="92eaf" class="javax.swing.JButton" binding="reloadFromFileButton" default-binding="true">
-        <constraints border-constraint="South"/>
-        <properties>
-          <text value="Reload From File"/>
-        </properties>
-      </component>
       <scrollpane id="488aa">
         <constraints border-constraint="Center"/>
         <properties/>
@@ -46,7 +40,7 @@
           <component id="a6ede" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
             <constraints/>
             <properties>
-              <columns value="16"/>
+              <columns value="50"/>
               <editable value="false"/>
               <font name="Courier" size="12" style="0"/>
               <rows value="24"/>
@@ -55,6 +49,25 @@
           </component>
         </children>
       </scrollpane>
+      <grid id="91401" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="426d6" class="javax.swing.JButton" binding="saveAsButton" default-binding="true">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="Save As"/>
+            </properties>
+          </component>
+          <component id="92eaf" class="javax.swing.JButton" binding="reloadFromFileButton" default-binding="true">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Reload"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

@@ -1,6 +1,6 @@
 .wordsize 16              ; sets the machine wordsize
 .regcnt    2              ; 4 general purpose registers
-.maxmem   10              ; max memory size is 32 bytes
+.maxmem   1024              ; max memory size is 32 bytes
 
 start:
 MOVZ R0 data
