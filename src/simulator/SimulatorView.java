@@ -126,7 +126,13 @@ public class SimulatorView {
         }
 
         memoryViewer.updateMemoryViewport();
-        simulatorStateTextArea.setText(state.toString());
+        // Without this, the text area sometimes doesn't show the most recent string
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                simulatorStateTextArea.setText(state.toString());
+            }
+        });
     }
 
     /**

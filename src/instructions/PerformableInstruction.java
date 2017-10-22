@@ -8,6 +8,7 @@ public abstract class PerformableInstruction extends AssemblerInstruction {
 	 * @param state The simulator state
 	 */
 	public void perform(SimulatorState state) {
+		state.lastInstruction = this.sourceStringRepresentation();
 		System.out.println("Performing " + this.sourceStringRepresentation());
 	}
 }

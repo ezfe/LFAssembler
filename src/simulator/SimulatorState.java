@@ -27,7 +27,9 @@ public class SimulatorState {
 	
 	public BitSet memory;
 	public int programCounter;
-	
+
+	public String lastInstruction = "- - -";
+
 	/**
 	 * Has the simulator halted execution
 	 */
@@ -115,14 +117,23 @@ public class SimulatorState {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
+		str.append("General Registers...\n");
 		for(int i = 0; i < this.registers.size(); i++) {
 			SimulatorRegister reg = this.getRegister(i);
 			str.append("R" + i + "\t");
+			str.append(reg.getValue() + "\t");
 			str.append(reg.getNumericalValue());
-			if (i < this.registers.size() - 1) {
-				str.append("\n");
-			}
+			str.append("\n");
 		}
+
+		str.append("Link Register:\n---\t");
+		str.append(branchLinkRegister.getValue() + "\t");
+		str.append(branchLinkRegister.getNumericalValue());
+		str.append("\n");
+
+		str.append("Last Instruction Executed:\n");
+		str.append(lastInstruction);
+
 		return str.toString();
 	}
 }

@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16ee5f4a-2497-4641-96d7-b092b63eac00" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/simulator/test.form" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/simulator/test.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Out2.txt" afterPath="$PROJECT_DIR$/src/Out2.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Test.txt" afterPath="$PROJECT_DIR$/src/Test.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/instructions/ASInstructionClassifier.java" afterPath="$PROJECT_DIR$/src/instructions/ASInstructionClassifier.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/instructions/PerformableInstruction.java" afterPath="$PROJECT_DIR$/src/instructions/PerformableInstruction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reader/ReaderView.java" afterPath="$PROJECT_DIR$/src/reader/ReaderView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/simulator/SimulatorView.form" afterPath="$PROJECT_DIR$/src/simulator/SimulatorView.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/simulator/SimulatorState.java" afterPath="$PROJECT_DIR$/src/simulator/SimulatorState.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/simulator/SimulatorView.java" afterPath="$PROJECT_DIR$/src/simulator/SimulatorView.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -21,85 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SimulatorView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="116" column="8" lean-forward="true" selection-start-line="116" selection-start-column="8" selection-end-line="125" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2638#2639#0" expanded="true" />
-                <element signature="e#2676#2677#0" expanded="true" />
-                <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
-                <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimulatorController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimulatorView.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorView.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimulatorState.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1256">
-              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Test.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Test.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Out2.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Out2.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReaderView.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/reader/ReaderView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="initializer##0;class#ReaderView#0" expanded="true" />
-                <element signature="initializer##0;class#ReaderView#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -139,6 +56,8 @@
         <option value="$PROJECT_DIR$/src/Test.txt" />
         <option value="$PROJECT_DIR$/src/simulator/SimulatorView.form" />
         <option value="$PROJECT_DIR$/src/instructions/ASInstructionClassifier.java" />
+        <option value="$PROJECT_DIR$/src/instructions/PerformableInstruction.java" />
+        <option value="$PROJECT_DIR$/src/simulator/SimulatorState.java" />
         <option value="$PROJECT_DIR$/src/simulator/SimulatorView.java" />
         <option value="$PROJECT_DIR$/src/reader/ReaderView.java" />
       </list>
@@ -151,7 +70,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="130" />
+    <option name="x" value="234" />
     <option name="y" value="23" />
     <option name="width" value="1206" />
     <option name="height" value="857" />
@@ -189,6 +108,12 @@
               <item name="Project 1" type="b2602c69:ProjectViewProjectNode" />
               <item name="Project 1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="instructions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Project 1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Project 1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="reader" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -203,6 +128,13 @@
               <item name="Project 1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="simulator" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Project 1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Project 1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="simulator" type="462c0819:PsiDirectoryNode" />
+              <item name="SimulatorView" type="e9f4de52:FormNode" />
             </path>
           </expand>
           <select />
@@ -339,16 +271,15 @@
       <workItem from="1508608857794" duration="135000" />
       <workItem from="1508609094437" duration="205000" />
       <workItem from="1508616653795" duration="8247000" />
-      <workItem from="1508635130052" duration="3459000" />
+      <workItem from="1508635130052" duration="4733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12046000" />
+    <option name="totallyTimeSpent" value="13320000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="130" y="23" width="1206" height="857" extended-state="0" />
-    <editor active="true" />
+    <frame x="234" y="23" width="1206" height="857" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -358,7 +289,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3197903" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3197903" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -416,6 +347,8 @@
             <element signature="imports" expanded="true" />
             <element signature="e#2638#2639#0" expanded="true" />
             <element signature="e#2676#2677#0" expanded="true" />
+            <element signature="e#4392#4393#0" expanded="true" />
+            <element signature="e#4472#4473#0" expanded="true" />
             <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
             <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
           </folding>
@@ -577,14 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorView.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
@@ -606,14 +531,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1256">
-          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -622,28 +539,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorView.java">
+    <entry file="file://$PROJECT_DIR$/src/reader/ReaderView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="116" column="8" lean-forward="true" selection-start-line="116" selection-start-column="8" selection-end-line="125" selection-end-column="9" />
+        <state relative-caret-position="171">
+          <caret line="72" column="16" lean-forward="true" selection-start-line="72" selection-start-column="16" selection-end-line="72" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2638#2639#0" expanded="true" />
-            <element signature="e#2676#2677#0" expanded="true" />
-            <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
-            <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
+            <element signature="e#2684#2685#0" expanded="true" />
+            <element signature="e#2764#2765#0" expanded="true" />
+            <element signature="initializer##0;class#ReaderView#0" expanded="true" />
+            <element signature="initializer##0;class#ReaderView#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/reader/ReaderView.java">
+    <entry file="file://$PROJECT_DIR$/src/instructions/ASInstructionC.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state relative-caret-position="244">
+          <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/instructions/ASInstructionD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-783">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/instructions/ASInstructionE.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-956">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/instructions/ASInstructionG.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-705">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/instructions/ASInstructionH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-444">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Test.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/instructions/PerformableInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simulator/SimulatorView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="127" column="25" lean-forward="false" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="initializer##0;class#ReaderView#0" expanded="true" />
-            <element signature="initializer##0;class#ReaderView#0" expanded="true" />
+            <element signature="e#2638#2639#0" expanded="true" />
+            <element signature="e#2676#2677#0" expanded="true" />
+            <element signature="e#4392#4393#0" expanded="true" />
+            <element signature="e#4472#4473#0" expanded="true" />
+            <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
+            <element signature="initializer##0;class#SimulatorView#0" expanded="true" />
           </folding>
         </state>
       </provider>

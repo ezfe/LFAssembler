@@ -71,7 +71,12 @@ public class ReaderView {
      */
     public void updateMemoryViewport() {
         if (this.memory != null) {
-            this.textArea1.setText(this.memory.toByteString());
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    textArea1.setText(memory.toByteString());
+                }
+            });
         }
     }
 
