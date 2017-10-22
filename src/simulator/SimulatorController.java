@@ -15,6 +15,7 @@ import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 import instructions.PerformableInstruction;
 import reader.ReaderView;
+import java.awt.*;
 
 public class SimulatorController {
     SimulatorView simulatorViewer;
@@ -24,15 +25,17 @@ public class SimulatorController {
 	
 	public static void main(String[] args) throws InterruptedException {
 		ASInstructionClassifier.populate();
-
-	    JFileChooser filePicker = new JFileChooser();
-	    filePicker.setApproveButtonText("Load Memory Image");
-	    if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	        File file = filePicker.getSelectedFile();
-    		SimulatorController simulator = new SimulatorController(file.toPath());
-
-	    }
-
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+			    JFileChooser filePicker = new JFileChooser();
+			    filePicker.setApproveButtonText("Load Memory Image");
+			    if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			        File file = filePicker.getSelectedFile();
+		    		SimulatorController simulator = new SimulatorController(file.toPath());
+			    }
+			}
+		});
 	}
 
 	public SimulatorController(Path path) {
