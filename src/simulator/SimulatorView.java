@@ -51,7 +51,7 @@ public class SimulatorView {
                 if (autoStepCheckBox.isSelected() && ((timerCalls * TIMER_DELAY) >= simulatorSpeed.getValue() * 1000)) {
                     timerCalls = 0;
                     step();
-                    System.out.println("Auto-triggered step");
+                    // System.out.println("Auto-triggered step");
                 }
             }
         });
@@ -131,7 +131,7 @@ public class SimulatorView {
                 System.out.println(this.state);
             }
         } else {
-            System.out.println("Unable to make " + instructionString + " into an opcode name");
+            System.err.println("Unable to make " + instructionString + " into an opcode name");
         }
 
         memoryViewer.updateMemoryViewport();

@@ -32,12 +32,17 @@ import instructions.AssemblerInstruction;
 
 public class Assembler {
 
+	public static boolean verbose = false;
+
 	public static void main(String[] args) {
 		Assembler assembler = new Assembler();
 		if (args.length < 2) {
 			System.out.println("The assembler must be run with two parameters:");
 			System.out.println("assembler [source file path] [output file path]");
 			return;
+		}
+		if (args.length == 3) {
+			Assembler.verbose = args[2].equals("true") ? true : false;
 		}
 		assembler.run(args[0], args[1]);
 	}
@@ -57,7 +62,6 @@ public class Assembler {
 		
 		ProgramConfiguration conf = new ProgramConfiguration();
 		
-		//TODO
 		HashMap<String, ArrayList<BitIndex>> unfilledLabelReferences = new HashMap<>();
 		HashMap<String, Long> labelLocations = new HashMap<>();
 		
@@ -72,6 +76,7 @@ public class Assembler {
 			while (scanner.hasNext() && !error) {
 				String token = scanner.next();
 				if (token.charAt(0) == '.') {
+					if (Assembler.verbose) System.out.println("Found directive: " + token);
 					//DIRECTIVE
 					Directive d = new Directive(token.substring(1), scanner);
 					switch (d.getToken()) {
@@ -112,10 +117,12 @@ public class Assembler {
 						System.err.println("Unknown directive: " + d.toString());
 					}
 				} else if (token.charAt(token.length() - 1) == ':') {
+					if (Assembler.verbose) System.out.println("Found label " + token);
 					Label l = new Label(token.substring(0, token.length() - 1));
 					tokens.add(l);
 				} else {
 					//OPERATION
+					if (Assembler.verbose) System.out.println("Found instruction " + token);
 					try {
 						Optional<AssemblerInstruction> ins = ASInstructionClassifier.makeInstruction(token, scanner);
 	
@@ -128,7 +135,7 @@ public class Assembler {
 						}
 					} catch (Exception e) {
 						System.err.println(e.getLocalizedMessage());
-						System.err.print("Line " + lineNumber + ": ");
+						System.err.print("An error occurred at line " + lineNumber + ": ");
 						System.err.println(line.trim());
 					}
 				}
@@ -138,8 +145,10 @@ public class Assembler {
 			lineNumber += 1;
 		}
 		
-		for(Token t: tokens) {
-			System.out.println(t.toString());
+		if (Assembler.verbose) {
+			for(Token t: tokens) {
+				System.out.println(t.toString());
+			}
 		}
 		
 		BitSet bitOutput = new BitSet();
@@ -197,8 +206,10 @@ public class Assembler {
 			}
 		}
 		
-		System.out.println("Locations: " + labelLocations);
-		System.out.println("Fill In: " + unfilledLabelReferences);
+		if (Assembler.verbose) {
+			System.out.println("Locations: " + labelLocations);
+			System.out.println("Fill In: " + unfilledLabelReferences);
+		}
 		
 		for(Entry<String, ArrayList<BitIndex>> entry : unfilledLabelReferences.entrySet()) {
 			String label = entry.getKey();
@@ -235,6 +246,8 @@ public class Assembler {
 			System.err.println("Configuration is incomplete!");
 			System.out.println(conf.toString());
 		}
+
+		System.out.println("Successfully parsed assembly file " + assemblyFilePath + " and wrote memory map to " + outputFilePath);
 
 		bitOutput.configurationBytes = conf.binaryStringRepresentation();
 		bitOutput.writeToFile(Paths.get(outputFilePath));

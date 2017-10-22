@@ -3,6 +3,9 @@ package simulator;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
+import java.nio.file.Path;
+import javax.swing.*;
 
 import assembler.ProgramConfiguration;
 import common.BitSet;
@@ -22,10 +25,17 @@ public class SimulatorController {
 	public static void main(String[] args) throws InterruptedException {
 		ASInstructionClassifier.populate();
 
-		SimulatorController simulator = new SimulatorController("src/Out2.txt");
+	    JFileChooser filePicker = new JFileChooser();
+	    filePicker.setApproveButtonText("Load Memory Image");
+	    if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	        File file = filePicker.getSelectedFile();
+    		SimulatorController simulator = new SimulatorController(file.toPath());
+
+	    }
+
 	}
 
-	public SimulatorController(String path) {
+	public SimulatorController(Path path) {
 		BitSet readBits = new BitSet(path);
 
 		ProgramConfiguration conf = new ProgramConfiguration(readBits.configurationBytes);

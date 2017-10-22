@@ -41,10 +41,10 @@ public class ReaderView {
                     if (path == null) {
                         JFileChooser filePicker = new JFileChooser();
                         filePicker.setApproveButtonText("Load Memory Image");
-                        int returnValue = filePicker.showOpenDialog(reloadFromFileButton);
-
-                        File file = filePicker.getSelectedFile();
-                        path = file.toPath();
+                        if (filePicker.showOpenDialog(reloadFromFileButton) == JFileChooser.APPROVE_OPTION) {
+                            File file = filePicker.getSelectedFile();
+                            path = file.toPath();
+                        }
                     }
                     memory = new BitSet(path);
                 }
