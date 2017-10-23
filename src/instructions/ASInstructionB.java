@@ -8,6 +8,7 @@ import common.IllegalRegisterException;
 import common.NumberTools;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
+import simulator.SimulatorController;
 
 /**
  * 
@@ -125,6 +126,7 @@ public class ASInstructionB extends PerformableInstruction {
 			val.apply(state);
 		} else if (this.token.equals("SUBI")) {
 			BinaryOperationsResult val = null;
+			if (SimulatorController.verbose) System.out.println("Reversing parameters: " + this.constantOrderFlipped);
 			if (this.constantOrderFlipped) {
 				val = BinaryOperations.subtract(sourceLiteralBinaryString, leftSourceRegister.getValue());
 			} else {
@@ -133,6 +135,7 @@ public class ASInstructionB extends PerformableInstruction {
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("SUBIS")) {
 			BinaryOperationsResult val = null;
+			if (SimulatorController.verbose) System.out.println("Reversing parameters: " + this.constantOrderFlipped);
 			if (this.constantOrderFlipped) {
 				val = BinaryOperations.subtract(sourceLiteralBinaryString, leftSourceRegister.getValue());
 			} else {
@@ -151,6 +154,7 @@ public class ASInstructionB extends PerformableInstruction {
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSL")) {
 			BinaryOperationsResult val = null;
+			if (SimulatorController.verbose) System.out.println("Reversing parameters: " + this.constantOrderFlipped);
 			if (this.constantOrderFlipped) {
 				val = BinaryOperations.lsl(sourceLiteralBinaryString, (int) NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {
@@ -159,6 +163,7 @@ public class ASInstructionB extends PerformableInstruction {
 			destinationRegister.setValue(val.result);
 		} else if (this.token.equals("LSR")) {
 			BinaryOperationsResult val = null;
+			if (SimulatorController.verbose) System.out.println("Reversing parameters: " + this.constantOrderFlipped);
 			if (this.constantOrderFlipped) {
 				val = BinaryOperations.lsr(sourceLiteralBinaryString, (int) NumberTools.binaryStringToNumber(leftSourceRegister.getValue()));
 			} else {

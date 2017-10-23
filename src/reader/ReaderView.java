@@ -16,164 +16,172 @@ import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
 import instructions.PerformableInstruction;
 
+/**
+ * The class managing the Swing elements for the Reader
+ *
+ * @author Ezekiel Elin
+ */
 public class ReaderView {
 
-    private BitSet memory = null;
-    private Path path = null;
-    private boolean attached = false;
+	/// The memory shown in the view
+	private BitSet memory = null;
+	/// The path to the file, if applicable
+	private Path path = null;
+	/// Whether this is attached to a simulator
+	private boolean attached = false;
 
-    private JTextArea textArea1;
-    private JPanel panel1;
-    private JTextField a0x0TextField;
-    private JButton reloadFromFileButton;
-    private JButton readInstructionButton;
-    private JLabel readOutLabel;
-    private JButton saveAsButton;
+	private JTextArea textArea1;
+	private JPanel panel1;
+	private JTextField a0x0TextField;
+	private JButton reloadFromFileButton;
+	private JButton readInstructionButton;
+	private JLabel readOutLabel;
+	private JButton saveAsButton;
 
-    public ReaderView(BitSet attachedMemory) {
-        this.attached = attachedMemory != null;
-        this.memory = attachedMemory;
+	public ReaderView(BitSet attachedMemory) {
+		this.attached = attachedMemory != null;
+		this.memory = attachedMemory;
 
-        reloadFromFileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!attached) {
-                    if (path == null) {
-                        JFileChooser filePicker = new JFileChooser();
-                        filePicker.setApproveButtonText("Load Memory Image");
-                        if (filePicker.showOpenDialog(reloadFromFileButton) == JFileChooser.APPROVE_OPTION) {
-                            File file = filePicker.getSelectedFile();
-                            path = file.toPath();
-                        }
-                    }
-                    memory = new BitSet(path);
-                }
-                updateMemoryViewport();
-            }
-        });
-        readInstructionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String hexString = a0x0TextField.getText();
-                long memaddr = Long.parseLong(hexString.substring(2), 16);
-                String binaryInstructionString = memory.readBytes((int) memaddr, 4);
+		reloadFromFileButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!attached) {
+					if (path == null) {
+						JFileChooser filePicker = new JFileChooser();
+						filePicker.setApproveButtonText("Load Memory Image");
+						if (filePicker.showOpenDialog(reloadFromFileButton) == JFileChooser.APPROVE_OPTION) {
+							File file = filePicker.getSelectedFile();
+							path = file.toPath();
+						}
+					}
+					memory = new BitSet(path);
+				}
+				updateMemoryViewport();
+			}
+		});
+		readInstructionButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String hexString = a0x0TextField.getText();
+				long memaddr = Long.parseLong(hexString.substring(2), 16);
+				String binaryInstructionString = memory.readBytes((int) memaddr, 4);
 
-                Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(binaryInstructionString);
-                if (instructionOpt.isPresent()) {
-                    readOutLabel.setText(instructionOpt.get().sourceStringRepresentation());
-                } else {
-                    readOutLabel.setText("Unable to get instruction name...");
-                }
-            }
-        });
-        saveAsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                if (fileChooser.showSaveDialog(saveAsButton) == JFileChooser.APPROVE_OPTION && memory != null) {
-                    memory.writeToFile(fileChooser.getSelectedFile().toPath());
-                }
-            }
-        });
-    }
+				Optional<AssemblerInstruction> instructionOpt = ASInstructionClassifier.makeInstruction(binaryInstructionString);
+				if (instructionOpt.isPresent()) {
+					readOutLabel.setText(instructionOpt.get().sourceStringRepresentation());
+				} else {
+					readOutLabel.setText("Unable to get instruction name...");
+				}
+			}
+		});
+		saveAsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				if (fileChooser.showSaveDialog(saveAsButton) == JFileChooser.APPROVE_OPTION && memory != null) {
+					memory.writeToFile(fileChooser.getSelectedFile().toPath());
+				}
+			}
+		});
+	}
 
-    /**
-     * Fetch the memory string and update the text area
-     */
-    public void updateMemoryViewport() {
-        if (this.memory != null) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    textArea1.setText(memory.toByteString());
-                }
-            });
-        }
-    }
+	/**
+	 * Fetch the memory string and update the text area
+	 */
+	public void updateMemoryViewport() {
+		if (this.memory != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					textArea1.setText(memory.toByteString());
+				}
+			});
+		}
+	}
 
-    public static ReaderView show(BitSet attachedMemory) {
-        ReaderView view = new ReaderView(attachedMemory);
-        JFrame frame = new JFrame("Viewer");
-        frame.setContentPane(view.panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        return view;
-    }
+	/**
+	 * Show the reader view
+	 * @param attachedMemory If desired, provide the memory object to show
+	 * @return the ReaderView created
+	 */
+	public static ReaderView show(BitSet attachedMemory) {
+		ReaderView view = new ReaderView(attachedMemory);
+		JFrame frame = new JFrame("Viewer");
+		frame.setContentPane(view.panel1);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+		return view;
+	}
 
-    /**
-     * @noinspection ALL
-     */
-    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
-        if (currentFont == null) return null;
-        String resultName;
-        if (fontName == null) {
-            resultName = currentFont.getName();
-        } else {
-            Font testFont = new Font(fontName, Font.PLAIN, 10);
-            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
-                resultName = fontName;
-            } else {
-                resultName = currentFont.getName();
-            }
-        }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-    }
+	/**
+	 * @noinspection ALL
+	 */
+	private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+		if (currentFont == null) return null;
+		String resultName;
+		if (fontName == null) {
+			resultName = currentFont.getName();
+		} else {
+			Font testFont = new Font(fontName, Font.PLAIN, 10);
+			if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+				resultName = fontName;
+			} else {
+				resultName = currentFont.getName();
+			}
+		}
+		return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+	}
 
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-        $$$setupUI$$$();
-    }
+	{
+		// GUI initializer generated by IntelliJ IDEA GUI Designer
+		// >>> IMPORTANT!! <<<
+		// DO NOT EDIT OR ADD ANY CODE HERE!
+		$$$setupUI$$$();
+	}
 
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer
-     * >>> IMPORTANT!! <<<
-     * DO NOT edit this method OR call it in your code!
-     *
-     * @noinspection ALL
-     */
-    private void $$$setupUI$$$() {
-        panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout(0, 0));
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new BorderLayout(0, 0));
-        panel1.add(panel2, BorderLayout.NORTH);
-        readOutLabel = new JLabel();
-        readOutLabel.setText("Click Read Instruction to parse 4-byte space as instruction");
-        panel2.add(readOutLabel, BorderLayout.SOUTH);
-        readInstructionButton = new JButton();
-        readInstructionButton.setText("Read Instruction");
-        panel2.add(readInstructionButton, BorderLayout.EAST);
-        a0x0TextField = new JTextField();
-        a0x0TextField.setText("0x0");
-        panel2.add(a0x0TextField, BorderLayout.CENTER);
-        final JScrollPane scrollPane1 = new JScrollPane();
-        panel1.add(scrollPane1, BorderLayout.CENTER);
-        textArea1 = new JTextArea();
-        textArea1.setColumns(50);
-        textArea1.setEditable(false);
-        Font textArea1Font = this.$$$getFont$$$("Courier", Font.PLAIN, 12, textArea1.getFont());
-        if (textArea1Font != null) textArea1.setFont(textArea1Font);
-        textArea1.setRows(24);
-        textArea1.setText("No memory loaded...");
-        scrollPane1.setViewportView(textArea1);
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new BorderLayout(0, 0));
-        panel1.add(panel3, BorderLayout.SOUTH);
-        saveAsButton = new JButton();
-        saveAsButton.setText("Save As");
-        panel3.add(saveAsButton, BorderLayout.WEST);
-        reloadFromFileButton = new JButton();
-        reloadFromFileButton.setText("Reload");
-        panel3.add(reloadFromFileButton, BorderLayout.EAST);
-    }
+	/**
+	 * Method generated by IntelliJ IDEA GUI Designer
+	 * >>> IMPORTANT!! <<<
+	 * DO NOT edit this method OR call it in your code!
+	 */
+	private void $$$setupUI$$$() {
+		panel1 = new JPanel();
+		panel1.setLayout(new BorderLayout(0, 0));
+		final JPanel panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout(0, 0));
+		panel1.add(panel2, BorderLayout.NORTH);
+		readOutLabel = new JLabel();
+		readOutLabel.setText("Click Read Instruction to parse 4-byte space as instruction");
+		panel2.add(readOutLabel, BorderLayout.SOUTH);
+		readInstructionButton = new JButton();
+		readInstructionButton.setText("Read Instruction");
+		panel2.add(readInstructionButton, BorderLayout.EAST);
+		a0x0TextField = new JTextField();
+		a0x0TextField.setText("0x0");
+		panel2.add(a0x0TextField, BorderLayout.CENTER);
+		final JScrollPane scrollPane1 = new JScrollPane();
+		panel1.add(scrollPane1, BorderLayout.CENTER);
+		textArea1 = new JTextArea();
+		textArea1.setColumns(50);
+		textArea1.setEditable(false);
+		Font textArea1Font = this.$$$getFont$$$("Courier", Font.PLAIN, 12, textArea1.getFont());
+		if (textArea1Font != null) textArea1.setFont(textArea1Font);
+		textArea1.setRows(24);
+		textArea1.setText("No memory loaded...");
+		scrollPane1.setViewportView(textArea1);
+		final JPanel panel3 = new JPanel();
+		panel3.setLayout(new BorderLayout(0, 0));
+		panel1.add(panel3, BorderLayout.SOUTH);
+		saveAsButton = new JButton();
+		saveAsButton.setText("Save As");
+		panel3.add(saveAsButton, BorderLayout.WEST);
+		reloadFromFileButton = new JButton();
+		reloadFromFileButton.setText("Reload");
+		panel3.add(reloadFromFileButton, BorderLayout.EAST);
+	}
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return panel1;
-    }
+	public JComponent $$$getRootComponent$$$() {
+		return panel1;
+	}
 }

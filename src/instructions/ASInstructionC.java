@@ -3,6 +3,7 @@ package instructions;
 import common.Constants;
 import common.NumberTools;
 import simulator.SimulatorState;
+import simulator.SimulatorController;
 
 public class ASInstructionC extends PerformableInstruction {
 
@@ -25,8 +26,9 @@ public class ASInstructionC extends PerformableInstruction {
 		super.perform(state);
 		
 		if (this.token.equals("NOP")) {
-			// Do nothing
+			if (SimulatorController.verbose) System.out.println("NOP!");
 		} else if (this.token.equals("HALT")) {
+			if (SimulatorController.verbose) System.out.println("HALT!");
 			state.isHalted = true;
 		}
 	}

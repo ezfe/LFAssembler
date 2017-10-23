@@ -61,13 +61,13 @@ public class BitSet {
 		this.configurationBytes = null;
 	}
 
-    /**
-     * Create a BitSet object from a path
-     * @param path The path
-     */
+	/**
+	 * Create a BitSet object from a path
+	 * @param path The path
+	 */
 	public BitSet(String path) {
-	    this(Paths.get(path));
-    }
+		this(Paths.get(path));
+	}
 
 	/**
 	 * Create a BitSet object from a path
@@ -238,9 +238,6 @@ public class BitSet {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-//		if (trailingLength > 0) {
-//			sb.append(NumberTools.numberToBinaryString(bits.get(bits.size() - 1).byteValue(), trailingLength));
-//		}
 		for(int i = byteArray.size() - 1; i >= 0; i--) {
 			sb.append(NumberTools.numberToBinaryString(byteArray.get(i).byteValue(), 8));
 		}
@@ -277,7 +274,7 @@ public class BitSet {
 	public byte[] bytes() {
 		byte[] res = new byte[byteArray.size()];
 		for(int i = 0; i < byteArray.size(); i++) {
-		    res[i] = byteArray.get(i).byteValue();
+			res[i] = byteArray.get(i).byteValue();
 		}
 		return res;
 	}
@@ -318,7 +315,7 @@ public class BitSet {
 	/**
 	 * Write n bytes from a String
 	 * @param firstByte The first byte to write
-	 * @return The bytes
+	 * @param bytes The byte string to write
 	 */
 	public void writeBytes(int firstByte, String bytes) {
 		if (bytes.length() % 8 != 0) {

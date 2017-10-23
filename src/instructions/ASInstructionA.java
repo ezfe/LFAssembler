@@ -8,6 +8,7 @@ import common.IllegalRegisterException;
 import common.NumberTools;
 import simulator.SimulatorRegister;
 import simulator.SimulatorState;
+import simulator.SimulatorController;
 
 /**
  * 

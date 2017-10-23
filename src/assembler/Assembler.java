@@ -20,6 +20,7 @@ import common.NumberTools;
 import common.Token;
 import instructions.ASInstructionClassifier;
 import instructions.AssemblerInstruction;
+import java.util.*;
 
 /**
  * The assembler is the entry point for transferring an Assembly source file into machine code.
@@ -78,7 +79,15 @@ public class Assembler {
 				if (token.charAt(0) == '.') {
 					if (Assembler.verbose) System.out.println("Found directive: " + token);
 					//DIRECTIVE
-					Directive d = new Directive(token.substring(1), scanner);
+					Directive d = null;
+					try {
+						d = new Directive(token.substring(1), scanner);
+					} catch (NoSuchElementException exception) {
+						System.err.println("Unable to form directive");
+						System.err.println("Line " + lineNumber);
+						System.err.println(line.trim());
+						continue;
+					}
 					switch (d.getToken()) {
 					/* Global Configurations */
 					case "wordsize":
@@ -238,9 +247,9 @@ public class Assembler {
 		}
 		conf.setStackAddress(stackLocation);
 
-        while (bitOutput.getByteCount() < conf.getMaxMemory()) {
-            bitOutput.appendByte((byte) 0);
-        }
+		while (bitOutput.getByteCount() < conf.getMaxMemory()) {
+			bitOutput.appendByte((byte) 0);
+		}
 
 		if (!(conf.maxMemorySet() && conf.registerCountSet() && conf.wordSizeSet())) {
 			System.err.println("Configuration is incomplete!");
