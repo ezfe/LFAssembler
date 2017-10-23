@@ -1,0 +1,17 @@
+.wordsize 16            ; sets the machine wordsize
+.regcnt    2            ; 2 general purpose registers
+.maxmem   1024        	; max memory size is 1024 bytes
+
+start:
+MOVZ R0 data		; Store data in R0
+
+LDUR R1 [R0, #0]	; load double at data (r0) into r1
+ADDI R1 R1 #1		; add 1 to r1
+STUR R1 [R0, #0]	; store r1 back into data (r0)
+
+SUBIS ZERO R1 #1000	; r1 - 1000, setting flags
+B.LT start		; r1 < 1000 (flags), branch back to start
+HALT			; else halt
+
+data:
+.double 0b0
